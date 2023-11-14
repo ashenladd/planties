@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.Planties.Title1" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/lexend_semibold</item>
+        <item name="android:textSize">@dimen/font_24sp</item>
+        <item name="lineHeight">@dimen/font_24sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Title2" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/lexend_bold</item>
+        <item name="android:textSize">@dimen/font_20sp</item>
+        <item name="lineHeight">@dimen/font_20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Title3" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_bold</item>
+        <item name="android:textSize">@dimen/font_18sp</item>
+        <item name="lineHeight">@dimen/font_18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Title4" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_bold</item>
+        <item name="android:textSize">@dimen/font_16sp</item>
+        <item name="lineHeight">@dimen/font_16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Title5" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_semibold</item>
+        <item name="android:textSize">@dimen/font_14sp</item>
+        <item name="lineHeight">@dimen/font_14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Title6" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_semibold</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.TittleAppBar" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_bold</item>
+        <item name="android:textSize">@dimen/font_14sp</item>
+        <item name="lineHeight">@dimen/font_14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.TittleNavigationBar" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_14sp</item>
+        <item name="lineHeight">@dimen/font_14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Subtitle1" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/lexend_light</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Subtitle2" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Subtitle3" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/lexend_regular</item>
+        <item name="android:textSize">@dimen/font_8sp</item>
+        <item name="lineHeight">@dimen/font_8sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.SubtitleAppBar" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/lexend_light</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.SearchBar" parent="TextAppearance.Material3.SearchBar">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Button1" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_16sp</item>
+        <item name="lineHeight">@dimen/font_16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Button3" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.ButtonTabItem" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Body1" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Body2" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Caption1" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/lexend_regular</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+        <item name="lineHeight">@dimen/font_10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.Caption2" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_8sp</item>
+        <item name="lineHeight">@dimen/font_8sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.SelectionInactive" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance.Planties.SelectionActive" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/lexend_semibold</item>
+        <item name="android:textSize">@dimen/font_12sp</item>
+        <item name="lineHeight">@dimen/font_12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>
