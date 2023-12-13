@@ -35,6 +35,32 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        getByName("main") {
+            res {
+                srcDirs(
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\auth",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\home",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\items",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\core",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\oxygen_leaderboard",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\plant_care",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\plant_detail",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\scan",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\search"
+                )
+            }
+        }
+    }
 }
 
 dependencies {
