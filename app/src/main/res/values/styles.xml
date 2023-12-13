@@ -41,4 +41,55 @@
         <item name="android:background">@drawable/bg_button_primary</item>
         <item name="android:textColor">@color/Neutral1</item>
     </style>
+
+    <style name="Widget.Planties.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:editTextColor">@color/Neutral5</item>
+        <item name="android:textColor">@color/Neutral5</item>
+        <item name="android:textColorHint">@color/Neutral3</item>
+        <item name="android:fontFamily">@font/lexend_medium</item>
+        <item name="android:textSize">@dimen/font_10sp</item>
+    </style>
+
+    <style name="Widget.Planties.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Widget.Planties.Button" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Planties.Caption2</item>
+        <item name="android:textColor">@color/Neutral1</item>
+        <item name="android:drawablePadding">@dimen/margin_6dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingHorizontal">@dimen/margin_10dp</item>
+        <item name="android:paddingVertical">@dimen/margin_8dp</item>
+    </style>
+
+    <style name="Widget.Planties.ButtonTab" parent="Widget.AppCompat.Button">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/margin_6dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Planties.ButtonTabItem</item>
+        <item name="android:textColor">@color/Neutral1</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingHorizontal">@dimen/margin_12dp</item>
+        <item name="android:paddingVertical">@dimen/margin_8dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Planties.Round.12" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/corner_12dp</item>
+        <item name="cornerSizeTopLeft">@dimen/corner_12dp</item>
+        <item name="cornerSizeBottomRight">@dimen/corner_12dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/corner_12dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Planties.Round" parent="">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">@dimen/size_17dp</item>
+    </style>
 </resources>

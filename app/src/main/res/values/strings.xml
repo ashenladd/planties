@@ -13,4 +13,21 @@
     <string name="label_let_s_make_an_account">Let’s make an account</string>
     <string name="label_name">Name</string>
     <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_welcome_back">Welcome Back</string>
+    <string name="emoticon_hello">👋</string>
+    <string name="label_kamu_mau_mencari_tanaman">Kamu mau mencari Tanaman?</string>
+    <string name="label_selamat_pagi">Selamat Pagi</string>
+    <string name="desc_sudahkah_kamu_menyiram_tanamanmu">Sudahkah kamu menyiram tanamanmu?</string>
+    <string name="label_scan_tanaman">Scan Tanaman</string>
+    <string name="label_tamanmu">Tamanmu</string>
+    <string name="format_kamu_memiliki_taman">Kamu memiliki %s Taman</string>
+    <string name="label_tambah_taman">Tambah taman</string>
+    <string name="label_oksigen">Oksigen</string>
+    <string name="format_peringkat">#%s</string>
+    <string name="label_peringkat_kamu">Peringkat Kamu</string>
+    <string name="format_menghasilkan_oksigen">Kamu telah menghasilkan <annotation font="lexend_semibold">%s mg</annotation> oksigen</string>
+    <string name="label_untukbumi">#untukbumi</string>
+    <string name="label_perhatikan_tanamanmu">Perhatikan Tanamanmu</string>
+    <string name="label_semua">Semua</string>
+    <string name="label_terburuk">Terburuk</string>
 </resources>

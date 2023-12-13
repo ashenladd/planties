@@ -36,7 +36,6 @@ public class LoginFragment extends Fragment {
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-
         binding.btnLogin.setOnClickListener(view1 -> {
             AuthRequest authRequest = new AuthRequest();
             authRequest.setUsername("akifbelanda");

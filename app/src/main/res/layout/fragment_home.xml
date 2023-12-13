@@ -1,23 +1,442 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.home.HomeFragment">
+    android:background="@color/Neutral2">
 
-    <TextView
-        android:id="@+id/tv_label_register"
-        style="@style/TextAppearance.Planties.Title1"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/apl_appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HOME"
-        android:textColor="@color/Primary3"
-        android:layout_marginHorizontal="@dimen/margin_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_24dp"
+                android:layout_marginEnd="@dimen/margin_24dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/siv_profile"
+                    android:layout_width="@dimen/size_34dp"
+                    android:layout_height="@dimen/size_34dp"
+                    android:src="@drawable/img_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Planties.Round" />
+
+                <TextView
+                    android:id="@+id/tv_label_welcome_back"
+                    style="@style/TextAppearance.Planties.SubtitleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12dp"
+                    android:text="@string/label_welcome_back"
+                    android:textColor="@color/TextSubtitle"
+                    app:layout_constraintStart_toEndOf="@id/siv_profile"
+                    app:layout_constraintTop_toTopOf="@id/siv_profile" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    style="@style/TextAppearance.Planties.TittleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Neutral5"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_welcome_back"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_welcome_back"
+                    tools:text="Jan Falih" />
+
+                <TextView
+                    android:id="@+id/tv_emot"
+                    style="@style/TextAppearance.Planties.TittleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emoticon_hello"
+                    android:textColor="@color/Neutral5"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_username"
+                    app:layout_constraintStart_toEndOf="@+id/tv_username"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_welcome_back" />
+
+                <ImageView
+                    android:id="@+id/iv_wishlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sw_app"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/apl_appbar">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_16dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/sv_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginVertical="@dimen/margin_20dp"
+                    android:background="@drawable/bg_input_default_search_active"
+                    android:queryBackground="@null"
+                    android:submitBackground="@android:color/transparent"
+                    android:theme="@style/Widget.Planties.SearchView"
+                    app:iconifiedByDefault="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:queryHint="@string/label_kamu_mau_mencari_tanaman"
+                    app:searchIcon="@drawable/ic_search" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_tanamanmu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_20dp"
+                    android:background="@drawable/bg_container_default_active"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sv_search">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_scan_tanaman"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_container_green_active"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_label_selamat_pagi"
+                            style="@style/TextAppearance.Planties.Title3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_22dp"
+                            android:layout_marginTop="@dimen/margin_22dp"
+                            android:text="@string/label_selamat_pagi"
+                            android:textColor="@color/Neutral1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_desc_sudahkah_kamu_meniyram_tanaman"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:ellipsize="end"
+                            android:text="@string/desc_sudahkah_kamu_menyiram_tanamanmu"
+                            android:textAppearance="@style/TextAppearance.Planties.Body1"
+                            android:textColor="@color/Neutral1"
+                            app:layout_constraintEnd_toStartOf="@+id/iv_plant1"
+                            app:layout_constraintStart_toStartOf="@id/tv_label_selamat_pagi"
+                            app:layout_constraintTop_toBottomOf="@id/tv_label_selamat_pagi" />
+
+                        <ImageView
+                            android:id="@+id/iv_plant1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/margin_20dp"
+                            android:layout_marginEnd="@dimen/margin_18dp"
+                            android:src="@drawable/img_plant1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_wave"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="-1dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_wave"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_scan_tanamanan"
+                            style="@style/Widget.Planties.Button"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:layout_marginBottom="@dimen/margin_20dp"
+                            android:background="@drawable/bg_button_darkgreen_active"
+                            android:drawableStart="@drawable/ic_scan"
+                            android:text="@string/label_scan_tanaman"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_label_selamat_pagi"
+                            app:layout_constraintTop_toBottomOf="@id/tv_desc_sudahkah_kamu_meniyram_tanaman" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/tv_label_tamanmu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_22dp"
+                        android:layout_marginTop="@dimen/margin_18dp"
+                        android:text="@string/label_tamanmu"
+                        android:textAppearance="@style/TextAppearance.Planties.Title2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_scan_tanaman" />
+
+                    <TextView
+                        android:id="@+id/tv_title_tamanmu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_22dp"
+                        android:layout_marginTop="@dimen/margin_18dp"
+                        android:text="@string/label_tamanmu"
+                        android:textAppearance="@style/TextAppearance.Planties.Title2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_scan_tanaman" />
+
+                    <TextView
+                        android:id="@+id/tv_format_banyak_taman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/format_kamu_memiliki_taman"
+                        android:textAppearance="@style/TextAppearance.Planties.Body1"
+                        android:textColor="@color/Neutral3"
+                        app:layout_constraintStart_toStartOf="@id/tv_title_tamanmu"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_tamanmu" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_tambah_taman"
+                        style="@style/Widget.Planties.Button"
+                        android:background="@drawable/bg_button_black_active"
+                        android:drawableStart="@drawable/ic_add_plant"
+                        android:text="@string/label_tambah_taman"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_format_banyak_taman"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_title_tamanmu" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_taman"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_22dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_title_tamanmu"
+                        app:layout_constraintTop_toBottomOf="@id/tv_format_banyak_taman"
+                        tools:listitem="@layout/item_garden" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_oxygen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_26dp"
+                    android:background="@drawable/bg_container_default_active"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_tanamanmu">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_polygon1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_polygon1"
+                        android:layout_marginStart="-60dp"
+                        android:layout_marginTop="-120dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_polygon2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_polygon2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_label_peringkat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Blue300"
+                        android:textAppearance="@style/TextAppearance.Planties.Subtitle1"
+                        android:text="@string/label_peringkat_kamu"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_format_peringkat"
+                        app:layout_constraintEnd_toStartOf="@id/tv_format_peringkat"
+                        app:layout_constraintTop_toTopOf="@+id/tv_format_peringkat" />
+
+                    <TextView
+                        android:id="@+id/tv_format_peringkat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Planties.Title2"
+                        android:textColor="@color/Blue500"
+                        android:text="@string/format_peringkat"
+                        android:layout_marginEnd="@dimen/margin_22dp"
+                        android:layout_marginTop="@dimen/margin_22dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tv_label_oxygen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_22dp"
+                        android:text="@string/label_oksigen"
+                        android:textAppearance="@style/TextAppearance.Planties.Title1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_polygon1" />
+
+                    <TextView
+                        android:id="@+id/tv_label_untukbumi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_untukbumi"
+                        android:textAppearance="@style/TextAppearance.Planties.Button3"
+                        android:textAllCaps="false"
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_label_oxygen"
+                        app:layout_constraintStart_toEndOf="@+id/tv_label_oxygen" />
+
+                    <TextView
+                        android:id="@+id/tv_desc_detail_oxygen"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/format_menghasilkan_oksigen"
+                        android:layout_marginEnd="@dimen/margin_52dp"
+                        android:layout_marginBottom="@dimen/margin_26dp"
+                        android:layout_marginTop="@dimen/margin_6dp"
+                        android:textAppearance="@style/TextAppearance.Planties.Subtitle1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tv_label_oxygen"
+                        app:layout_constraintTop_toBottomOf="@id/tv_label_oxygen" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_label_perhatikan_tanamanmu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_26dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Planties.Title2"
+                    android:text="@string/label_perhatikan_tanamanmu"
+                    app:layout_constraintEnd_toStartOf="@id/btn_semua"
+                    app:layout_constraintTop_toBottomOf="@id/cl_oxygen"
+                    app:layout_constraintStart_toStartOf="@id/cl_oxygen"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_semua"
+                    style="@style/Widget.Planties.Button"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/margin_0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_semua"
+                    android:drawableEnd="@drawable/ic_right"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/Neutral3"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toTopOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintEnd_toEndOf="@id/cl_oxygen"/>
+
+                <TextView
+                    android:id="@+id/tv_desc_perhatikan_tanamanmu"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    tools:text="@tools:sample/lorem/random"
+                    android:layout_marginTop="@dimen/margin_4dp"
+                    android:textAppearance="@style/TextAppearance.Planties.Body1"
+                    android:textColor="@color/Neutral3"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintEnd_toEndOf="@id/cl_oxygen"
+                    android:ellipsize="end"
+                    android:maxLines="2"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_filter"
+                    style="@style/Widget.Planties.ButtonTab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:background="@drawable/bg_button_netral1_active"
+                    android:drawableEnd="@drawable/ic_sort"
+                    android:drawablePadding="@dimen/margin_6dp"
+                    android:text="@string/label_terburuk"
+                    android:textColor="@color/Neutral5"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintTop_toBottomOf="@id/tv_desc_perhatikan_tanamanmu" />
+
+                <View
+                    android:id="@+id/v_vertical_line"
+                    android:layout_width="@dimen/size_1dp"
+                    android:layout_height="@dimen/size_18dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:background="@color/Neutral3"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_filter"
+                    app:layout_constraintStart_toEndOf="@id/btn_filter"
+                    app:layout_constraintTop_toTopOf="@id/btn_filter" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_filter"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_desc_perhatikan_tanamanmu"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_tab_filter"
+                    app:layout_constraintStart_toEndOf="@id/v_vertical_line"
+                    app:layout_constraintTop_toTopOf="@id/btn_filter" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_tanaman"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/rv_filter"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_plant"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@id/btn_filter"
+                    app:layout_constraintTop_toBottomOf="@id/btn_filter" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
