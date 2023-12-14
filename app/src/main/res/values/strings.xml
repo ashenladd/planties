@@ -30,4 +30,5 @@
     <string name="label_perhatikan_tanamanmu">Perhatikan Tanamanmu</string>
     <string name="label_semua">Semua</string>
     <string name="label_terburuk">Terburuk</string>
+    <string name="label_username">Username</string>
 </resources>

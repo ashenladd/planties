@@ -28,8 +28,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_label_register" />
 
     <include
-        android:id="@+id/layoutInputEmail"
-        layout="@layout/layout_input_email"
+        android:id="@+id/layoutInputUsername"
+        layout="@layout/layout_input_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
@@ -47,7 +47,7 @@
         android:layout_marginTop="@dimen/margin_16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutInputEmail" />
+        app:layout_constraintTop_toBottomOf="@id/layoutInputUsername" />
 
     <TextView
         android:id="@+id/tv_reset_password"

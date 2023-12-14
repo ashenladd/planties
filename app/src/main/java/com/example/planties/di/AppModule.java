@@ -1,15 +1,14 @@
 package com.example.planties.di;
 
 
-import com.example.planties.data.source.remote.network.AuthService;
-import com.example.planties.data.source.remote.network.Constant;
+import com.example.planties.data.auth.remote.network.AuthService;
+import com.example.planties.core.Constant;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.internal.managers.ApplicationComponentManager;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

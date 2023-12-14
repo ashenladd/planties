@@ -6,14 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.planties.data.source.remote.dto.AuthRequest;
+import com.example.planties.data.auth.remote.dto.AuthRequest;
 import com.example.planties.databinding.FragmentLoginBinding;
 
+
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -36,12 +42,44 @@ public class LoginFragment extends Fragment {
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        binding.btnLogin.setOnClickListener(view1 -> {
-            AuthRequest authRequest = new AuthRequest();
-            authRequest.setUsername("akifbelanda");
-            authRequest.setPassword("12345678");
 
-            loginViewModel.login(authRequest);
+        setupObserver();
+        setupClickListener();
+    }
+
+    private void setupClickListener() {
+        binding.btnLogin.setOnClickListener(view1 -> {
+            String username = Objects.requireNonNull(binding.layoutInputUsername.tietUsername.getText()).toString();
+            String password = Objects.requireNonNull(binding.layoutInputPassword.tietPassword.getText()).toString();
+
+            loginViewModel.processEvent(new LoginViewEvent.LoginButtonClicked(username, password));
         });
+        binding.tvLabelAlreadyHaveAccountRegister.setOnClickListener(view1 -> {
+            navigateToRegister();
+        });
+    }
+
+    private void navigateToRegister() {
+        NavDirections directions = LoginFragmentDirections.actionLoginFragmentToRegisterFragment2();
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
+    private void setupObserver() {
+        loginViewModel.getAuthResponseLiveData().observe(getViewLifecycleOwner(), response -> {
+            if (response.isSuccess()) {
+                // Handle successful authentication
+                showToast("Authentication successful");
+            } else {
+                // Handle authentication failure
+                showToast("Authentication failed. Error: " + response.getMessage());
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -6,20 +6,20 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
+        android:id="@+id/tilUsername"
         style="@style/Widget.Planties.InputLayout.Full"
         android:layout_width="match_parent"
         android:enabled="true"
         android:paddingVertical="@dimen/padding_4dp"
         android:paddingHorizontal= "@dimen/padding_4dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_at">
+        app:startIconDrawable="@drawable/ic_user">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietEmail"
+            android:id="@+id/tietUsername"
             style="@style/Widget.Planties.InputEditText"
             android:autofillHints="emailAddress"
-            android:hint="@string/label_email_address"
+            android:hint="@string/label_username"
             android:inputType="textEmailAddress"
             android:imeOptions="actionDone" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -40,7 +40,7 @@
 
     <include
         android:id="@+id/layoutInputEmail"
-        layout="@layout/layout_input_email"
+        layout="@layout/layout_input_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"

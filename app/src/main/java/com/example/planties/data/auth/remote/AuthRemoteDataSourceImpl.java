@@ -1,8 +1,8 @@
-package com.example.planties.data.source.remote;
+package com.example.planties.data.auth.remote;
 
-import com.example.planties.data.source.remote.dto.AuthRequest;
-import com.example.planties.data.source.remote.dto.AuthResponse;
-import com.example.planties.data.source.remote.network.AuthService;
+import com.example.planties.data.auth.remote.dto.AuthRequest;
+import com.example.planties.data.auth.remote.dto.AuthResponse;
+import com.example.planties.data.auth.remote.network.AuthService;
 
 import retrofit2.Call;
 
