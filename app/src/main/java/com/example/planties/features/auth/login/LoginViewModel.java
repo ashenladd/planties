@@ -1,8 +1,15 @@
 package com.example.planties.features.auth.login;
 
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.planties.data.source.remote.dto.AuthRequest;
+import com.example.planties.core.response.BaseResultResponse;
+import com.example.planties.core.response.ResponseCallback;
+import com.example.planties.data.auth.remote.dto.AuthRequest;
+import com.example.planties.data.auth.remote.dto.AuthResponse;
 import com.example.planties.domain.auth.usecase.AuthUseCase;
 
 import javax.inject.Inject;
@@ -12,13 +19,39 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
     private final AuthUseCase authUseCase;
-
+    private MutableLiveData<BaseResultResponse<AuthResponse>> authResponseLiveData = new MutableLiveData<>();
+    public LiveData<BaseResultResponse<AuthResponse>> getAuthResponseLiveData() {
+        return authResponseLiveData;
+    }
     @Inject
     public LoginViewModel(AuthUseCase authUseCase) {
         this.authUseCase = authUseCase;
     }
 
-    public void login(AuthRequest request) {
-        authUseCase.login(request);
+    public void processEvent(LoginViewEvent event){
+        if(event instanceof LoginViewEvent.LoginButtonClicked){
+            AuthRequest authRequest = new AuthRequest();
+            authRequest.setUsername(((LoginViewEvent.LoginButtonClicked) event).getUsername());
+            authRequest.setPassword(((LoginViewEvent.LoginButtonClicked) event).getPassword());
+            login(authRequest);
+        }
+    }
+    private void login(AuthRequest request) {
+        authUseCase.login(request, new ResponseCallback<AuthResponse>() {
+            @Override
+            public void onSuccess(BaseResultResponse<AuthResponse> response) {
+                authResponseLiveData.setValue(response);
+
+                if(response.getData().data.accessToken != null){
+                    Log.d("onSuccess", "accessToken=" + response.getData().data.accessToken);
+                    Log.d("onSuccess", "refreshToken="+response.getData().data.refreshToken);
+                }
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<AuthResponse> response) {
+                authResponseLiveData.setValue(response);
+            }
+        });
     }
 }

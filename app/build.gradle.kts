@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.planties"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -35,6 +35,32 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        getByName("main") {
+            res {
+                srcDirs(
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\auth",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\home",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\items",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\core",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\oxygen_leaderboard",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\plant_care",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\plant_detail",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\scan",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\search"
+                )
+            }
+        }
+    }
 }
 
 dependencies {
@@ -58,7 +84,7 @@ dependencies {
 
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
-
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
     // retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_0dp">0dp</dimen>
+    <dimen name="margin_1dp">1dp</dimen>
     <dimen name="margin_2dp">2dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_6dp">6dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
     <dimen name="margin_14dp">14dp</dimen>
     <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
     <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_22dp">22dp</dimen>
     <dimen name="margin_24dp">24dp</dimen>
     <dimen name="margin_26dp">26dp</dimen>
     <dimen name="margin_28dp">28dp</dimen>
@@ -58,10 +62,13 @@
     <dimen name="size_6dp">6dp</dimen>
     <dimen name="size_8dp">8dp</dimen>
     <dimen name="size_16dp">16dp</dimen>
+    <dimen name="size_17dp" />
+    <dimen name="size_18dp">18dp</dimen>
     <dimen name="size_20dp">20dp</dimen>
     <dimen name="size_24dp">24dp</dimen>
     <dimen name="size_28dp">28dp</dimen>
     <dimen name="size_32dp">32dp</dimen>
+    <dimen name="size_34dp">34dp</dimen>
     <dimen name="size_36dp">36dp</dimen>
     <dimen name="size_40dp">40dp</dimen>
     <dimen name="size_42dp">42dp</dimen>
@@ -76,10 +83,14 @@
     <dimen name="size_88dp">88dp</dimen>
     <dimen name="size_96dp">96dp</dimen>
     <dimen name="size_116dp">116dp</dimen>
+    <dimen name="size_120dp">120dp</dimen>
     <dimen name="size_128dp">128dp</dimen>
+    <dimen name="size_130dp">130dp</dimen>
     <dimen name="size_136dp">136dp</dimen>
     <dimen name="size_140dp">140dp</dimen>
+    <dimen name="size_150dp">150dp</dimen>
     <dimen name="size_152dp">152dp</dimen>
+    <dimen name="size_160dp">160dp</dimen>
     <dimen name="size_168dp">168dp</dimen>
     <dimen name="size_180dp">180dp</dimen>
     <dimen name="size_200dp">200dp</dimen>
@@ -173,9 +184,12 @@
 
     <dimen name="corner_4dp">4dp</dimen>
     <dimen name="corner_8dp">8dp</dimen>
-    <dimen name="corner_16dp">16dp</dimen>
+    <dimen name="corner_10dp">10dp</dimen>
     <dimen name="corner_12dp">12dp</dimen>
+    <dimen name="corner_15dp">15dp</dimen>
+    <dimen name="corner_16dp">16dp</dimen>
     <dimen name="corner_20dp">20dp</dimen>
+    <dimen name="corner_22dp">22dp</dimen>
     <dimen name="corner_24dp">24dp</dimen>
     <dimen name="corner_36dp">36dp</dimen>
     <dimen name="corner_80dp">80dp</dimen>
@@ -184,4 +198,6 @@
     <dimen name="elevation_0dp">0dp</dimen>
     <dimen name="elevation_4dp">4dp</dimen>
     <dimen name="elevation_8dp">8dp</dimen>
+
+
 </resources>

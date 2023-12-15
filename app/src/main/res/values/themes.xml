@@ -3,7 +3,9 @@
     <style name="Base.Theme.Planties" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/Primary3</item>
         <item name="colorOnPrimary">@color/Neutral1</item>
+        <item name="android:editTextStyle">@style/Widget.Planties.EditText</item>
+        <item name="buttonCompat">@style/Widget.Planties.Button</item>
+        <item name="android:button">@style/Widget.Planties.Button</item>
     </style>
 
-    <style name="Theme.Planties" parent="Base.Theme.Planties" />
 </resources>

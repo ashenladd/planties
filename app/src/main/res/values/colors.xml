@@ -28,7 +28,12 @@
 
     <color name="Blue50">#FFEFF6FF</color>
     <color name="Blue200">#FFBFDBFE</color>
+    <color name="Blue300">#FF93C5FD</color>
     <color name="Blue500">#FF3B82F6</color>
     <color name="Blue700">#FF1D4ED8</color>
     <color name="Blue900">#FF1E3A8A</color>
+    
+    <color name="TextSubtitle">#FF9797AC</color>
+    <color name="BackgroundGrey">#FFF8FAFC</color>
+
 </resources>
