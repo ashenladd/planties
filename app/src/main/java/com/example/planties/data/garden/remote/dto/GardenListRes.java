@@ -3,7 +3,7 @@ package com.example.planties.data.garden.remote.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GardenRes {
+public class GardenListRes {
 
     @SerializedName("data")
     private GardenResDataModel mData;

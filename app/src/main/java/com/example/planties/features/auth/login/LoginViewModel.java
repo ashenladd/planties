@@ -19,7 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
     private final AuthUseCase authUseCase;
-    private MutableLiveData<BaseResultResponse<AuthResponse>> authResponseLiveData = new MutableLiveData<>();
+    private final MutableLiveData<BaseResultResponse<AuthResponse>> authResponseLiveData = new MutableLiveData<>();
     public LiveData<BaseResultResponse<AuthResponse>> getAuthResponseLiveData() {
         return authResponseLiveData;
     }
