@@ -52,7 +52,7 @@ public class LoginFragment extends Fragment {
             String username = Objects.requireNonNull(binding.layoutInputUsername.tietUsername.getText()).toString();
             String password = Objects.requireNonNull(binding.layoutInputPassword.tietPassword.getText()).toString();
 
-            loginViewModel.processEvent(new LoginViewEvent.LoginButtonClicked(username, password));
+            loginViewModel.processEvent(new LoginViewEvent.LoginButtonClicked(username, password), getActivity().getApplicationContext());
         });
         binding.tvLabelAlreadyHaveAccountRegister.setOnClickListener(view1 -> {
             navigateToRegister();
