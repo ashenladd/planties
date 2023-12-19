@@ -1,5 +1,6 @@
 package com.example.planties.features.auth.login;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -28,24 +29,19 @@ public class LoginViewModel extends ViewModel {
         this.authUseCase = authUseCase;
     }
 
-    public void processEvent(LoginViewEvent event){
+    public void processEvent(LoginViewEvent event, Context context){
         if(event instanceof LoginViewEvent.LoginButtonClicked){
             AuthRequest authRequest = new AuthRequest();
             authRequest.setUsername(((LoginViewEvent.LoginButtonClicked) event).getUsername());
             authRequest.setPassword(((LoginViewEvent.LoginButtonClicked) event).getPassword());
-            login(authRequest);
+            login(authRequest, context);
         }
     }
-    private void login(AuthRequest request) {
-        authUseCase.login(request, new ResponseCallback<AuthResponse>() {
+    private void login(AuthRequest request, Context context) {
+        authUseCase.login(request, context, new ResponseCallback<AuthResponse>() {
             @Override
             public void onSuccess(BaseResultResponse<AuthResponse> response) {
                 authResponseLiveData.setValue(response);
-
-                if(response.getData().data.accessToken != null){
-                    Log.d("onSuccess", "accessToken=" + response.getData().data.accessToken);
-                    Log.d("onSuccess", "refreshToken="+response.getData().data.refreshToken);
-                }
             }
 
             @Override

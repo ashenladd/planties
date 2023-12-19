@@ -1,5 +1,7 @@
 package com.example.planties.domain.auth.usecase;
 
+import android.content.Context;
+
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
 import com.example.planties.data.auth.remote.dto.AuthResponse;
@@ -16,7 +18,7 @@ public class AuthUseCase {
         this.authRepository = authRepository;
     }
 
-    public void login(AuthRequest request, ResponseCallback<AuthResponse> responseCallback) {
-        authRepository.login(request, responseCallback);
+    public void login(AuthRequest request, Context context, ResponseCallback<AuthResponse> responseCallback) {
+        authRepository.login(request, context, responseCallback);
     }
 }
