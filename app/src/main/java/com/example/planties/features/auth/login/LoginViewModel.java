@@ -42,13 +42,11 @@ public class LoginViewModel extends ViewModel {
         authUseCase.login(request, context, new ResponseCallback<AuthResponse>() {
             @Override
             public void onSuccess(BaseResultResponse<AuthResponse> response) {
-                Log.d("LoginViewModel", "onSuccess: Token = " + TokenHandler.getAccessToken(context));
                 authResponseLiveData.setValue(response);
             }
 
             @Override
             public void onFailure(BaseResultResponse<AuthResponse> response) {
-                Log.d("LoginViewModel", "onFailure: Token = " + TokenHandler.getAccessToken(context));
                 authResponseLiveData.setValue(response);
             }
         });

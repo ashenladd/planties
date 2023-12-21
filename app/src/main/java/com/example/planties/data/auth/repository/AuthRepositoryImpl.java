@@ -25,9 +25,11 @@ import retrofit2.Response;
 
 public class AuthRepositoryImpl implements AuthRepository {
     private final AuthRemoteDataSource authRemoteDataSource;
+    private final TokenHandler tokenHandler;
     @Inject
-    public AuthRepositoryImpl(AuthRemoteDataSource authRemoteDataSource) {
+    public AuthRepositoryImpl(AuthRemoteDataSource authRemoteDataSource, TokenHandler tokenHandler){
         this.authRemoteDataSource = authRemoteDataSource;
+        this.tokenHandler =  tokenHandler;
     }
 
 
@@ -43,10 +45,10 @@ public class AuthRepositoryImpl implements AuthRepository {
                         return;
                     }
                     String accessToken = authResponse.data.accessToken;
-                    TokenHandler.saveAccessToken(context, accessToken);
+                    tokenHandler.saveAccessToken(accessToken);
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, authResponse, "success", response.code()));
                 } else {
-                    TokenHandler.clearAccessToken(context);
+                    tokenHandler.clearAccessToken();
                     responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
                 }
             }

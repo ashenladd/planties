@@ -1,5 +1,7 @@
 package com.example.planties.domain.garden.repository;
 
+import android.content.Context;
+
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.garden.remote.dto.GardenDetailRes;
 import com.example.planties.data.garden.remote.dto.GardenReq;

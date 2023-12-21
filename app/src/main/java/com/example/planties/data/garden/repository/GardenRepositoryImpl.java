@@ -11,6 +11,8 @@ import com.example.planties.data.garden.remote.dto.GardenReq;
 import com.example.planties.data.garden.remote.dto.GardenListRes;
 import com.example.planties.domain.garden.repository.GardenRepository;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -52,7 +54,7 @@ public class GardenRepositoryImpl implements GardenRepository {
             public void onResponse(@NonNull Call<GardenDetailRes> call, @NonNull Response<GardenDetailRes> response) {
                 if (response.isSuccessful()) {
                     GardenDetailRes gardenRes = response.body();
-                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, gardenRes, "success", response.code()));
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, gardenRes, Objects.requireNonNull(gardenRes).getMessage(), response.code()));
                 } else {
                     responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
                 }
