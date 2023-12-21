@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
@@ -20,7 +21,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
     private final AuthUseCase authUseCase;
-    private MutableLiveData<BaseResultResponse<AuthResponse>> authResponseLiveData = new MutableLiveData<>();
+    private final MutableLiveData<BaseResultResponse<AuthResponse>> authResponseLiveData = new MutableLiveData<>();
     public LiveData<BaseResultResponse<AuthResponse>> getAuthResponseLiveData() {
         return authResponseLiveData;
     }
