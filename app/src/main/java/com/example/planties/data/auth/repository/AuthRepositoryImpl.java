@@ -15,6 +15,8 @@ import com.example.planties.data.auth.remote.dto.AuthResponse;
 import com.example.planties.data.auth.remote.network.AuthService;
 import com.example.planties.domain.auth.repository.AuthRepository;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -36,10 +38,15 @@ public class AuthRepositoryImpl implements AuthRepository {
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
                 if (response.isSuccessful()) {
                     AuthResponse authResponse = response.body();
+                    if (authResponse == null) {
+                        responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
+                        return;
+                    }
                     String accessToken = authResponse.data.accessToken;
                     TokenHandler.saveAccessToken(context, accessToken);
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, authResponse, "success", response.code()));
                 } else {
+                    TokenHandler.clearAccessToken(context);
                     responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
                 }
             }

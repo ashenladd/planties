@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
@@ -41,11 +42,13 @@ public class LoginViewModel extends ViewModel {
         authUseCase.login(request, context, new ResponseCallback<AuthResponse>() {
             @Override
             public void onSuccess(BaseResultResponse<AuthResponse> response) {
+                Log.d("LoginViewModel", "onSuccess: Token = " + TokenHandler.getAccessToken(context));
                 authResponseLiveData.setValue(response);
             }
 
             @Override
             public void onFailure(BaseResultResponse<AuthResponse> response) {
+                Log.d("LoginViewModel", "onFailure: Token = " + TokenHandler.getAccessToken(context));
                 authResponseLiveData.setValue(response);
             }
         });

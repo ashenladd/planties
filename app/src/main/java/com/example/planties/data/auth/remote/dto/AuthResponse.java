@@ -12,4 +12,7 @@ public class AuthResponse {
     @SerializedName("data")
     public DataResAuthModel data;
 
+    @SerializedName("message")
+    public String message;
+
 }
