@@ -1,9 +1,11 @@
 package com.example.planties.data.auth.repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
@@ -28,12 +30,14 @@ public class AuthRepositoryImpl implements AuthRepository {
 
 
     @Override
-    public void login(AuthRequest authRequest, ResponseCallback<AuthResponse> responseCallback) {
+    public void login(AuthRequest authRequest,Context context, ResponseCallback<AuthResponse> responseCallback) {
         authRemoteDataSource.postLogin(authRequest).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
                 if (response.isSuccessful()) {
                     AuthResponse authResponse = response.body();
+                    String accessToken = authResponse.data.accessToken;
+                    TokenHandler.saveAccessToken(context, accessToken);
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, authResponse, "success", response.code()));
                 } else {
                     responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
