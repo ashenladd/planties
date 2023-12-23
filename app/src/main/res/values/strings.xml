@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">planties</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_log_in">Log In</string>
     <string name="label_wellcome_back">Wellcome back 👋</string>
@@ -20,6 +19,7 @@
     <string name="desc_sudahkah_kamu_menyiram_tanamanmu">Sudahkah kamu menyiram tanamanmu?</string>
     <string name="label_scan_tanaman">Scan Tanaman</string>
     <string name="label_tamanmu">Tamanmu</string>
+    <string name="label_tanamanmu">Tanamanmu</string>
     <string name="format_kamu_memiliki_taman">Kamu memiliki %s Taman</string>
     <string name="label_tambah_taman">Tambah taman</string>
     <string name="label_oksigen">Oksigen</string>
@@ -31,4 +31,13 @@
     <string name="label_semua">Semua</string>
     <string name="label_terburuk">Terburuk</string>
     <string name="label_username">Username</string>
+    <string name="label_photos">Photos</string>
+    <string name="desc_photos">Lihat tamanmu</string>
+    <string name="label_simpan">Simpan</string>
+    <string name="label_tipe_tanaman">Tipe Tanaman</string>
+    <string name="label_tanaman">Tanaman</string>
+    <string name="label_galery">Galery</string>
+    <string name="label_taman">Taman</string>
+    <string name="label_status">Status</string>
+    <string name="label_water">WATER</string>
 </resources>
