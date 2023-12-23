@@ -12,38 +12,38 @@ import javax.inject.Inject;
 import retrofit2.Call;
 
 public class PlantRemoteDataSourceImpl implements PlantRemoteDataSource {
-    private final PlantService PlantService;
-    private final TokenHandler TokenHandler;
+    private final PlantService plantService;
+    private final TokenHandler tokenHandler;
 
     @Inject
     public PlantRemoteDataSourceImpl(PlantService plantService, TokenHandler tokenHandler) {
-        this.PlantService = plantService;
-        this.TokenHandler = tokenHandler;
+        this.plantService = plantService;
+        this.tokenHandler = tokenHandler;
     }
 
     @Override
     public Call<PlantListRes> getPlants() {
-        return PlantService.getPlants(NetworkUtil.getAuthHeader(TokenHandler.getAccessToken()));
+        return plantService.getPlants(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
     @Override
     public Call<PlantDetailRes> postPlant(String gardenId, PlantReq plantReq) {
-        return PlantService.postPlant(plantReq, gardenId, NetworkUtil.getAuthHeader(TokenHandler.getAccessToken()));
+        return plantService.postPlant(plantReq, gardenId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
     @Override
     public Call<PlantDetailRes> getDetailPlant(String gardenId, String plantId) {
-        return PlantService.getDetailPlant(gardenId, plantId, NetworkUtil.getAuthHeader(TokenHandler.getAccessToken()));
+        return plantService.getDetailPlant(gardenId, plantId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
     @Override
     public Call<PlantDetailRes> putPlant(String gardenId, String plantId, PlantReq plantReq) {
-        return PlantService.putPlant(plantReq, gardenId, plantId, NetworkUtil.getAuthHeader(TokenHandler.getAccessToken()));
+        return plantService.putPlant(plantReq, gardenId, plantId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
     @Override
     public Call<PlantDetailRes> deletePlant(String gardentId, String plantId) {
-        return PlantService.deletePlant(gardentId, plantId, NetworkUtil.getAuthHeader(TokenHandler.getAccessToken()));
+        return plantService.deletePlant(gardentId, plantId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
 }

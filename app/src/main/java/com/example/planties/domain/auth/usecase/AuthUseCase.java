@@ -18,7 +18,7 @@ public class AuthUseCase {
         this.authRepository = authRepository;
     }
 
-    public void login(AuthRequest request, Context context, ResponseCallback<AuthResponse> responseCallback) {
-        authRepository.login(request, context, responseCallback);
+    public void login(AuthRequest request, ResponseCallback<AuthResponse> responseCallback) {
+        authRepository.login(request, responseCallback);
     }
 }

@@ -2,11 +2,14 @@ package com.example.planties.domain.garden.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class GardenModel {
     private String id;
     private String name;
     private String type;
     private String userId;
+    private List<String> urlImage;
 
     public String getId() {
         return id;
@@ -38,5 +41,10 @@ public class GardenModel {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
+    public List<String> getUrlImage() {
+        return urlImage;
+    }
+    public void setUrlImage(List<String> urlImage) {
+        this.urlImage = urlImage;
+    }
 }
