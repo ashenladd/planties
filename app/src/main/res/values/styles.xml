@@ -80,6 +80,14 @@
         <item name="android:paddingVertical">@dimen/margin_8dp</item>
     </style>
 
+    <style name="ShapeAppearance.Planties.Round" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/corner_24dp</item>
+        <item name="cornerSizeTopLeft">@dimen/corner_24dp</item>
+        <item name="cornerSizeBottomRight">@dimen/corner_24dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/corner_24dp</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.Planties.Round.12" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopRight">@dimen/corner_12dp</item>
@@ -91,5 +99,11 @@
     <style name="ShapeAppearanceOverlay.Planties.Round" parent="">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">@dimen/size_17dp</item>
+    </style>
+
+
+    <style name="Widget.Planties.CardView.Round.All" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Planties.Round</item>
+        <item name="cardBackgroundColor">@color/Neutral1</item>
     </style>
 </resources>

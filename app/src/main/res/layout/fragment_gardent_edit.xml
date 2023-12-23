@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.plant_care.garden.edit.GardentEditFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/margin_16dp">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/layout_toolbar_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/tv_garden_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Planties.Title2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                tools:text="Halaman Depan" />
+
+            <TextView
+                android:id="@+id/tv_label_tipe_tanaman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/label_tipe_tanaman"
+                android:textAppearance="@style/TextAppearance.Planties.Body1"
+                android:textColor="@color/Neutral3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_garden_name" />
+
+            <ImageView
+                android:id="@+id/iv_edit_name"
+                android:layout_width="@dimen/size_24dp"
+                android:layout_height="@dimen/size_24dp"
+                android:layout_marginEnd="@dimen/margin_24dp"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_garden_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_garden_name"
+                tools:ignore="ContentDescription" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_tipe_taman"
+                style="@style/Widget.Planties.Button"
+                android:background="@drawable/bg_button_netral1_active"
+                android:textAppearance="@style/TextAppearance.Planties.Button3"
+                android:textColor="@color/Neutral4"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_label_tipe_tanaman"
+                app:layout_constraintEnd_toEndOf="@+id/iv_edit_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_label_tipe_tanaman"
+                tools:text="Indoor" />
+
+            <TextView
+                android:id="@+id/tv_label_tanaman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:text="@string/label_tanaman"
+                android:textAppearance="@style/TextAppearance.Planties.Title4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_tipe_tanaman" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_plant"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/size_24dp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_tanaman"
+                app:spanCount="3"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_plant" />
+
+
+            <TextView
+                android:id="@+id/tv_label_galery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:text="@string/label_galery"
+                android:textAppearance="@style/TextAppearance.Planties.Title4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_plant" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_galery"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/size_24dp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_galery"
+                app:spanCount="3"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_plant" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

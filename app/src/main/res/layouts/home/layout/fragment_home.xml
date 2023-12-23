@@ -74,7 +74,8 @@
                     android:src="@drawable/ic_favorite"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -341,7 +342,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/tv_label_perhatikan_tanamanmu"
+                    android:id="@+id/tv_label_tanamanmu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_26dp"
@@ -364,20 +365,20 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/Neutral3"
                     android:background="@android:color/transparent"
-                    app:layout_constraintTop_toTopOf="@id/tv_label_perhatikan_tanamanmu"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintTop_toTopOf="@id/tv_label_tanamanmu"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_label_tanamanmu"
                     app:layout_constraintEnd_toEndOf="@id/cl_oxygen"/>
 
                 <TextView
                     android:id="@+id/tv_desc_perhatikan_tanamanmu"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     tools:text="@tools:sample/lorem/random"
                     android:layout_marginTop="@dimen/margin_4dp"
                     android:textAppearance="@style/TextAppearance.Planties.Body1"
                     android:textColor="@color/Neutral3"
-                    app:layout_constraintStart_toStartOf="@id/tv_label_perhatikan_tanamanmu"
-                    app:layout_constraintTop_toBottomOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_tanamanmu"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_tanamanmu"
                     app:layout_constraintEnd_toEndOf="@id/cl_oxygen"
                     android:ellipsize="end"
                     android:maxLines="2"/>
@@ -393,7 +394,7 @@
                     android:drawablePadding="@dimen/margin_6dp"
                     android:text="@string/label_terburuk"
                     android:textColor="@color/Neutral5"
-                    app:layout_constraintStart_toStartOf="@id/tv_label_perhatikan_tanamanmu"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_tanamanmu"
                     app:layout_constraintTop_toBottomOf="@id/tv_desc_perhatikan_tanamanmu" />
 
                 <View
