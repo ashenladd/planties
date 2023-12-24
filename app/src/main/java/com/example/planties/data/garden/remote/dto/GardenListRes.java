@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName;
 public class GardenListRes {
 
     @SerializedName("data")
-    private GardenResDataModel mData;
+    private GardenResListDataModel mData;
     @SerializedName("message")
     private String mMessage;
     @SerializedName("status")
     private String mStatus;
 
-    public GardenResDataModel getData() {
+    public GardenResListDataModel getData() {
         return mData;
     }
 
-    public void setData(GardenResDataModel data) {
+    public void setData(GardenResListDataModel data) {
         mData = data;
     }
 

@@ -30,16 +30,16 @@ public class LoginViewModel extends ViewModel {
         this.authUseCase = authUseCase;
     }
 
-    public void processEvent(LoginViewEvent event, Context context){
+    public void processEvent(LoginViewEvent event){
         if(event instanceof LoginViewEvent.LoginButtonClicked){
             AuthRequest authRequest = new AuthRequest();
             authRequest.setUsername(((LoginViewEvent.LoginButtonClicked) event).getUsername());
             authRequest.setPassword(((LoginViewEvent.LoginButtonClicked) event).getPassword());
-            login(authRequest, context);
+            login(authRequest);
         }
     }
-    private void login(AuthRequest request, Context context) {
-        authUseCase.login(request, context, new ResponseCallback<AuthResponse>() {
+    private void login(AuthRequest request) {
+        authUseCase.login(request, new ResponseCallback<AuthResponse>() {
             @Override
             public void onSuccess(BaseResultResponse<AuthResponse> response) {
                 authResponseLiveData.setValue(response);

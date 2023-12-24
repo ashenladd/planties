@@ -1,10 +1,10 @@
-
 package com.example.planties.data.garden.remote.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GardenResModel {
+import java.util.List;
 
+public class GardenResModel {
     @SerializedName("id")
     private String mId;
     @SerializedName("name")
@@ -13,6 +13,9 @@ public class GardenResModel {
     private String mType;
     @SerializedName("user_id")
     private String mUserId;
+
+    @SerializedName("url_image")
+    private List<String> mUrlImage;
 
     public String getId() {
         return mId;
@@ -46,4 +49,11 @@ public class GardenResModel {
         mUserId = userId;
     }
 
+    public List<String> getUrlImage() {
+        return mUrlImage;
+    }
+
+    public void setUrlImage(List<String> urlImage) {
+        mUrlImage = urlImage;
+    }
 }

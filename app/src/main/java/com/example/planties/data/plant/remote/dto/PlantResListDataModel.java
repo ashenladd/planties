@@ -1,15 +1,14 @@
 package com.example.planties.data.plant.remote.dto;
 
-import com.example.planties.data.garden.remote.dto.GardenResModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PlantResDataModel {
+public class PlantResListDataModel {
     @SerializedName("plants")
     private List<PlantResModel> mPlants;
 
-    public List<PlantResModel> getPlant() {
+    public List<PlantResModel> getPlants() {
         return mPlants;
     }
 

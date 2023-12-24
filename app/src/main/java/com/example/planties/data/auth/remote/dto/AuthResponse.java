@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthResponse {
 
-    @Expose
     @SerializedName("status")
     public String status;
 

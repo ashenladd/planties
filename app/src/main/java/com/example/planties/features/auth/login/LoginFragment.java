@@ -52,7 +52,7 @@ public class LoginFragment extends Fragment {
             String username = Objects.requireNonNull(binding.layoutInputUsername.tietUsername.getText()).toString();
             String password = Objects.requireNonNull(binding.layoutInputPassword.tietPassword.getText()).toString();
 
-            loginViewModel.processEvent(new LoginViewEvent.LoginButtonClicked(username, password), getActivity().getApplicationContext());
+            loginViewModel.processEvent(new LoginViewEvent.LoginButtonClicked(username, password));
         });
         binding.tvLabelAlreadyHaveAccountRegister.setOnClickListener(view1 -> {
             navigateToRegister();
@@ -67,11 +67,20 @@ public class LoginFragment extends Fragment {
         navController.navigate(directions);
     }
 
+    private void navigateToHome() {
+        NavDirections directions = LoginFragmentDirections.actionLoginFragmentToHomeFragment2();
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
     private void setupObserver() {
         loginViewModel.getAuthResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (response.isSuccess()) {
                 // Handle successful authentication
                 showToast("Authentication successful");
+                navigateToHome();
             } else {
                 // Handle authentication failure
                 showToast("Authentication failed. Error: " + response.getMessage());

@@ -1,6 +1,5 @@
 package com.example.planties.data.auth.repository;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,10 +11,7 @@ import com.example.planties.core.response.StatusResult;
 import com.example.planties.data.auth.remote.AuthRemoteDataSource;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
 import com.example.planties.data.auth.remote.dto.AuthResponse;
-import com.example.planties.data.auth.remote.network.AuthService;
 import com.example.planties.domain.auth.repository.AuthRepository;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -26,15 +22,16 @@ import retrofit2.Response;
 public class AuthRepositoryImpl implements AuthRepository {
     private final AuthRemoteDataSource authRemoteDataSource;
     private final TokenHandler tokenHandler;
+
     @Inject
-    public AuthRepositoryImpl(AuthRemoteDataSource authRemoteDataSource, TokenHandler tokenHandler){
+    public AuthRepositoryImpl(AuthRemoteDataSource authRemoteDataSource, TokenHandler tokenHandler) {
         this.authRemoteDataSource = authRemoteDataSource;
-        this.tokenHandler =  tokenHandler;
+        this.tokenHandler = tokenHandler;
     }
 
 
     @Override
-    public void login(AuthRequest authRequest,Context context, ResponseCallback<AuthResponse> responseCallback) {
+    public void login(AuthRequest authRequest, ResponseCallback<AuthResponse> responseCallback) {
         authRemoteDataSource.postLogin(authRequest).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
