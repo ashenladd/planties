@@ -21,6 +21,7 @@ import com.example.planties.data.user.remote.dto.UserResDetailDataModel;
 import com.example.planties.databinding.FragmentHomeBinding;
 import com.example.planties.features.home.adapter.garden.GardenAdapter;
 import com.example.planties.features.home.adapter.plant.filter.FilterAdapter;
+import com.example.planties.features.home.adapter.plant.plants.PlantAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -43,11 +44,13 @@ public class HomeFragment extends Fragment {
             mPlantAdapter = new ConcatAdapter(
                     new FilterAdapter(item -> {
                         homeViewModel.processEvent(new HomeViewEvent.OnChangedFilter(item));
-                    })
+                    }),
+                    new PlantAdapter(this::navigateToPlantDetail)
             );
         }
         return mPlantAdapter;
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -71,7 +74,8 @@ public class HomeFragment extends Fragment {
         binding.rvTaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvTaman.setAdapter(getGardenAdapter());
 
-
+        binding.rvTanaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvTanaman.setAdapter(getPlantAdapter());
     }
 
     private void setupSwipeListener() {
@@ -104,4 +108,13 @@ public class HomeFragment extends Fragment {
 
         navController.navigate(directions);
     }
+
+    private void navigateToPlantDetail(String id) {
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToPlantDetailFragment(id);
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
 }
