@@ -6,6 +6,7 @@
         <item name="android:editTextStyle">@style/Widget.Planties.EditText</item>
         <item name="buttonCompat">@style/Widget.Planties.Button</item>
         <item name="android:button">@style/Widget.Planties.Button</item>
+        <item name="android:statusBarColor">@color/Primary3</item>
     </style>
 
 </resources>

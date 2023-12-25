@@ -2,9 +2,8 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/Neutral3">
     <item android:id="@android:id/background">
-        <shape android:shape="rectangle">
+        <shape android:shape="oval">
             <solid android:color="@color/Neutral1" />
-            <corners android:radius="@dimen/corner_10dp" />
         </shape>
     </item>
 </ripple>

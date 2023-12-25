@@ -18,4 +18,30 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/margin_10dp"
+        android:background="@drawable/bg_bottom_navbar"
+        app:elevation="@dimen/elevation_4dp"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemRippleColor="@color/Primary3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_bottom" />
+
+    <ImageView
+        android:id="@+id/iv_scan_fragment"
+        android:layout_width="@dimen/size_42dp"
+        android:layout_height="@dimen/size_42dp"
+        android:layout_gravity="center"
+        android:elevation="@dimen/elevation_8dp"
+        android:src="@drawable/ic_scan_round"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomNavigationView"
+        tools:ignore="ContentDescription" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

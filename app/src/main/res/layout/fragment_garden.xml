@@ -7,7 +7,7 @@
     tools:context=".features.plant_care.GardenFragment">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/tb_garden_detail"
         layout="@layout/layout_toolbar_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -23,7 +23,7 @@
         android:submitBackground="@android:color/transparent"
         android:theme="@style/Widget.Planties.SearchView"
         app:iconifiedByDefault="false"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/tb_garden_detail"
         app:queryHint="@string/label_kamu_mau_mencari_tanaman"
         app:searchIcon="@drawable/ic_search" />
 

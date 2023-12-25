@@ -42,7 +42,9 @@ public class AuthRepositoryImpl implements AuthRepository {
                         return;
                     }
                     String accessToken = authResponse.data.accessToken;
+                    String refreshToken = authResponse.data.refreshToken;
                     tokenHandler.saveAccessToken(accessToken);
+                    tokenHandler.saveRefreshToken(refreshToken);
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, authResponse, "success", response.code()));
                 } else {
                     tokenHandler.clearAccessToken();
