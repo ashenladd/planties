@@ -103,4 +103,13 @@ dependencies {
     // dagger hilt
     implementation ("com.google.dagger:hilt-android:2.47")
     annotationProcessor  ("com.google.dagger:hilt-compiler:2.47")
+
+    // camerax
+    implementation ("androidx.camera:camera-core:1.2.2")
+    implementation ("androidx.camera:camera-camera2:1.2.2")
+    implementation ("androidx.camera:camera-lifecycle:1.2.2")
+    implementation ("androidx.camera:camera-video:1.2.2")
+
+    implementation ("androidx.camera:camera-view:1.2.2")
+    implementation ("androidx.camera:camera-extensions:1.2.2")
 }

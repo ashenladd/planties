@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.scan.ScanFragment">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/tb_scan"
+        layout="@layout/layout_toolbar_text"
+        android:elevation="@dimen/elevation_4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCapture"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="@dimen/size_72dp"
+        android:layout_height="@dimen/size_72dp"
+        android:layout_marginBottom="@dimen/margin_40dp"
+        android:background="@drawable/bg_button_scan"
+        android:elevation="@dimen/elevation_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_preview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_340dp"
+        android:layout_marginHorizontal="@dimen/margin_72dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/corner_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_scan"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scaleType="fitXY"
+            tools:ignore="ContentDescription" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_identifying"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:background="#40000000">
+
+            <ProgressBar
+                android:id="@+id/pb_identifying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/Neutral1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_identifying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/label_identifying"
+                android:textAllCaps="false"
+                tools:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.Planties.Button1"
+                android:textColor="@color/Neutral1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pb_identifying" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_84dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:text="@string/label_apa_yang_ingin_kamu_lakukan"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Planties.Title2"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/cv_preview"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_diagnosis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:background="@drawable/bg_button_netral1_active"
+        android:clickable="true"
+        android:padding="@dimen/margin_32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/cv_preview"
+        app:layout_constraintStart_toStartOf="@id/cv_preview"
+        app:layout_constraintTop_toBottomOf="@id/tv_action"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_stethoscope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_stethoscope"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_diagnosis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:text="@string/label_diagnosis"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.Planties.Button1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_stethoscope" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

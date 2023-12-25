@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment2"
+        android:icon="@drawable/ic_home"
+        android:title="@string/label_home"/>
+    <item
+        android:id="@+id/scanFragment"
+        android:title="" />
+    <item
+        android:id="@+id/gardenFragment"
+        android:icon="@drawable/ic_bucket"
+        android:title="@string/label_plant_care"/>
+</menu>

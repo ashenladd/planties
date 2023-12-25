@@ -40,4 +40,11 @@
     <string name="label_taman">Taman</string>
     <string name="label_status">Status</string>
     <string name="label_water">WATER</string>
+    <string name="label_home">Home</string>
+    <string name="label_plant_care">Plant Care</string>
+    <string name="label_scan_plant">Scan Plant</string>
+    <string name="label_apa_yang_ingin_kamu_lakukan">Apa yang ingin kamu lakukan?</string>
+    <string name="label_diagnosis">Diagnosis</string>
+    <string name="label_identifying">Identifying</string>
+    <string name="label_mendiagnosis_tanamanmu">Mendiagnosis tanamanmu…</string>
 </resources>

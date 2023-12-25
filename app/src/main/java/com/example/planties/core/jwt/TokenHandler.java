@@ -10,6 +10,7 @@ public class TokenHandler {
 
     private static final String PREF_NAME = "PlantiesPreferences";
     private static final String KEY_ACCESS_TOKEN = "accessToken";
+    private static final String KEY_REFRESH_TOKEN = "refreshToken";
     private final Context context;
     @Inject
     public TokenHandler(Context context) {
@@ -35,6 +36,28 @@ public class TokenHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(KEY_ACCESS_TOKEN);
+        editor.apply();
+    }
+
+    // Save refresh token to SharedPreferences
+    public void saveRefreshToken(String refreshToken) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_REFRESH_TOKEN, refreshToken);
+        editor.apply();
+    }
+
+    // Retrieve refresh token from SharedPreferences
+    public String getRefreshToken() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_REFRESH_TOKEN, null);
+    }
+
+    // Clear refresh token from SharedPreferences
+    public void clearRefreshToken() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(KEY_REFRESH_TOKEN);
         editor.apply();
     }
 }
