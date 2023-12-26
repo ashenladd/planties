@@ -27,6 +27,11 @@ public class PlantRemoteDataSourceImpl implements PlantRemoteDataSource {
     }
 
     @Override
+    public Call<PlantListRes> getPlantsWithGarden(String gardenId) {
+        return plantService.getPlantsWithGarden(gardenId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
+    }
+
+    @Override
     public Call<PlantDetailRes> postPlant(String gardenId, PlantReq plantReq) {
         return plantService.postPlant(plantReq, gardenId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }

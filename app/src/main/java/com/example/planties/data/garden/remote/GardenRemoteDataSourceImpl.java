@@ -21,8 +21,13 @@ public class GardenRemoteDataSourceImpl implements GardenRemoteDataSource{
         this.tokenHandler = tokenHandler;
     }
     @Override
-    public Call<GardenListRes> getGarden() {
-        return gardenService.getGarden(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken())); //SharedPreference
+    public Call<GardenListRes> getGarden(String sorting, String type) {
+        return gardenService.getGarden(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()), sorting, type); //SharedPreference
+    }
+
+    @Override
+    public Call<GardenListRes> getGardenAll() {
+        return gardenService.getGardenAll(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken())); //SharedPreference
     }
 
     @Override

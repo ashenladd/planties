@@ -8,8 +8,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 
 public interface GardenRemoteDataSource {
-    Call<GardenListRes> getGarden();
-
+    Call<GardenListRes> getGarden(String sorting, String type);
+    Call<GardenListRes> getGardenAll();
     Call<GardenDetailRes> postGarden(@Body GardenReq gardenReq);
 
     Call<GardenDetailRes> getDetailGarden(String gardenId);

@@ -1,12 +1,10 @@
-package com.example.planties.features.home.adapter.plant.plants;
+package com.example.planties.features.home.adapter.plant;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
-import com.example.planties.databinding.ItemGardenBinding;
 import com.example.planties.databinding.ItemPlantBinding;
-import com.example.planties.domain.garden.model.GardenModel;
 
 public class PlantViewHolder extends RecyclerView.ViewHolder {
     private final ItemPlantBinding binding;

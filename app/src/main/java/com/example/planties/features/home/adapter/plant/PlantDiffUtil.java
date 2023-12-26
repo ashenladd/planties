@@ -1,4 +1,4 @@
-package com.example.planties.features.home.adapter.plant.plants;
+package com.example.planties.features.home.adapter.plant;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

@@ -61,7 +61,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     private void getGardens() {
-        gardenUseCase.getGardens(new ResponseCallback<List<GardenModel>>() {
+        gardenUseCase.getGardensAll(new ResponseCallback<List<GardenModel>>() {
             @Override
             public void onSuccess(BaseResultResponse<List<GardenModel>> response) {
                 if (response.getData() != null) {
@@ -69,6 +69,7 @@ public class HomeViewModel extends ViewModel {
                     for (GardenModel gardenModel : response.getData()) {
                         Log.d("Gardens:", "Gardens =" + gardenModel.getName());
                     }
+                    Log.d("HomeFragment", "observeState: " + response.getData().size());
                     gardenList.postValue(response.getData());
                 }
             }
@@ -115,19 +116,7 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    private void getDetailPlant(String gardentId, String plantId) {
-        plantUseCase.getDetailPlant(gardentId, plantId, new ResponseCallback<PlantDetailRes>() {
-            @Override
-            public void onSuccess(BaseResultResponse<PlantDetailRes> response) {
 
-            }
-
-            @Override
-            public void onFailure(BaseResultResponse<PlantDetailRes> response) {
-
-            }
-        });
-    }
 
     private void getProfile() {
         userUseCase.getProfile(new ResponseCallback<UserDetailRes>() {

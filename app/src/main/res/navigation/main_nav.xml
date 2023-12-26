@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/homeFragment2">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.planties.features.auth.login.LoginFragment"
@@ -57,6 +57,9 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_gardenDetailFragment_to_plantDetailFragment"
+            app:destination="@id/plantDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/scanFragment"
@@ -67,5 +70,9 @@
         android:id="@+id/gardenFragment"
         android:name="com.example.planties.features.plant_care.GardenFragment"
         android:label="fragment_garden"
-        tools:layout="@layout/fragment_garden" />
+        tools:layout="@layout/fragment_garden" >
+        <action
+            android:id="@+id/action_gardenFragment_to_gardenDetailFragment"
+            app:destination="@id/gardenDetailFragment" />
+    </fragment>
 </navigation>

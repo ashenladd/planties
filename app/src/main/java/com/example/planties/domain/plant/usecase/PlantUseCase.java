@@ -24,6 +24,10 @@ public class PlantUseCase {
         plantRepository.postPlant(gardenId,plantReq,responseCallback);
     }
 
+    public void getPlantWithGarden(String gardenId,ResponseCallback<PlantListRes> responseCallback){
+        plantRepository.getPlantsWithGarden(gardenId,responseCallback);
+    }
+
     public void getDetailPlant(String gardenId, String plantId, ResponseCallback<PlantDetailRes> responseCallback){
         plantRepository.getDetailPlant(gardenId,plantId,responseCallback);
     }

@@ -66,6 +66,26 @@ public class PlantRepositoryImpl implements PlantRepository {
     }
 
     @Override
+    public void getPlantsWithGarden(String gardenId, ResponseCallback<PlantListRes> responseCallback) {
+        plantRemoteDataSource.getPlantsWithGarden(gardenId).enqueue(new Callback<PlantListRes>() {
+            @Override
+            public void onResponse(@NonNull Call<PlantListRes> call, @NonNull Response<PlantListRes> response) {
+                if (response.isSuccessful()) {
+                    PlantListRes plantListRes = response.body();
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, plantListRes, "success", response.code()));
+                } else {
+                    responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PlantListRes> call, @NonNull Throwable t) {
+                responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
+            }
+        });
+    }
+
+    @Override
     public void getDetailPlant(String gardenId, String plantId, ResponseCallback<PlantDetailRes> responseCallback) {
         plantRemoteDataSource.getDetailPlant(gardenId, plantId).enqueue(new Callback<PlantDetailRes>() {
             @Override

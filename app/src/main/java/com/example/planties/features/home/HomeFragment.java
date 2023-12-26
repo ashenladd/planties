@@ -1,6 +1,7 @@
 package com.example.planties.features.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.data.user.remote.dto.UserResDetailDataModel;
 import com.example.planties.databinding.FragmentHomeBinding;
 import com.example.planties.features.home.adapter.garden.GardenAdapter;
-import com.example.planties.features.home.adapter.plant.filter.FilterAdapter;
-import com.example.planties.features.home.adapter.plant.plants.PlantAdapter;
+import com.example.planties.features.home.adapter.plant.PlantAdapter;
+import com.example.planties.features.utils.adapter.filter.FilterAdapter;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -79,25 +80,24 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupSwipeListener() {
-        binding.swApp.setOnRefreshListener(() -> {
+        binding.srlApp.setOnRefreshListener(() -> {
             homeViewModel.processEvent(new HomeViewEvent.OnRefresh());
-            binding.swApp.setRefreshing(false);
+            binding.srlApp.setRefreshing(false);
         });
     }
 
     private void observeState() {
         homeViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
-            if (user != null) {
-                UserResDetailDataModel profile = user.data;
-                ImageExtensions.loadProfileImage(binding.sivProfile, requireContext(), profile.user.urlImage);
-                binding.tvUsername.setText(profile.user.fullName);
-            }
+            UserResDetailDataModel profile = user.data;
+            ImageExtensions.loadProfileImage(binding.sivProfile, requireContext(), profile.user.urlImage);
+            binding.tvUsername.setText(profile.user.fullName);
+
         });
         homeViewModel.getGardenList().observe(getViewLifecycleOwner(), gardenModels -> {
-            if (gardenModels != null) {
-                getGardenAdapter().submitList(gardenModels);
-                binding.tvFormatBanyakTaman.setText(String.format(getString(R.string.format_kamu_memiliki_taman), gardenModels.size()));
-            }
+            int size = gardenModels.size();
+            getGardenAdapter().submitList(gardenModels);
+            binding.tvFormatBanyakTaman.setText(String.format(getString(R.string.format_kamu_memiliki_taman), size));
+
         });
     }
 

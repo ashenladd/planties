@@ -1,4 +1,4 @@
-package com.example.planties.features.home.adapter.plant.plants;
+package com.example.planties.features.home.adapter.plant;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,9 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.planties.data.plant.remote.dto.PlantResModel;
-import com.example.planties.databinding.ItemGardenBinding;
 import com.example.planties.databinding.ItemPlantBinding;
-import com.example.planties.domain.garden.model.GardenModel;
 
 public class PlantAdapter extends ListAdapter<PlantResModel, PlantViewHolder> {
     private final PlantListener listener;

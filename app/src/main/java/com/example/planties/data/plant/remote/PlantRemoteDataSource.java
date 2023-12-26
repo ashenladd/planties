@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 
 public interface PlantRemoteDataSource {
     Call<PlantListRes> getPlants();
+    Call<PlantListRes> getPlantsWithGarden(String gardenId);
     Call<PlantDetailRes> postPlant(String gardenId,@Body PlantReq plantReq);
     Call<PlantDetailRes> getDetailPlant(String gardenId,String plantId);
     Call<PlantDetailRes> putPlant(String gardenId,String plantId, @Body PlantReq plantReq);

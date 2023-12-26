@@ -1,10 +1,8 @@
-package com.example.planties.features.home.adapter.plant.filter;
+package com.example.planties.features.utils.adapter.filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-
-import com.example.planties.domain.garden.model.GardenModel;
 
 public class FilterDiffUtil extends DiffUtil.ItemCallback<FilterModel> {
 
