@@ -127,7 +127,7 @@ public class GardenDetailFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.rvPhotos.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvPhotos.addItemDecoration(new SpaceItemDecoration(24,false,false,false,false,0));
+        binding.rvPhotos.addItemDecoration(new SpaceItemDecoration(48,false,false,false,false,0));
         binding.rvPhotos.setAdapter(getGardenAdapter());
 
         binding.rvPlant.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));

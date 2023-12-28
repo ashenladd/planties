@@ -20,6 +20,16 @@ public class PlantResModel {
     @SerializedName("user_id")
     private String mUserId;
 
+    public PlantResModel(String id, String name, String banner, List<String> urlImage, String gardenId, Double oxygen, String userId) {
+        mId = id;
+        mName = name;
+        mBanner = banner;
+        mUrlImage = urlImage;
+        mGardenId = gardenId;
+        mOxygen = oxygen;
+        mUserId = userId;
+    }
+
     public String getId() {
         return mId;
     }

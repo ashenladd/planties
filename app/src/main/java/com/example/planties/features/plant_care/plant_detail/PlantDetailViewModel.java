@@ -10,9 +10,12 @@ import com.example.planties.data.garden.remote.dto.GardenDetailRes;
 import com.example.planties.data.garden.remote.dto.GardenResModel;
 import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
+import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -55,6 +58,17 @@ public class PlantDetailViewModel extends ViewModel {
             getDetailGarden(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
         }else if (event instanceof PlantDetailViewEvent.OnClickEdit) {
             isEdit.setValue(Boolean.FALSE.equals(isEdit.getValue()));
+        }else if(event instanceof PlantDetailViewEvent.OnAddImage) {
+            if (((PlantDetailViewEvent.OnAddImage) event).getPlantId() == null){
+                postDetailPlant(((PlantDetailViewEvent.OnAddImage) event).getGardenId(),
+                        ((PlantDetailViewEvent.OnAddImage) event).getPlantReq().mapToPlantReq(Objects.requireNonNull(getGardenDetail().getValue()).getName(),getGardenDetail().getValue().getType()));
+            }else{
+                putDetailPlant(((PlantDetailViewEvent.OnAddImage) event).getGardenId(),
+                        ((PlantDetailViewEvent.OnAddImage) event).getPlantId(),
+                        ((PlantDetailViewEvent.OnAddImage) event).getPlantReq());
+            }
+        }else if(event instanceof PlantDetailViewEvent.OnLoadGarden) {
+            getDetailGarden(((PlantDetailViewEvent.OnLoadGarden) event).getGardenId());
         }
     }
 
@@ -99,11 +113,11 @@ public class PlantDetailViewModel extends ViewModel {
             }
         });
     }
-    private void putDetailPlant(String gardenId, String plantId, PlantReq plantReq) {
+    private void putDetailPlant(String gardenId, String plantId, PlantReqPut plantReq) {
         plantUseCase.putPlant(gardenId, plantId, plantReq, new ResponseCallback<PlantDetailRes>() {
             @Override
             public void onSuccess(BaseResultResponse<PlantDetailRes> response) {
-
+                plantDetail.postValue(response.getData().data.getPlant());
             }
 
             @Override

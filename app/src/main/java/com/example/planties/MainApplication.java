@@ -24,7 +24,7 @@ public class MainApplication extends Application {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        if (tokenHandler.getAccessToken() != null) {
+        if (tokenHandler.getAccessToken() != null && tokenHandler.getRefreshToken() != null) {
             // User is authenticated, add a flag or extra to indicate the destination
             intent.putExtra("destination", "homeFragment2");
         } else {

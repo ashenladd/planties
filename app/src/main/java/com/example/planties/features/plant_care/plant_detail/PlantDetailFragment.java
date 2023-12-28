@@ -1,13 +1,19 @@
 package com.example.planties.features.plant_care.plant_detail;
 
 import android.animation.ObjectAnimator;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,13 +23,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.planties.core.utils.ImageExtensions;
+import com.example.planties.core.utils.ImageUtils;
 import com.example.planties.data.plant.remote.dto.PlantReq;
+import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.databinding.FragmentPlantDetailBinding;
 import com.example.planties.features.plant_care.plant_detail.adapter.PlantAdapter;
 import com.example.planties.features.plant_care.plant_detail.adapter.PlantModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -38,10 +47,11 @@ public class PlantDetailFragment extends Fragment {
 
     private PlantAdapter getPlantAdapter() {
         if (plantAdapter == null) {
-            plantAdapter = new PlantAdapter();
+            plantAdapter = new PlantAdapter(pickMedia);
         }
         return plantAdapter;
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -68,6 +78,44 @@ public class PlantDetailFragment extends Fragment {
         setupClickListener();
     }
 
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    if (uri != null) {
+                        Log.d("PhotoPicker", "Selected URI: " + uri);
+                        String base64Image = ImageUtils.convertImageUriToBase64(requireContext(), uri);
+                        List<String> listImage = new ArrayList<>();
+                        listImage.add(base64Image);
+
+                        if (plantId != null){
+                            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddImage(
+                                    gardenId,
+                                    plantId,
+                                    new PlantReqPut(
+                                            Objects.requireNonNull(plantDetailViewModel.getPlantDetail().getValue()).getName(),
+                                            plantDetailViewModel.getPlantDetail().getValue().getBanner(),
+                                            listImage)));
+
+                            plantDetailViewModel.getPlantDetail();
+                        }else{
+                            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddImage(
+                                    gardenId,
+                                    plantId,
+                                    new PlantReqPut(
+                                            Objects.requireNonNull(binding.tietInput.getText()).toString(),
+                                            Objects.requireNonNull(binding.tietInput.getText()).toString(),
+                                            listImage)));
+
+                            plantDetailViewModel.getPlantDetail();
+                        }
+
+                    } else {
+                        Log.d("PhotoPicker", "No media selected");
+                    }
+                }
+            });
+
     private void setupSwipeRefresh() {
         binding.srlPlantDetail.setOnRefreshListener(() -> {
             loadPlant();
@@ -85,13 +133,21 @@ public class PlantDetailFragment extends Fragment {
             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
         });
         binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
-            if (isAddPlant) {
-                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddPlant(gardenId, new PlantReq("", "", "","",new ArrayList<>())));
+            if (plantId == null) {
+                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddPlant(gardenId, new PlantReq("", "", "", "", new ArrayList<>())));
             } else {
-                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnSaveEdit(gardenId, plantId, new PlantReq("", "", "","", new ArrayList<>())));
+                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnSaveEdit(
+                        gardenId,
+                        plantId,
+                        new PlantReqPut(
+                                Objects.requireNonNull(binding.tietInput.getText()).toString(),
+                                Objects.requireNonNull(plantDetailViewModel.getPlantDetail().getValue()).getBanner(),
+                                null)));
+                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
             }
         });
     }
+
     private void setupBackPressed() {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
@@ -100,23 +156,31 @@ public class PlantDetailFragment extends Fragment {
             }
         });
     }
+
     private void navigateBack() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigateUp();
     }
 
     private void ObserveState() {
-        if (!isAddPlant) {
-            plantDetailViewModel.getPlantDetail().observe(getViewLifecycleOwner(), plantDetail -> {
+        if (plantId == null) {
+            List<PlantModel> plantModelList = new ArrayList<>();
+            plantModelList.add(new PlantModel("Add"));
+            getPlantAdapter().submitList(plantModelList);
+        }
+        plantDetailViewModel.getPlantDetail().observe(getViewLifecycleOwner(), plantDetail -> {
+            if (plantDetail != null) {
                 List<PlantModel> plantModelList = new ArrayList<>();
                 for (String urlImage : plantDetail.getUrlImage()) {
                     plantModelList.add(new PlantModel(urlImage));
                 }
+                plantModelList.add(new PlantModel("Add"));
                 getPlantAdapter().submitList(plantModelList);
                 binding.tvPlantName.setText(plantDetail.getName());
-                ImageExtensions.loadPlantImage(binding.ivPlant, requireContext() ,plantDetail.getUrlImage().get(0));
-            });
-        }
+                ImageExtensions.loadPlantImage(binding.ivPlant, requireContext(), plantDetail.getUrlImage().get(0));
+            }
+        });
+
         plantDetailViewModel.getGardenDetail().observe(getViewLifecycleOwner(), gardenDetail -> {
             binding.btnNamaTaman.setText(gardenDetail.getName());
         });
@@ -125,10 +189,15 @@ public class PlantDetailFragment extends Fragment {
                 binding.toolbarEdit.appbar.setVisibility(View.VISIBLE);
                 binding.toolbarSave.appbar.setVisibility(View.GONE);
                 binding.ivEditName.setVisibility(View.GONE);
+                binding.tvPlantName.setVisibility(View.VISIBLE);
+                binding.tietInput.setVisibility(View.GONE);
             } else {
                 binding.toolbarSave.appbar.setVisibility(View.VISIBLE);
                 binding.toolbarEdit.appbar.setVisibility(View.GONE);
                 binding.ivEditName.setVisibility(View.VISIBLE);
+                binding.tvPlantName.setVisibility(View.GONE);
+                binding.tietInput.setVisibility(View.VISIBLE);
+                binding.tietInput.setText(binding.tvPlantName.getText());
             }
         });
     }
@@ -139,7 +208,11 @@ public class PlantDetailFragment extends Fragment {
     }
 
     private void loadPlant() {
-        plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnLoadPlant(gardenId, plantId));
+        if (plantId != null) {
+            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnLoadPlant(gardenId, plantId));
+        } else {
+            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnLoadGarden(gardenId));
+        }
     }
 
     private void setupProgressBar() {

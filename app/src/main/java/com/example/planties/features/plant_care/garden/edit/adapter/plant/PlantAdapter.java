@@ -1,32 +1,31 @@
-package com.example.planties.features.plant_care.plant_detail.adapter;
+package com.example.planties.features.plant_care.garden.edit.adapter.plant;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.databinding.ItemPlantBinding;
 
-public class PlantAdapter extends ListAdapter<PlantModel, PlantViewHolder> {
-    private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
-    public PlantAdapter(ActivityResultLauncher<PickVisualMediaRequest> pickMedia) {
+public class PlantAdapter extends ListAdapter<PlantResModel, PlantViewHolder> {
+    private final PlantListener listener;
+
+    public PlantAdapter(PlantListener listener) {
         super(new PlantDiffUtil());
-        this.pickMedia = pickMedia;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemPlantBinding binding = ItemPlantBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new PlantViewHolder(binding, pickMedia);
+        return new PlantViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), listener);
     }
 }

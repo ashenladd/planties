@@ -5,6 +5,7 @@ import com.example.planties.core.utils.NetworkUtil;
 import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
+import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.data.plant.remote.network.PlantService;
 
 import javax.inject.Inject;
@@ -42,7 +43,7 @@ public class PlantRemoteDataSourceImpl implements PlantRemoteDataSource {
     }
 
     @Override
-    public Call<PlantDetailRes> putPlant(String gardenId, String plantId, PlantReq plantReq) {
+    public Call<PlantDetailRes> putPlant(String gardenId, String plantId, PlantReqPut plantReq) {
         return plantService.putPlant(plantReq, gardenId, plantId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 

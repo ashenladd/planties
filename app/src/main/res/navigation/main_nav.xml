@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_gardenFragment"
             app:destination="@id/gardenFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_gardentEditFragment"
+            app:destination="@id/gardentEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
@@ -47,11 +50,11 @@
         tools:layout="@layout/fragment_plant_detail" >
         <argument
             android:name="gardenId"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
         <argument
             android:name="plantId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="isAddPlant"
             app:argType="boolean" />
@@ -92,6 +95,10 @@
         tools:layout="@layout/fragment_gardent_edit" >
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_gardentEditFragment_to_plantDetailFragment"
+            app:destination="@id/plantDetailFragment" />
     </fragment>
 </navigation>

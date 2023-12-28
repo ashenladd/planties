@@ -22,6 +22,7 @@ import com.example.planties.data.user.remote.dto.UserResDetailDataModel;
 import com.example.planties.databinding.FragmentHomeBinding;
 import com.example.planties.features.home.adapter.garden.GardenAdapter;
 import com.example.planties.features.home.adapter.plant.PlantAdapter;
+import com.example.planties.features.utils.SpaceItemDecoration;
 import com.example.planties.features.utils.adapter.filter.FilterAdapter;
 import com.example.planties.features.utils.adapter.filter.FilterModel;
 
@@ -82,10 +83,19 @@ public class HomeFragment extends Fragment {
         setupRecyclerView();
         observeState();
         setupSwipeListener();
+        setupClickListener();
+        homeViewModel.processEvent(new HomeViewEvent.OnRefresh());
+    }
+
+    private void setupClickListener() {
+        binding.btnTambahTaman.setOnClickListener(v -> {
+            navigateToGardenEdit(null);
+        });
     }
 
     private void setupRecyclerView() {
         binding.rvTaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvTaman.addItemDecoration(new SpaceItemDecoration(48,false,false,false,false,0));
         binding.rvTaman.setAdapter(getGardenAdapter());
 
         binding.rvTanaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -155,4 +165,12 @@ public class HomeFragment extends Fragment {
         navController.navigate(directions);
     }
 
+    private void navigateToGardenEdit(String gardenId) {
+        Log.d("HomeFragment", "navigateToGardenEdit: " + gardenId);
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToGardentEditFragment(gardenId);
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
 }

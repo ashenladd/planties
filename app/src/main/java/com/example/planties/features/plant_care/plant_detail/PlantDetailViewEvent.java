@@ -1,14 +1,15 @@
 package com.example.planties.features.plant_care.plant_detail;
 
 import com.example.planties.data.plant.remote.dto.PlantReq;
+import com.example.planties.data.plant.remote.dto.PlantReqPut;
 
 public class PlantDetailViewEvent {
     public static class OnSaveEdit extends PlantDetailViewEvent {
         private String gardenId;
         private String plantId;
-        private PlantReq plantReq;
+        private PlantReqPut plantReq;
 
-        public OnSaveEdit(String gardenId, String plantId, PlantReq plantReq) {
+        public OnSaveEdit(String gardenId, String plantId, PlantReqPut plantReq) {
             this.gardenId = gardenId;
             this.plantId = plantId;
             this.plantReq = plantReq;
@@ -22,7 +23,7 @@ public class PlantDetailViewEvent {
             return plantId;
         }
 
-        public PlantReq getPlantReq() {
+        public PlantReqPut getPlantReq() {
             return plantReq;
         }
 
@@ -34,7 +35,43 @@ public class PlantDetailViewEvent {
             this.plantId = plantId;
         }
 
-        public void setPlantReq(PlantReq plantReq) {
+        public void setPlantReq(PlantReqPut plantReq) {
+            this.plantReq = plantReq;
+        }
+    }
+
+    public static class OnAddImage extends PlantDetailViewEvent {
+        private String gardenId;
+        private String plantId;
+        private PlantReqPut plantReq;
+
+        public OnAddImage(String gardenId, String plantId, PlantReqPut plantReq) {
+            this.gardenId = gardenId;
+            this.plantId = plantId;
+            this.plantReq = plantReq;
+        }
+
+        public String getGardenId() {
+            return gardenId;
+        }
+
+        public String getPlantId() {
+            return plantId;
+        }
+
+        public PlantReqPut getPlantReq() {
+            return plantReq;
+        }
+
+        public void setGardenId(String gardenId) {
+            this.gardenId = gardenId;
+        }
+
+        public void setPlantId(String plantId) {
+            this.plantId = plantId;
+        }
+
+        public void setPlantReq(PlantReqPut plantReq) {
             this.plantReq = plantReq;
         }
     }
@@ -76,4 +113,16 @@ public class PlantDetailViewEvent {
     }
 
     public static class OnClickEdit extends PlantDetailViewEvent { }
+
+    public static class OnLoadGarden extends PlantDetailViewEvent {
+        private final String gardenId;
+
+        public OnLoadGarden(String gardenId) {
+            this.gardenId = gardenId;
+        }
+
+        public String getGardenId() {
+            return gardenId;
+        }
+    }
 }

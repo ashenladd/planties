@@ -4,6 +4,7 @@ import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
+import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.domain.plant.repository.PlantRepository;
 
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class PlantUseCase {
         plantRepository.getDetailPlant(gardenId,plantId,responseCallback);
     }
 
-    public void putPlant(String gardenId, String plantId, PlantReq plantReq, ResponseCallback<PlantDetailRes> responseCallback){
+    public void putPlant(String gardenId, String plantId, PlantReqPut plantReq, ResponseCallback<PlantDetailRes> responseCallback){
         plantRepository.putPlant(gardenId,plantId,plantReq,responseCallback);
     }
 
