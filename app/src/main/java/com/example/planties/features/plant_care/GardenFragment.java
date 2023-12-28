@@ -71,14 +71,8 @@ public class GardenFragment extends Fragment {
         setupRecyclerView();
         observeState();
         setupSwipeListener();
-        setupClickListener();
     }
 
-    private void setupClickListener() {
-        binding.tbGardenDetail.toolbar.setNavigationOnClickListener(v ->{
-
-        });
-    }
 
     private void setupSwipeListener() {
         binding.srlGarden.setOnRefreshListener(() -> {

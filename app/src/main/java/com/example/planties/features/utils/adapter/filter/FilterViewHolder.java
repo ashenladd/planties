@@ -19,7 +19,7 @@ public class FilterViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(FilterModel item, FilterListener listener) {
         binding.btnFilter.setOnClickListener(v -> {
-            Log.d("FilterViewHolder", "bind: " + item.getName());
+            Log.d("FilterViewHolder", "bind: " + item.getName() + " " + item.isSelected());
             listener.onItemClick(item);
         });
         if (item.isSelected()) {

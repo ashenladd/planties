@@ -14,7 +14,7 @@ public class FilterDiffUtil extends DiffUtil.ItemCallback<FilterModel> {
     @Override
     public boolean areContentsTheSame(@NonNull FilterModel oldItem, @NonNull FilterModel newItem) {
         return oldItem.getName().equals(newItem.getName()) &&
-                oldItem.isSelected() == newItem.isSelected();
+                oldItem.isSelected() == newItem.isSelected() && oldItem.getId().equals(newItem.getId());
     }
 
     @Nullable

@@ -1,5 +1,7 @@
 package com.example.planties.features.home.adapter.plant;
 
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.core.utils.ImageExtensions;
@@ -15,8 +17,13 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PlantResModel item, PlantListener listener) {
-        binding.tvGarden.setText(item.getName());
-        ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
-        binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getId()));
+        if(!item.getUrlImage().isEmpty()){
+            binding.tvGarden.setText(item.getName());
+            ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getGardenId(), item.getId()));
+        }else{
+            binding.tvGarden.setText(item.getName());
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getGardenId(), item.getId()));
+        }
     }
 }

@@ -36,11 +36,19 @@ public class GardenDetailViewModel extends ViewModel {
 
     private final MutableLiveData<GardenResModel> gardenDetail = new MutableLiveData<>();
     private final MutableLiveData<PlantListRes> plantsList = new MutableLiveData<>();
-    public LiveData<PlantListRes> getCurrentFilter() {
+    public LiveData<PlantListRes> getPlantList() {
         return plantsList;
     }
-    public LiveData<GardenResModel> getGardenList() {
+    public LiveData<GardenResModel> getGardenDetail() {
         return gardenDetail;
+    }
+
+    public void processEvent(GardenDetailViewEvent event) {
+        if(event instanceof GardenDetailViewEvent.OnLoadGarden) {
+            getGardenDetail(((GardenDetailViewEvent.OnLoadGarden) event).getGardenId());
+        } else if(event instanceof GardenDetailViewEvent.OnLoadPlants) {
+            getPlants(((GardenDetailViewEvent.OnLoadPlants) event).getGardenId());
+        }
     }
 
     private void getGardenDetail(String gardenId) {

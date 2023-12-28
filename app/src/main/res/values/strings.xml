@@ -47,4 +47,5 @@
     <string name="label_diagnosis">Diagnosis</string>
     <string name="label_identifying">Identifying</string>
     <string name="label_mendiagnosis_tanamanmu">Mendiagnosis tanamanmu…</string>
+    <string name="desc_tanamanmu">Lihat tanamanmu yang ada pada taman ini</string>
 </resources>

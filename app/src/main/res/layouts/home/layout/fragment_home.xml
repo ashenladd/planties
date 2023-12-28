@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Neutral2"
-    android:paddingBottom="?attr/actionBarSize">
+    android:paddingBottom= "@dimen/margin_84dp">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/apl_appbar"
@@ -372,20 +372,6 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_label_tanamanmu"
                     app:layout_constraintEnd_toEndOf="@id/cl_oxygen"/>
 
-                <TextView
-                    android:id="@+id/tv_desc_perhatikan_tanamanmu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@tools:sample/lorem/random"
-                    android:layout_marginTop="@dimen/margin_4dp"
-                    android:textAppearance="@style/TextAppearance.Planties.Body1"
-                    android:textColor="@color/Neutral3"
-                    app:layout_constraintStart_toStartOf="@id/tv_label_tanamanmu"
-                    app:layout_constraintTop_toBottomOf="@id/tv_label_tanamanmu"
-                    app:layout_constraintEnd_toEndOf="@id/cl_oxygen"
-                    android:ellipsize="end"
-                    android:maxLines="2"/>
-
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_filter"
                     style="@style/Widget.Planties.ButtonTab"
@@ -398,7 +384,7 @@
                     android:text="@string/label_terburuk"
                     android:textColor="@color/Neutral5"
                     app:layout_constraintStart_toStartOf="@id/tv_label_tanamanmu"
-                    app:layout_constraintTop_toBottomOf="@id/tv_desc_perhatikan_tanamanmu" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_tanamanmu" />
 
                 <View
                     android:id="@+id/v_vertical_line"
@@ -415,26 +401,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_filter"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_desc_perhatikan_tanamanmu"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/item_tab_filter"
-                    tools:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_filter"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/v_vertical_line"
-                    app:layout_constraintTop_toTopOf="@id/btn_filter" />
+                    app:layout_constraintTop_toTopOf="@id/btn_filter"
+                    tools:listitem="@layout/item_tab_filter" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_tanaman"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/rv_filter"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_plant"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/btn_filter"
-                    app:layout_constraintTop_toBottomOf="@id/btn_filter" />
+                    app:layout_constraintTop_toBottomOf="@id/btn_filter"
+                    tools:listitem="@layout/item_plant" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

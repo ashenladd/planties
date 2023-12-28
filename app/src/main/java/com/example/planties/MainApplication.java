@@ -2,6 +2,7 @@ package com.example.planties;
 
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;

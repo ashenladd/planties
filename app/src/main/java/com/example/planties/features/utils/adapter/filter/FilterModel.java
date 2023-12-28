@@ -26,6 +26,18 @@ public class FilterModel {
         return isSelected;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public static FilterModel fromGardenModel(GardenModel gardenModel) {
         return new FilterModel(
                 gardenModel.getId(),
@@ -35,6 +47,7 @@ public class FilterModel {
     }
     public static List<FilterModel> fromGardenModelList(List<GardenModel> gardenModelList) {
         List<FilterModel> filterList = new ArrayList<>();
+        filterList.add(new FilterModel("Semua", "Semua", true));
         for(GardenModel garden : gardenModelList){
             FilterModel filtermodel = FilterModel.fromGardenModel(garden);
             filterList.add(filtermodel);
