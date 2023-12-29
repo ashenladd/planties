@@ -42,6 +42,11 @@
         <item name="android:textColor">@color/Neutral1</item>
     </style>
 
+    <style name="Widget.Planties.Button.Full.Danger" parent="Widget.Planties.Button.Full">
+        <item name="android:background">@drawable/bg_user_info</item>
+        <item name="android:textColor">@color/Red500</item>
+    </style>
+
     <style name="Widget.Planties.SearchView" parent="Widget.AppCompat.SearchView">
         <item name="android:editTextColor">@color/Neutral5</item>
         <item name="android:textColor">@color/Neutral5</item>
@@ -100,8 +105,13 @@
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">@dimen/size_17dp</item>
     </style>
-
-
+    <style name="ShapeAppearanceOverlay.Planties.Oval" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">50%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
+        <item name="cornerSizeTopLeft">50%</item>
+        <item name="cornerSizeBottomRight">50%</item>
+    </style>
     <style name="Widget.Planties.CardView.Round.All" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Planties.Round</item>
         <item name="cardBackgroundColor">@color/Neutral1</item>
