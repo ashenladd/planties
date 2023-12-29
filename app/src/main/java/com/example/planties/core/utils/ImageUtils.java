@@ -5,15 +5,24 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 public class ImageUtils {
 
@@ -81,5 +90,84 @@ public class ImageUtils {
 
             cursor.close();
         }
+    }
+
+    public static String convertImageUriToBase64(Context context, Uri imageUri) {
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            int rotation = getRotationFromExif(context, imageUri);
+            Bitmap rotatedBitmap = rotateBitmap(bitmap, rotation);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+            return java.util.Base64.getEncoder().encodeToString(imageBytes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Bitmap convertBase64ToImage(String base64String) {
+        try {
+            byte[] imageBytes = Base64.decode(base64String, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static int fileCounter = 0;
+
+    public static void convertUriToJpg(Context context, Uri contentUri) {
+        try {
+            // Get the InputStream from the ContentResolver
+            ContentResolver resolver = context.getContentResolver();
+            InputStream inputStream = resolver.openInputStream(contentUri);
+
+            // Decode the InputStream into a Bitmap
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            // Create a File to save the JPG image
+            File jpgFile = getOutputMediaFile();
+
+            // Write the Bitmap data to the JPG file
+            OutputStream outputStream = Files.newOutputStream(jpgFile.toPath());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.close();
+
+            // Optionally, you can use the jpgFile path or URI as needed
+            String jpgFilePath = jpgFile.getAbsolutePath();
+            Uri jpgFileUri = Uri.fromFile(jpgFile);
+
+            // Now you have the image saved as a JPG file
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static File getOutputMediaFile() {
+        // Get the directory for saving media files (you may want to customize this)
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "YourAppFolder");
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+
+        // Create a media file name with a counter to make it unique
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_" + timeStamp + "_" + fileCounter + ".jpg");
+
+        // Increment the counter for the next image
+        fileCounter++;
+
+        return mediaFile;
     }
 }

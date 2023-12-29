@@ -28,8 +28,28 @@ public class GardenRepositoryImpl implements GardenRepository {
     }
 
     @Override
-    public void getGardens(ResponseCallback<GardenListRes> responseCallback) {
-        gardenRemoteDataSource.getGarden().enqueue(new Callback<GardenListRes>() { //TODO token
+    public void getGardens(String sorting, String type,ResponseCallback<GardenListRes> responseCallback) {
+        gardenRemoteDataSource.getGarden(sorting,type).enqueue(new Callback<GardenListRes>() { //TODO token
+            @Override
+            public void onResponse(@NonNull Call<GardenListRes> call, @NonNull Response<GardenListRes> response) {
+                if (response.isSuccessful()) {
+                    GardenListRes gardenRes = response.body();
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, gardenRes, "success", response.code()));
+                } else {
+                    responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GardenListRes> call, Throwable t) {
+                responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
+            }
+        });
+    }
+
+    @Override
+    public void getGardensAll(ResponseCallback<GardenListRes> responseCallback) {
+        gardenRemoteDataSource.getGardenAll().enqueue(new Callback<GardenListRes>() { //TODO token
             @Override
             public void onResponse(@NonNull Call<GardenListRes> call, @NonNull Response<GardenListRes> response) {
                 if (response.isSuccessful()) {

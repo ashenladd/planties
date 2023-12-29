@@ -1,6 +1,6 @@
 package com.example.planties.features.home;
 
-import com.example.planties.features.home.adapter.plant.filter.FilterModel;
+import com.example.planties.features.utils.adapter.filter.FilterModel;
 
 public abstract class HomeViewEvent {
 

@@ -15,12 +15,14 @@ import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface GardenService {
 
     @GET(Constant.GARDEN)
-    Call<GardenListRes> getGarden(@HeaderMap Map<String, String> token);
-
+    Call<GardenListRes> getGarden(@HeaderMap Map<String, String> token, @Query("sorting") String sorting, @Query("type") String type);
+    @GET(Constant.GARDEN)
+    Call<GardenListRes> getGardenAll(@HeaderMap Map<String, String> token);
     @POST(Constant.GARDEN)
     Call<GardenDetailRes> postGarden(@Body GardenReq gardenReq, @HeaderMap Map<String, String> token);
 

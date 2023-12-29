@@ -4,174 +4,210 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Neutral2"
     tools:context=".features.plant_care.plant_detail.PlantDetailFragment">
 
-    <ImageView
-        android:id="@+id/iv_plant"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_plant_detail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_224dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"
-        tools:src="@color/black" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <include
-        android:id="@+id/toolbarEdit"
-        layout="@layout/layout_toolbar_only_edit"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbarSave"
-        layout="@layout/layout_toolbar_only_save"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_16dp">
 
-    <TextView
-        android:id="@+id/tv_plant_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_24dp"
-        android:layout_marginTop="@dimen/margin_24dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.Planties.Title2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_plant"
-        tools:text="Monstera" />
+                <ImageView
+                    android:id="@+id/iv_plant"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_224dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/img_banner_plant"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/tv_label_taman"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_24dp"
-        android:layout_marginTop="@dimen/margin_16dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="@string/label_taman"
-        android:textAppearance="@style/TextAppearance.Planties.Body1"
-        android:textColor="@color/Neutral3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_plant_name" />
+                <include
+                    android:id="@+id/toolbarEdit"
+                    layout="@layout/layout_toolbar_only_edit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_edit_name"
-        android:layout_width="@dimen/size_24dp"
-        android:layout_height="@dimen/size_24dp"
-        android:layout_marginEnd="@dimen/margin_24dp"
-        android:src="@drawable/ic_edit"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_plant_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_plant_name"
-        tools:ignore="ContentDescription" />
+                <include
+                    android:id="@+id/toolbarSave"
+                    layout="@layout/layout_toolbar_only_save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_nama_taman"
-        style="@style/Widget.Planties.Button"
-        android:layout_marginEnd="@dimen/size_24dp"
-        android:background="@drawable/bg_button_netral1_active"
-        android:textAppearance="@style/TextAppearance.Planties.Button3"
-        android:textColor="@color/Neutral4"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_label_taman"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_label_taman"
-        tools:text="Halaman Depan" />
+                <TextView
+                    android:id="@+id/tv_plant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Planties.Title2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_plant"
+                    tools:text="Monstera"
+                    tools:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_label_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_24dp"
-        android:layout_marginTop="@dimen/margin_24dp"
-        android:text="@string/label_status"
-        android:textAppearance="@style/TextAppearance.Planties.Title4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_taman" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiet_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_12dp"
+                    android:maxLines="1"
+                    android:hint="@string/label_masukkan_nama"
+                    android:textAppearance="@style/TextAppearance.Planties.Title2"
+                    app:layout_constraintBottom_toTopOf="@id/tv_label_taman"
+                    app:layout_constraintEnd_toStartOf="@id/iv_edit_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_plant"
+                    tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_water"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_16dp"
-        android:paddingBottom="@dimen/margin_12dp"
-        android:background="@drawable/bg_button_netral1_active"
-        app:layout_constraintStart_toStartOf="@id/tv_label_status"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_status">
+                <TextView
+                    android:id="@+id/tv_label_taman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_72dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/label_taman"
+                    android:textAppearance="@style/TextAppearance.Planties.Body1"
+                    android:textColor="@color/Neutral3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_plant" />
 
-        <ImageView
-            android:id="@+id/iv_water"
-            android:layout_width="@dimen/size_24dp"
-            android:layout_height="@dimen/size_24dp"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginTop="@dimen/margin_16dp"
-            android:layout_marginBottom="@dimen/margin_16dp"
-            android:src="@drawable/ic_user"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+                <ImageView
+                    android:id="@+id/iv_edit_name"
+                    android:layout_width="@dimen/size_24dp"
+                    android:layout_height="@dimen/size_24dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:layout_marginEnd="@dimen/margin_24dp"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_plant"
+                    tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/tv_label_water"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_10dp"
-            android:text="@string/label_water"
-            android:textAppearance="@style/TextAppearance.Planties.Subtitle3"
-            android:textColor="@color/Neutral3"
-            app:layout_constraintBottom_toTopOf="@id/tv_water_time"
-            app:layout_constraintStart_toEndOf="@id/iv_water"
-            app:layout_constraintTop_toTopOf="@id/iv_water" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_nama_taman"
+                    style="@style/Widget.Planties.Button"
+                    android:layout_marginEnd="@dimen/size_24dp"
+                    android:background="@drawable/bg_button_netral1_active"
+                    android:textAppearance="@style/TextAppearance.Planties.Button3"
+                    android:textColor="@color/Neutral4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_label_taman"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_label_taman"
+                    tools:text="Halaman Depan" />
 
-        <TextView
-            android:id="@+id/tv_water_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.Planties.Button3"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/iv_water"
-            app:layout_constraintStart_toStartOf="@id/tv_label_water"
-            app:layout_constraintTop_toBottomOf="@+id/tv_label_water"
-            tools:text="3 hour" />
+                <TextView
+                    android:id="@+id/tv_label_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:text="@string/label_status"
+                    android:textAppearance="@style/TextAppearance.Planties.Title4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_taman" />
 
-        <ProgressBar
-            android:id="@+id/pb_water"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="@dimen/size_140dp"
-            android:layout_height="@dimen/size_8dp"
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:layout_marginEnd="@dimen/margin_12dp"
-            android:progressDrawable="@drawable/bg_progressbar_blue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/iv_water"
-            app:layout_constraintTop_toBottomOf="@id/tv_water_time"
-            app:layout_goneMarginTop="@dimen/margin_12dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:background="@drawable/bg_button_netral1_active"
+                    android:paddingBottom="@dimen/margin_12dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_status"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_status">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/iv_water"
+                        android:layout_width="@dimen/size_24dp"
+                        android:layout_height="@dimen/size_24dp"
+                        android:layout_marginStart="@dimen/margin_16dp"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_marginBottom="@dimen/margin_16dp"
+                        android:src="@drawable/ic_droplet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/tv_label_gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_24dp"
-        android:layout_marginTop="@dimen/margin_24dp"
-        android:text="@string/label_galery"
-        android:textAppearance="@style/TextAppearance.Planties.Title4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_water" />
+                    <TextView
+                        android:id="@+id/tv_label_water"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        android:text="@string/label_water"
+                        android:textAppearance="@style/TextAppearance.Planties.Subtitle3"
+                        android:textColor="@color/Neutral3"
+                        app:layout_constraintBottom_toTopOf="@id/tv_water_time"
+                        app:layout_constraintStart_toEndOf="@id/iv_water"
+                        app:layout_constraintTop_toTopOf="@id/iv_water" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_gallery"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        tools:listitem="@layout/item_plant"
-        app:layout_constraintStart_toStartOf="@id/tv_label_gallery"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_gallery" />
+                    <TextView
+                        android:id="@+id/tv_water_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.Planties.Button3"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_water"
+                        app:layout_constraintStart_toStartOf="@id/tv_label_water"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_label_water"
+                        tools:text="3 hour" />
 
+                    <ProgressBar
+                        android:id="@+id/pb_water"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="@dimen/size_140dp"
+                        android:layout_height="@dimen/size_8dp"
+                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:layout_marginEnd="@dimen/margin_12dp"
+                        android:progressDrawable="@drawable/bg_progressbar_blue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/iv_water"
+                        app:layout_constraintTop_toBottomOf="@id/tv_water_time"
+                        app:layout_goneMarginTop="@dimen/margin_12dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_label_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:text="@string/label_galery"
+                    android:textAppearance="@style/TextAppearance.Planties.Title4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_water" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_gallery"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_gallery"
+                    tools:listitem="@layout/item_plant" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

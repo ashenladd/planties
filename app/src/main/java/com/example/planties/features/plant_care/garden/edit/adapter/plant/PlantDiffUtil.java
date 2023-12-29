@@ -1,10 +1,9 @@
-package com.example.planties.features.home.adapter.plant.plants;
+package com.example.planties.features.plant_care.garden.edit.adapter.plant;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.planties.data.plant.remote.dto.PlantResModel;
-import com.example.planties.domain.garden.model.GardenModel;
 
 public class PlantDiffUtil extends DiffUtil.ItemCallback<PlantResModel> {
 
@@ -15,6 +14,9 @@ public class PlantDiffUtil extends DiffUtil.ItemCallback<PlantResModel> {
 
     @Override
     public boolean areContentsTheSame(@NonNull PlantResModel oldItem, @NonNull PlantResModel newItem) {
+        if (oldItem.getId().equals("Add")){
+            return oldItem.getId().equals(newItem.getId());
+        }
         return oldItem.getName().equals(newItem.getName()) &&
                 oldItem.getUrlImage().equals(newItem.getUrlImage());
     }

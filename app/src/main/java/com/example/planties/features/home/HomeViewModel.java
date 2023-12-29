@@ -6,18 +6,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.SortType;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.garden.remote.dto.GardenDetailRes;
-import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
+import com.example.planties.data.plant.remote.dto.PlantResListDataModel;
+import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.domain.garden.model.GardenModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 import com.example.planties.domain.user.usecase.UserUseCase;
+import com.example.planties.features.utils.PlantFilter;
+import com.example.planties.features.utils.adapter.filter.FilterModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -29,18 +34,29 @@ public class HomeViewModel extends ViewModel {
     private final PlantUseCase plantUseCase;
     private final UserUseCase userUseCase;
     private final MutableLiveData<UserDetailRes> user = new MutableLiveData<>();
-    private final MutableLiveData<PlantListRes> plantList = new MutableLiveData<>();
+    private final MutableLiveData<PlantResListDataModel> plantList = new MutableLiveData<>();
     private final MutableLiveData<List<GardenModel>> gardenList = new MutableLiveData<>();
+    private final MutableLiveData<List<FilterModel>> plantFilterList = new MutableLiveData<>();
+    private final MutableLiveData<String> selectedFilter = new MutableLiveData<>("Semua");
 
+    public LiveData<List<FilterModel>> getPlantFilterList() {
+        return plantFilterList;
+    }
+    public LiveData<String> getSelectedFilter() {
+        return selectedFilter;
+    }
     public LiveData<UserDetailRes> getUser() {
         return user;
     }
-    public LiveData<PlantListRes> getPlantList() {
+
+    public LiveData<PlantResListDataModel> getPlantList() {
         return plantList;
     }
+
     public LiveData<List<GardenModel>> getGardenList() {
         return gardenList;
     }
+
     @Inject
     public HomeViewModel(GardenUseCase gardenUseCase, PlantUseCase plantUseCase, UserUseCase userUseCase) {
         this.gardenUseCase = gardenUseCase;
@@ -49,26 +65,27 @@ public class HomeViewModel extends ViewModel {
 
         getGardens();
         getProfile();
-        getPlants();
+        getPlants(Objects.requireNonNull(selectedFilter.getValue()));
     }
 
-    public void processEvent(HomeViewEvent event){
-        if(event instanceof HomeViewEvent.OnRefresh){
+    public void processEvent(HomeViewEvent event) {
+        if (event instanceof HomeViewEvent.OnRefresh) {
             getGardens();
             getProfile();
-            getPlants();
+            getPlants(Objects.requireNonNull(selectedFilter.getValue()));
+        } else if (event instanceof HomeViewEvent.OnChangedFilter) {
+            selectedFilter.setValue(((HomeViewEvent.OnChangedFilter) event).getFilter().getId());
+            getPlants(Objects.requireNonNull(selectedFilter.getValue()));
         }
     }
 
     private void getGardens() {
-        gardenUseCase.getGardens(new ResponseCallback<List<GardenModel>>() {
+        gardenUseCase.getGardensAll(new ResponseCallback<List<GardenModel>>() {
             @Override
             public void onSuccess(BaseResultResponse<List<GardenModel>> response) {
                 if (response.getData() != null) {
-                    Log.d("Gardens:", "Gardens List=" + response.getData());
-                    for (GardenModel gardenModel : response.getData()) {
-                        Log.d("Gardens:", "Gardens =" + gardenModel.getName());
-                    }
+                    List<FilterModel> filterModels = FilterModel.fromGardenModelList(response.getData());
+                    plantFilterList.setValue(filterModels);
                     gardenList.postValue(response.getData());
                 }
             }
@@ -79,55 +96,45 @@ public class HomeViewModel extends ViewModel {
             }
         });
     }
+    private void getPlants(String gardenId) {
+        Log.d("Plants:", "GardenIdViewModel =" + gardenId);
+        if (gardenId.equals("Semua")){
+            plantUseCase.getPlants(new ResponseCallback<PlantListRes>() {
+                @Override
+                public void onSuccess(BaseResultResponse<PlantListRes> response) {
+                    if (response.getData() != null) {
+                        Log.d("Plants:", "Plants Size =" + response.getData().data.getPlants().size());
+                        plantList.postValue(response.getData().data);
+                    }
 
-    private void getDetailGarden(String id) {
-        gardenUseCase.getDetailGarden(id, new ResponseCallback<GardenDetailRes>() {
-            @Override
-            public void onSuccess(BaseResultResponse<GardenDetailRes> response) {
-                if (response.getData() != null) {
-                    Log.d("Gardens:", "Garden =" + response.getData().getData().getGarden().getName());
-                }
-            }
-
-            @Override
-            public void onFailure(BaseResultResponse<GardenDetailRes> response) {
-
-            }
-        });
-    }
-
-    private void getPlants() {
-        plantUseCase.getPlants(new ResponseCallback<PlantListRes>() {
-            @Override
-            public void onSuccess(BaseResultResponse<PlantListRes> response) {
-                if (response.getData() != null) {
-                    Log.d("Plants:", "Plants Size =" + response.getData().data.getPlants().size());
-                    plantList.postValue(response.getData());
                 }
 
-            }
+                @Override
+                public void onFailure(BaseResultResponse<PlantListRes> response) {
 
-            @Override
-            public void onFailure(BaseResultResponse<PlantListRes> response) {
+                }
 
-            }
+            });
+        }else{
+            plantUseCase.getPlantWithGarden(gardenId, new ResponseCallback<PlantListRes>() {
+                @Override
+                public void onSuccess(BaseResultResponse<PlantListRes> response) {
+                    if (response.getData() != null) {
+                        Log.d("Plants:", "Plants Size =" + response.getData().data.getPlants().size());
+                        plantList.postValue(response.getData().data);
+                    }
 
-        });
+                }
+
+                @Override
+                public void onFailure(BaseResultResponse<PlantListRes> response) {
+
+                }
+
+            });
+        }
     }
 
-    private void getDetailPlant(String gardentId, String plantId) {
-        plantUseCase.getDetailPlant(gardentId, plantId, new ResponseCallback<PlantDetailRes>() {
-            @Override
-            public void onSuccess(BaseResultResponse<PlantDetailRes> response) {
-
-            }
-
-            @Override
-            public void onFailure(BaseResultResponse<PlantDetailRes> response) {
-
-            }
-        });
-    }
 
     private void getProfile() {
         userUseCase.getProfile(new ResponseCallback<UserDetailRes>() {
@@ -144,5 +151,4 @@ public class HomeViewModel extends ViewModel {
             }
         });
     }
-
 }

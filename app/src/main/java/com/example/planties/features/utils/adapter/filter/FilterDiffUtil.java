@@ -1,10 +1,8 @@
-package com.example.planties.features.home.adapter.plant.filter;
+package com.example.planties.features.utils.adapter.filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-
-import com.example.planties.domain.garden.model.GardenModel;
 
 public class FilterDiffUtil extends DiffUtil.ItemCallback<FilterModel> {
 
@@ -16,7 +14,7 @@ public class FilterDiffUtil extends DiffUtil.ItemCallback<FilterModel> {
     @Override
     public boolean areContentsTheSame(@NonNull FilterModel oldItem, @NonNull FilterModel newItem) {
         return oldItem.getName().equals(newItem.getName()) &&
-                oldItem.isSelected() == newItem.isSelected();
+                oldItem.isSelected() == newItem.isSelected() && oldItem.getId().equals(newItem.getId());
     }
 
     @Nullable

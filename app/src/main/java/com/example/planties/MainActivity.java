@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -33,10 +34,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        String destination = intent.getStringExtra("destination");
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
 
+        if ("homeFragment2".equals(destination)) {
+            // Set starting destination to homeFragment2
+            navController.navigate(R.id.homeFragment2);
+        } else {
+            // Set starting destination to loginFragment
+            navController.navigate(R.id.loginFragment);
+        }
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {

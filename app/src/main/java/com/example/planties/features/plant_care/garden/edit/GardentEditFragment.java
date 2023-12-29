@@ -1,66 +1,242 @@
 package com.example.planties.features.plant_care.garden.edit;
 
+import static com.example.planties.core.utils.ScreenUtils.getScreenWidth;
+
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.planties.R;
+import com.example.planties.core.GardenType;
+import com.example.planties.core.utils.ImageUtils;
+import com.example.planties.data.garden.remote.dto.GardenReq;
+import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.databinding.FragmentGardentEditBinding;
+import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenAdapter;
+import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenGalleryModel;
+import com.example.planties.features.plant_care.garden.edit.adapter.plant.PlantAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GardentEditFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class GardentEditFragment extends Fragment {
+    FragmentGardentEditBinding binding;
+    private GardenEditViewModel gardenEditViewModel;
+    private PlantAdapter plantAdapter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private String gardenId;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public GardentEditFragment() {
-        // Required empty public constructor
+    private PlantAdapter getPlantAdapter() {
+        if (plantAdapter == null) {
+            plantAdapter = new PlantAdapter(this::navigateToPlantDetail);
+        }
+        return plantAdapter;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GardentEditFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GardentEditFragment newInstance(String param1, String param2) {
-        GardentEditFragment fragment = new GardentEditFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private GardenAdapter gardenAdapter;
+
+    private GardenAdapter getGardenAdapter() {
+        if (gardenAdapter == null) {
+            gardenAdapter = new GardenAdapter(pickMedia);
+        }
+        return gardenAdapter;
+    }
+
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    if (uri != null) {
+                        Log.d("PhotoPicker", "Selected URI: " + uri);
+                        String base64Image = ImageUtils.convertImageUriToBase64(requireContext(), uri);
+                        List<String> listImage = new ArrayList<>();
+                        listImage.add(base64Image);
+
+                        if (gardenId != null) {
+                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
+                                    gardenId,
+                                    new GardenReq(
+                                            null,
+                                            null,
+                                            listImage)));
+                            loadGarden();
+                        } else {
+                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
+                                    null,
+                                    new GardenReq(
+                                            null,
+                                            null,
+                                            listImage)));
+                        }
+                    } else {
+                        Log.d("PhotoPicker", "No media selected");
+                    }
+                }
+            });
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentGardentEditBinding.inflate(inflater, container, false);
+        gardenId = GardentEditFragmentArgs.fromBundle(getArguments()).getId();
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        gardenEditViewModel = new ViewModelProvider(this).get(GardenEditViewModel.class);
+
+        setupRecyclerView();
+        setupBackPressed();
+        setupToolbar();
+        obeserveState();
+        loadGarden();
+        setupSwipeRefresh();
+        setupClickListener();
+    }
+
+    private void setupSwipeRefresh() {
+        binding.srlGardenEdit.setOnRefreshListener(() -> {
+            loadGarden();
+            binding.srlGardenEdit.setRefreshing(false);
+        });
+    }
+
+    private void setupClickListener() {
+        binding.tbGardenEdit.btnTambahTaman.setOnClickListener(v -> {
+            String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+            String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
+            List<String> imageUrl = new ArrayList<>();
+            GardenReq gardenReq = new GardenReq(gardenName, gardenType, imageUrl);
+            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
+            navigateBack();
+        });
+        if (gardenId == null) {
+            List<String> gardenType = Arrays.asList(
+                    GardenType.INDOOR.getValue(),
+                    GardenType.OUTDOOR.getValue()
+            );
+            binding.btnTipeTaman.setText(gardenType.get(0));
+            binding.btnTipeTaman.setOnClickListener(v -> {
+                if (binding.btnTipeTaman.getText().toString().equals(gardenType.get(0))) {
+                    binding.btnTipeTaman.setText(gardenType.get(1));
+                } else {
+                    binding.btnTipeTaman.setText(gardenType.get(0));
+                }
+            });
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gardent_edit, container, false);
+    private void navigateToPlantDetail(String gardenId) {
+        NavDirections directions = GardentEditFragmentDirections.actionGardentEditFragmentToPlantDetailFragment(gardenId, null, true);
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(directions);
+    }
+
+    private void setupToolbar() {
+        if (gardenId == null) {
+            binding.tbGardenEdit.tvTitle.setText(getString(R.string.label_tambah_taman));
+        } else {
+            binding.tbGardenEdit.tvTitle.setText(getString(R.string.label_edit_taman));
+        }
+
+        binding.tbGardenEdit.toolbar.setNavigationOnClickListener(v -> navigateBack());
+    }
+
+    private void setupBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                navigateBack();
+            }
+        });
+    }
+
+    private void navigateBack() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
+    }
+
+    private void obeserveState() {
+        if (gardenId == null) {
+            List<GardenGalleryModel> gardenPhotosModel = new ArrayList<>();
+            gardenPhotosModel.add(new GardenGalleryModel("Add"));
+            getGardenAdapter().submitList(gardenPhotosModel);
+
+            List<PlantResModel> plantModels = new ArrayList<>();
+            plantModels.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
+            getPlantAdapter().submitList(plantModels);
+
+            binding.tvLabelTanaman.setVisibility(View.GONE);
+        }
+        gardenEditViewModel.getGardenDetail().observe(getViewLifecycleOwner(), gardenDetail -> {
+            if (gardenDetail != null) {
+                binding.tietInput.setText(gardenDetail.getName());
+                String formattedType = gardenDetail.getType()
+                        .substring(0, 1).toUpperCase(Locale.ROOT) +
+                        gardenDetail.getType().substring(1).toLowerCase(Locale.ROOT);
+                binding.btnTipeTaman.setText(formattedType);
+                List<GardenGalleryModel> gardenPhotosModel = new ArrayList<>();
+                for (String urlImage : gardenDetail.getUrlImage()) {
+                    GardenGalleryModel photosModel = new GardenGalleryModel(urlImage);
+                    gardenPhotosModel.add(photosModel);
+                }
+                gardenPhotosModel.add(new GardenGalleryModel("Add"));
+                getGardenAdapter().submitList(gardenPhotosModel);
+            }
+        });
+        if (gardenId != null) {
+            gardenEditViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
+                if (plantModels != null) {
+                    List<PlantResModel> plantModelList = new ArrayList<>(plantModels.getPlants());
+                    plantModelList.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
+                    getPlantAdapter().submitList(plantModelList);
+                }
+            });
+        }
+
+    }
+
+    private void setupRecyclerView() {
+        if (gardenId != null) {
+            binding.rvPlant.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            binding.rvPlant.setAdapter(getPlantAdapter());
+        }
+
+        binding.rvGalery.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvGalery.setAdapter(getGardenAdapter());
+    }
+
+    private void loadGarden() {
+        if (gardenId != null) {
+            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnLoadGarden(gardenId));
+        }
     }
 }

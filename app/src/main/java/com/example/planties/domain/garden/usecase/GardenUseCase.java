@@ -25,14 +25,34 @@ public class GardenUseCase {
         this.gardenRepository = gardenRepository;
     }
 
-    public void getGardens(final ResponseCallback<List<GardenModel>> responseCallback) {
-        gardenRepository.getGardens(new ResponseCallback<GardenListRes>() {
+    public void getGardens(String sorting, String type, final ResponseCallback<List<GardenModel>> responseCallback) {
+        gardenRepository.getGardens(sorting,type, new ResponseCallback<GardenListRes>() {
             //Mapping
             @Override
             public void onSuccess(BaseResultResponse<GardenListRes> response) {
                 if (response.isSuccess()) {
                     GardenListRes gardenRes = response.getData();
                     List<GardenModel> gardenModels = GardenMapper.mapToModelList(gardenRes.getData().getGardens());
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, gardenModels, response.getMessage(), response.getCode()));
+                }
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<GardenListRes> response) {
+                responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, response.getMessage(), response.getCode()));
+            }
+        });
+    }
+
+    public void getGardensAll(final ResponseCallback<List<GardenModel>> responseCallback) {
+        gardenRepository.getGardensAll(new ResponseCallback<GardenListRes>() {
+            //Mapping
+            @Override
+            public void onSuccess(BaseResultResponse<GardenListRes> response) {
+                if (response.isSuccess()) {
+                    GardenListRes gardenRes = response.getData();
+                    List<GardenModel> gardenModels = GardenMapper.mapToModelList(gardenRes.getData().getGardens());
+                    Log.d("GardenUseCase", "onSuccess: " + gardenModels.size());
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, gardenModels, response.getMessage(), response.getCode()));
                 }
             }
