@@ -89,7 +89,10 @@ public class HomeFragment extends Fragment {
 
     private void setupClickListener() {
         binding.btnTambahTaman.setOnClickListener(v -> {
-            navigateToGardenEdit(null);
+            navigateToGardenEdit();
+        });
+        binding.sivProfile.setOnClickListener(v -> {
+            navigateToProfile();
         });
     }
 
@@ -165,9 +168,16 @@ public class HomeFragment extends Fragment {
         navController.navigate(directions);
     }
 
-    private void navigateToGardenEdit(String gardenId) {
-        Log.d("HomeFragment", "navigateToGardenEdit: " + gardenId);
-        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToGardentEditFragment(gardenId);
+    private void navigateToGardenEdit() {
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToGardentEditFragment(null);
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
+    private void navigateToProfile(){
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToProfileFragment();
 
         NavController navController = Navigation.findNavController(requireView());
 

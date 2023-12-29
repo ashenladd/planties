@@ -183,6 +183,7 @@
     <dimen name="height_5dp">5dp</dimen>
     <dimen name="height_4dp">4dp</dimen>
 
+    <dimen name="corner_1dp">1dp</dimen>
     <dimen name="corner_4dp">4dp</dimen>
     <dimen name="corner_8dp">8dp</dimen>
     <dimen name="corner_10dp">10dp</dimen>

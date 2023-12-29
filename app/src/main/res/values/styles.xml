@@ -42,7 +42,7 @@
     </style>
 
     <style name="Widget.Planties.Button.Full.Danger" parent="Widget.Planties.Button.Full">
-        <item name="android:background">@drawable/bg_user_info</item>
+        <item name="android:background">@drawable/bg_button_danger</item>
         <item name="android:textColor">@color/Red500</item>
     </style>
 

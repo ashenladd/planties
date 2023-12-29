@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
+
     <include
         android:id="@+id/tb_scan"
         layout="@layout/layout_toolbar_text"
@@ -11,6 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/siv_profile"
         android:layout_width="@dimen/size_130dp"
@@ -22,48 +24,54 @@
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars"
         app:layout_constraintTop_toBottomOf="@+id/tb_scan"/>
+
     <LinearLayout
         android:id="@+id/box_plant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/margin_24dp"
-        app:layout_constraintTop_toBottomOf="@+id/siv_profile">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_user_info"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="26dp"            android:layout_marginRight="6dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/tb_scan">
+        app:layout_constraintTop_toBottomOf="@+id/siv_profile"
+        android:baselineAligned="false">
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tanaman"
-                android:textColor="@color/Neutral3"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/descriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="34"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_user_info"
             android:paddingHorizontal="24dp"
             android:paddingVertical="26dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tb_scan">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="133dp"
+                android:layout_height="wrap_content"
+                android:text="@string/label_tanaman"
+                android:textAppearance="@style/TextAppearance.Planties.Caption1"
+                android:textSize="@dimen/font_14sp"
+                android:textColor="@color/Neutral3"/>
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="23"
+                android:textAppearance="@style/TextAppearance.Planties.TittleNavigationBar"
+                android:textSize="@dimen/font_18sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_user_info"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="26dp"
+            android:layout_marginEnd="6dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/tb_scan">
 
@@ -71,25 +79,31 @@
                 android:id="@+id/titleGarden"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kebun"
-                android:textColor="@color/Neutral3"
-                android:textSize="16sp" />
+                android:text="@string/label_kebun"
+                android:textAppearance="@style/TextAppearance.Planties.Caption1"
+                android:textSize="@dimen/font_14sp"
+                android:textColor="@color/Neutral3" />
 
             <TextView
                 android:id="@+id/descriptionGarden"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="34"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                tools:text="2"
+                android:textAppearance="@style/TextAppearance.Planties.TittleNavigationBar"
+                android:textSize="@dimen/font_18sp" />
 
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_logout"
-        style="@style/Widget.Planties.Button.Full.Danger"
+        style="@style/Widget.Planties.Button"
+        android:background="@drawable/bg_button_danger"
+        android:paddingVertical="@dimen/margin_16dp"
+        android:textAppearance="@style/TextAppearance.Planties.Button1"
+        android:textColor="@color/Red500"
         android:layout_width="match_parent"
+        android:drawableStart="@drawable/ic_logout"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_24dp"
         android:text="@string/label_log_out"

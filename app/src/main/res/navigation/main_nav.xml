@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_gardentEditFragment"
             app:destination="@id/gardentEditFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
