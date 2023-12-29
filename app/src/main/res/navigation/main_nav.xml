@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/homeFragment2">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.planties.features.auth.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment2"
             app:destination="@id/registerFragment2" />
@@ -20,7 +20,7 @@
         android:id="@+id/homeFragment2"
         android:name="com.example.planties.features.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment2_to_gardenDetailFragment"
             app:destination="@id/gardenDetailFragment" />
@@ -35,7 +35,7 @@
         android:id="@+id/registerFragment2"
         android:name="com.example.planties.features.auth.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment2_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -44,7 +44,7 @@
         android:id="@+id/plantDetailFragment"
         android:name="com.example.planties.features.plant_care.plant_detail.PlantDetailFragment"
         android:label="fragment_plant_detail"
-        tools:layout="@layout/fragment_plant_detail" >
+        tools:layout="@layout/fragment_plant_detail">
         <argument
             android:name="id"
             app:argType="string" />
@@ -53,7 +53,7 @@
         android:id="@+id/gardenDetailFragment"
         android:name="com.example.planties.features.plant_care.garden.detail.GardenDetailFragment"
         android:label="fragment_garden_detail"
-        tools:layout="@layout/fragment_garden_detail" >
+        tools:layout="@layout/fragment_garden_detail">
         <argument
             android:name="id"
             app:argType="string" />
@@ -68,4 +68,9 @@
         android:name="com.example.planties.features.plant_care.GardenFragment"
         android:label="fragment_garden"
         tools:layout="@layout/fragment_garden" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.planties.features.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
