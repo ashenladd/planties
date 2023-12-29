@@ -125,4 +125,17 @@ public class PlantDetailViewEvent {
             return gardenId;
         }
     }
+
+    public static class OnAddPostImage extends PlantDetailViewEvent {
+        private final String image;
+
+        public OnAddPostImage(String image) {
+            this.image = image;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+    }
 }

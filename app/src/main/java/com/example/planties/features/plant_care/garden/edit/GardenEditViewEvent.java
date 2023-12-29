@@ -20,4 +20,14 @@ public class GardenEditViewEvent {
             this.gardenReq = gardenReq;
         }
     }
+
+    public static class OnAddImage extends GardenEditViewEvent {
+        public String gardenId;
+        public GardenReq gardenReq;
+
+        public OnAddImage(String gardenId,  GardenReq gardenReq) {
+            this.gardenId = gardenId;
+            this.gardenReq = gardenReq;
+        }
+    }
 }

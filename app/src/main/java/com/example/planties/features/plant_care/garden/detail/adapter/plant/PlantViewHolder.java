@@ -15,8 +15,13 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PlantResModel item, PlantListener listener) {
-        binding.tvGarden.setText(item.getName());
-        ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
-        binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getGardenId(),item.getId(),false));
+        if (item.getUrlImage().isEmpty()) {
+            binding.tvGarden.setText(item.getName());
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getGardenId(), item.getId(), false));
+        } else {
+            binding.tvGarden.setText(item.getName());
+            ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getGardenId(), item.getId(), false));
+        }
     }
 }

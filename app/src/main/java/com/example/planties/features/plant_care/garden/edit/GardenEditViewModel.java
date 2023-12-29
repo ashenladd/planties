@@ -50,6 +50,12 @@ public class GardenEditViewModel extends ViewModel {
             }else{
                 putDetailGarden(((GardenEditViewEvent.OnSaveEdit) event).gardenId,((GardenEditViewEvent.OnSaveEdit) event).gardenReq);
             }
+        }else if(event instanceof GardenEditViewEvent.OnAddImage){
+            if (((GardenEditViewEvent.OnAddImage) event).gardenId == null) {
+                postGarden(((GardenEditViewEvent.OnAddImage) event).gardenReq);
+            }else{
+                putDetailGarden(((GardenEditViewEvent.OnAddImage) event).gardenId,((GardenEditViewEvent.OnAddImage) event).gardenReq);
+            }
         }
     }
 

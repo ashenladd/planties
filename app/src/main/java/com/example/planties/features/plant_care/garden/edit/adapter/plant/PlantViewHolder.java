@@ -22,19 +22,25 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PlantResModel item, PlantListener listener) {
-        if (!Objects.equals(item.getId(), "Add")){
-            float dip = 100f;
-            Resources r = itemView.getResources();
-            float px = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    dip,
-                    r.getDisplayMetrics()
-            );
-            binding.sivPlant.getLayoutParams().width = ((int) px);
-            binding.sivPlant.requestLayout();
-            binding.tvGarden.setText(item.getName());
-            ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
-        }else{
+        float dip = 100f;
+        Resources r = itemView.getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        if (!Objects.equals(item.getId(), "Add")) {
+            if (item.getUrlImage().isEmpty()) {
+                binding.sivPlant.getLayoutParams().width = ((int) px);
+                binding.sivPlant.requestLayout();
+                binding.tvGarden.setText(item.getName());
+            } else {
+                binding.sivPlant.getLayoutParams().width = ((int) px);
+                binding.sivPlant.requestLayout();
+                binding.tvGarden.setText(item.getName());
+                ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getUrlImage().get(0));
+            }
+        } else {
             binding.sivPlant.setImageResource(R.drawable.img_add_plant);
             Log.d("PlantViewHolder", "bind: " + item.getGardenId());
             binding.sivPlant.setOnClickListener(v -> listener.onItemClick(item.getGardenId()));

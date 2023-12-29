@@ -13,7 +13,7 @@
         android:background="@drawable/bg_button_netral1_active"
         android:drawableEnd="@drawable/ic_sort"
         android:drawablePadding="@dimen/margin_6dp"
-        android:text="@string/label_terburuk"
+        android:text="@string/label_terbaru"
         android:textColor="@color/Neutral5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

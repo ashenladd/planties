@@ -1,5 +1,7 @@
 package com.example.planties.features.plant_care.plant_detail;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -15,6 +17,8 @@ import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -37,14 +41,23 @@ public class PlantDetailViewModel extends ViewModel {
     public LiveData<PlantResModel> getPlantDetail() {
         return plantDetail;
     }
+
     private MutableLiveData<GardenResModel> gardenDetail = new MutableLiveData<>();
 
     public LiveData<GardenResModel> getGardenDetail() {
         return gardenDetail;
     }
+
     private MutableLiveData<Boolean> isEdit = new MutableLiveData<>(false);
+
     public LiveData<Boolean> getIsEdit() {
         return isEdit;
+    }
+
+    private MutableLiveData<List<String>> imageList = new MutableLiveData<>();
+
+    public LiveData<List<String>> getImageList() {
+        return imageList;
     }
 
     public void processEvent(PlantDetailViewEvent event) {
@@ -52,23 +65,34 @@ public class PlantDetailViewModel extends ViewModel {
             putDetailPlant(((PlantDetailViewEvent.OnSaveEdit) event).getGardenId(),
                     ((PlantDetailViewEvent.OnSaveEdit) event).getPlantId(),
                     ((PlantDetailViewEvent.OnSaveEdit) event).getPlantReq());
-        }else if (event instanceof PlantDetailViewEvent.OnLoadPlant) {
+        } else if (event instanceof PlantDetailViewEvent.OnLoadPlant) {
             getDetailPlant(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId(),
                     ((PlantDetailViewEvent.OnLoadPlant) event).getPlantId());
             getDetailGarden(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
-        }else if (event instanceof PlantDetailViewEvent.OnClickEdit) {
+        } else if (event instanceof PlantDetailViewEvent.OnClickEdit) {
             isEdit.setValue(Boolean.FALSE.equals(isEdit.getValue()));
-        }else if(event instanceof PlantDetailViewEvent.OnAddImage) {
-            if (((PlantDetailViewEvent.OnAddImage) event).getPlantId() == null){
-                postDetailPlant(((PlantDetailViewEvent.OnAddImage) event).getGardenId(),
-                        ((PlantDetailViewEvent.OnAddImage) event).getPlantReq().mapToPlantReq(Objects.requireNonNull(getGardenDetail().getValue()).getName(),getGardenDetail().getValue().getType()));
-            }else{
-                putDetailPlant(((PlantDetailViewEvent.OnAddImage) event).getGardenId(),
-                        ((PlantDetailViewEvent.OnAddImage) event).getPlantId(),
-                        ((PlantDetailViewEvent.OnAddImage) event).getPlantReq());
-            }
-        }else if(event instanceof PlantDetailViewEvent.OnLoadGarden) {
+        } else if (event instanceof PlantDetailViewEvent.OnAddImage) {
+            putDetailPlant(((PlantDetailViewEvent.OnAddImage) event).getGardenId(),
+                    ((PlantDetailViewEvent.OnAddImage) event).getPlantId(),
+                    ((PlantDetailViewEvent.OnAddImage) event).getPlantReq());
+        } else if (event instanceof PlantDetailViewEvent.OnLoadGarden) {
             getDetailGarden(((PlantDetailViewEvent.OnLoadGarden) event).getGardenId());
+        } else if (event instanceof PlantDetailViewEvent.OnAddPostImage) {
+            List<String> list = imageList.getValue();
+
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+
+            String newImage = ((PlantDetailViewEvent.OnAddPostImage) event).getImage();
+            Log.d("PlantDetailViewModel", "processEvent: " + newImage);
+
+            list.add(newImage);
+
+            imageList.postValue(list);
+        } else if (event instanceof PlantDetailViewEvent.OnAddPlant) {
+            postDetailPlant(((PlantDetailViewEvent.OnAddPlant) event).getGardenId(),
+                    ((PlantDetailViewEvent.OnAddPlant) event).getPlantReq());
         }
     }
 
@@ -113,6 +137,7 @@ public class PlantDetailViewModel extends ViewModel {
             }
         });
     }
+
     private void putDetailPlant(String gardenId, String plantId, PlantReqPut plantReq) {
         plantUseCase.putPlant(gardenId, plantId, plantReq, new ResponseCallback<PlantDetailRes>() {
             @Override

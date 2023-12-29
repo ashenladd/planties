@@ -1,5 +1,7 @@
 package com.example.planties.features.plant_care.garden.edit;
 
+import static com.example.planties.core.utils.ScreenUtils.getScreenWidth;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,14 +27,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.planties.R;
 import com.example.planties.core.GardenType;
+import com.example.planties.core.utils.ImageUtils;
 import com.example.planties.data.garden.remote.dto.GardenReq;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.databinding.FragmentGardentEditBinding;
-import com.example.planties.features.plant_care.GardenFragmentDirections;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenAdapter;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenGalleryModel;
 import com.example.planties.features.plant_care.garden.edit.adapter.plant.PlantAdapter;
-import com.example.planties.features.utils.SpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,7 @@ public class GardentEditFragment extends Fragment {
 
     private GardenAdapter getGardenAdapter() {
         if (gardenAdapter == null) {
-            gardenAdapter = new GardenAdapter();
+            gardenAdapter = new GardenAdapter(pickMedia);
         }
         return gardenAdapter;
     }
@@ -72,6 +73,26 @@ public class GardentEditFragment extends Fragment {
                 public void onActivityResult(Uri uri) {
                     if (uri != null) {
                         Log.d("PhotoPicker", "Selected URI: " + uri);
+                        String base64Image = ImageUtils.convertImageUriToBase64(requireContext(), uri);
+                        List<String> listImage = new ArrayList<>();
+                        listImage.add(base64Image);
+
+                        if (gardenId != null) {
+                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
+                                    gardenId,
+                                    new GardenReq(
+                                            null,
+                                            null,
+                                            listImage)));
+                            loadGarden();
+                        } else {
+                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
+                                    null,
+                                    new GardenReq(
+                                            null,
+                                            null,
+                                            listImage)));
+                        }
                     } else {
                         Log.d("PhotoPicker", "No media selected");
                     }
@@ -97,7 +118,15 @@ public class GardentEditFragment extends Fragment {
         setupToolbar();
         obeserveState();
         loadGarden();
+        setupSwipeRefresh();
         setupClickListener();
+    }
+
+    private void setupSwipeRefresh() {
+        binding.srlGardenEdit.setOnRefreshListener(() -> {
+            loadGarden();
+            binding.srlGardenEdit.setRefreshing(false);
+        });
     }
 
     private void setupClickListener() {
@@ -126,7 +155,7 @@ public class GardentEditFragment extends Fragment {
     }
 
     private void navigateToPlantDetail(String gardenId) {
-        NavDirections directions = GardentEditFragmentDirections.actionGardentEditFragmentToPlantDetailFragment(gardenId, null,true);
+        NavDirections directions = GardentEditFragmentDirections.actionGardentEditFragmentToPlantDetailFragment(gardenId, null, true);
         NavController navController = Navigation.findNavController(requireView());
         navController.navigate(directions);
     }
@@ -164,6 +193,8 @@ public class GardentEditFragment extends Fragment {
             List<PlantResModel> plantModels = new ArrayList<>();
             plantModels.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
             getPlantAdapter().submitList(plantModels);
+
+            binding.tvLabelTanaman.setVisibility(View.GONE);
         }
         gardenEditViewModel.getGardenDetail().observe(getViewLifecycleOwner(), gardenDetail -> {
             if (gardenDetail != null) {
@@ -181,18 +212,23 @@ public class GardentEditFragment extends Fragment {
                 getGardenAdapter().submitList(gardenPhotosModel);
             }
         });
-        gardenEditViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
-            if (plantModels != null) {
-                List<PlantResModel> plantModelList = new ArrayList<>(plantModels.getPlants());
-                plantModelList.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
-                getPlantAdapter().submitList(plantModelList);
-            }
-        });
+        if (gardenId != null) {
+            gardenEditViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
+                if (plantModels != null) {
+                    List<PlantResModel> plantModelList = new ArrayList<>(plantModels.getPlants());
+                    plantModelList.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
+                    getPlantAdapter().submitList(plantModelList);
+                }
+            });
+        }
+
     }
 
     private void setupRecyclerView() {
-        binding.rvPlant.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-        binding.rvPlant.setAdapter(getPlantAdapter());
+        if (gardenId != null) {
+            binding.rvPlant.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            binding.rvPlant.setAdapter(getPlantAdapter());
+        }
 
         binding.rvGalery.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvGalery.setAdapter(getGardenAdapter());

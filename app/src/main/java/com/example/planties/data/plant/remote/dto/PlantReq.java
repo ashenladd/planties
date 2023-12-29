@@ -11,7 +11,7 @@ public class PlantReq {
     @SerializedName("banner")
     public String banner;
 
-    @SerializedName("dob")
+    @SerializedName("date")
     public String dob;
 
     @SerializedName("type")

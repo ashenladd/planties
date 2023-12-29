@@ -22,8 +22,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.planties.core.TanamanType;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.core.utils.ImageUtils;
+import com.example.planties.core.utils.TimeUtils;
 import com.example.planties.data.plant.remote.dto.PlantReq;
 import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.databinding.FragmentPlantDetailBinding;
@@ -88,28 +90,24 @@ public class PlantDetailFragment extends Fragment {
                         List<String> listImage = new ArrayList<>();
                         listImage.add(base64Image);
 
-                        if (plantId != null){
+                        if (plantId != null) {
+                            String PlantName;
+                            if (!Objects.requireNonNull(binding.tietInput.getText()).toString().isEmpty()) {
+                                PlantName = binding.tietInput.getText().toString();
+                            } else {
+                                PlantName = Objects.requireNonNull(plantDetailViewModel.getPlantDetail().getValue()).getName();
+                            }
                             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddImage(
                                     gardenId,
                                     plantId,
                                     new PlantReqPut(
-                                            Objects.requireNonNull(plantDetailViewModel.getPlantDetail().getValue()).getName(),
-                                            plantDetailViewModel.getPlantDetail().getValue().getBanner(),
+                                            PlantName,
+                                            PlantName,
                                             listImage)));
-
                             plantDetailViewModel.getPlantDetail();
                         }else{
-                            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddImage(
-                                    gardenId,
-                                    plantId,
-                                    new PlantReqPut(
-                                            Objects.requireNonNull(binding.tietInput.getText()).toString(),
-                                            Objects.requireNonNull(binding.tietInput.getText()).toString(),
-                                            listImage)));
-
-                            plantDetailViewModel.getPlantDetail();
+                            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddPostImage(base64Image));
                         }
-
                     } else {
                         Log.d("PhotoPicker", "No media selected");
                     }
@@ -125,17 +123,28 @@ public class PlantDetailFragment extends Fragment {
     }
 
     private void setupClickListener() {
-        binding.toolbarEdit.ivEdit.setOnClickListener(v -> {
+        if (plantId == null) {
+            binding.toolbarSave.toolbar.setNavigationOnClickListener(v -> {
+                navigateBack();
+            });
             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
-        });
-        binding.toolbarEdit.toolbar.setNavigationOnClickListener(v -> navigateBack());
-        binding.toolbarSave.toolbar.setNavigationOnClickListener(v -> {
-            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
-        });
-        binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
-            if (plantId == null) {
-                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddPlant(gardenId, new PlantReq("", "", "", "", new ArrayList<>())));
-            } else {
+            binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
+                plantDetailViewModel.processEvent(
+                        new PlantDetailViewEvent.OnAddPlant(
+                                gardenId,
+                                new PlantReq(
+                                        Objects.requireNonNull(binding.tietInput.getText()).toString(),
+                                        binding.tietInput.getText().toString(),
+                                        TimeUtils.TimeNow(),
+                                        TanamanType.TANAMAN_BERBUNGA.getValue(),
+                                        plantDetailViewModel.getImageList().getValue())));
+                navigateBack();
+            });
+        } else {
+            binding.toolbarSave.toolbar.setNavigationOnClickListener(v -> {
+                plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
+            });
+            binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
                 plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnSaveEdit(
                         gardenId,
                         plantId,
@@ -144,9 +153,16 @@ public class PlantDetailFragment extends Fragment {
                                 Objects.requireNonNull(plantDetailViewModel.getPlantDetail().getValue()).getBanner(),
                                 null)));
                 plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
-            }
+            });
+
+        }
+
+        binding.toolbarEdit.ivEdit.setOnClickListener(v -> {
+            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
         });
+        binding.toolbarEdit.toolbar.setNavigationOnClickListener(v -> navigateBack());
     }
+
 
     private void setupBackPressed() {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
@@ -167,6 +183,16 @@ public class PlantDetailFragment extends Fragment {
             List<PlantModel> plantModelList = new ArrayList<>();
             plantModelList.add(new PlantModel("Add"));
             getPlantAdapter().submitList(plantModelList);
+            Log.d("PlantDetailFragment", "ObserveStateImage: " + plantModelList.size());
+            plantDetailViewModel.getImageList().observe(getViewLifecycleOwner(), imageList -> {
+//                Log.d("PlantDetailFragment", "ObserveStateImageList: " + imageList.size());
+                List<PlantModel> plantImageList = new ArrayList<>();
+                for (String urlImage : imageList) {
+                    plantImageList.add(new PlantModel(urlImage));
+                }
+                plantImageList.add(new PlantModel("Add"));
+                getPlantAdapter().submitList(plantImageList);
+            });
         }
         plantDetailViewModel.getPlantDetail().observe(getViewLifecycleOwner(), plantDetail -> {
             if (plantDetail != null) {
@@ -177,7 +203,9 @@ public class PlantDetailFragment extends Fragment {
                 plantModelList.add(new PlantModel("Add"));
                 getPlantAdapter().submitList(plantModelList);
                 binding.tvPlantName.setText(plantDetail.getName());
-                ImageExtensions.loadPlantImage(binding.ivPlant, requireContext(), plantDetail.getUrlImage().get(0));
+                if (!plantDetail.getUrlImage().isEmpty()) {
+                    ImageExtensions.loadPlantImage(binding.ivPlant, requireContext(), plantDetail.getUrlImage().get(0));
+                }
             }
         });
 

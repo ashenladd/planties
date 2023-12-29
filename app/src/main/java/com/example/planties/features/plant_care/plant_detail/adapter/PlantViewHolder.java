@@ -1,11 +1,14 @@
 package com.example.planties.features.plant_care.plant_detail.adapter;
 
+import android.util.Log;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.R;
 import com.example.planties.core.utils.ImageExtensions;
+import com.example.planties.core.utils.ImageUtils;
 import com.example.planties.databinding.ItemPlantBinding;
 
 import java.util.Objects;
@@ -21,15 +24,17 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PlantModel item) {
-        if(item.getImage().equals("Add")){
+        if (item.getImage().equals("Add")) {
             binding.sivPlant.setImageResource(R.drawable.img_add_photo);
             binding.sivPlant.setOnClickListener(v -> {
                 launchPhotoPicker();
             });
-
-        }else if(!Objects.equals(item.getImage(), "")){
+        } else if (!Objects.equals(item.getImage(), "")) {
+            if (item.getImage().contains("http")){
                 ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getImage());
-
+            }else{
+                binding.sivPlant.setImageBitmap(ImageUtils.convertBase64ToImage(item.getImage()));
+            }
         }
     }
 
