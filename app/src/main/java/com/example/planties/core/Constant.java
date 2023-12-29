@@ -10,5 +10,6 @@ public class Constant {
     public static final String DETAIL_PLANT = "/gardens/{gardenId}/plants/{plantId}";
     public static final String PROFILE = "/profile";
     public static final String OXYGEN = "/oxygen";
+    public static final String USER = "/users";
 }
 

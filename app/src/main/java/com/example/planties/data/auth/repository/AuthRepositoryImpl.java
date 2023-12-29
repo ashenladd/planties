@@ -10,7 +10,9 @@ import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
 import com.example.planties.data.auth.remote.AuthRemoteDataSource;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
-import com.example.planties.data.auth.remote.dto.AuthResponse;
+import com.example.planties.data.auth.remote.dto.LoginResponse;
+import com.example.planties.data.auth.remote.dto.RegisterRequest;
+import com.example.planties.data.auth.remote.dto.RegisterResponse;
 import com.example.planties.domain.auth.repository.AuthRepository;
 
 import javax.inject.Inject;
@@ -23,6 +25,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     private final AuthRemoteDataSource authRemoteDataSource;
     private final TokenHandler tokenHandler;
 
+
     @Inject
     public AuthRepositoryImpl(AuthRemoteDataSource authRemoteDataSource, TokenHandler tokenHandler) {
         this.authRemoteDataSource = authRemoteDataSource;
@@ -31,21 +34,21 @@ public class AuthRepositoryImpl implements AuthRepository {
 
 
     @Override
-    public void login(AuthRequest authRequest, ResponseCallback<AuthResponse> responseCallback) {
-        authRemoteDataSource.postLogin(authRequest).enqueue(new Callback<AuthResponse>() {
+    public void login(AuthRequest authRequest, ResponseCallback<LoginResponse> responseCallback) {
+        authRemoteDataSource.postLogin(authRequest).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                    AuthResponse authResponse = response.body();
-                    if (authResponse == null) {
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse == null) {
                         responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
                         return;
                     }
-                    String accessToken = authResponse.data.accessToken;
-                    String refreshToken = authResponse.data.refreshToken;
+                    String accessToken = loginResponse.data.accessToken;
+                    String refreshToken = loginResponse.data.refreshToken;
                     tokenHandler.saveAccessToken(accessToken);
                     tokenHandler.saveRefreshToken(refreshToken);
-                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, authResponse, "success", response.code()));
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, loginResponse, "success", response.code()));
                 } else {
                     tokenHandler.clearAccessToken();
                     responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
@@ -53,8 +56,37 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<LoginResponse> call, Throwable t) {
                 responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
+            }
+        });
+    }
+
+    @Override
+    public void register(RegisterRequest registerRequest, ResponseCallback<RegisterResponse> responseCallback) {
+        authRemoteDataSource.postRegister(registerRequest).enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
+                if (response.isSuccessful()) {
+                    RegisterResponse registerResponse = response.body();
+                    if (registerResponse == null) {
+                        responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
+                        return;
+                    }
+                    String accessToken = registerResponse.data.accessToken;
+                    String refreshToken = registerResponse.data.refreshToken;
+                    tokenHandler.saveAccessToken(accessToken);
+                    tokenHandler.saveRefreshToken(refreshToken);
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, registerResponse, "success", response.code()));
+                } else {
+                    tokenHandler.clearAccessToken();
+                    responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Auth Failed", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RegisterResponse> call, Throwable t) {
+                Log.d("debugLog", "Failed To Call Api");
             }
         });
     }

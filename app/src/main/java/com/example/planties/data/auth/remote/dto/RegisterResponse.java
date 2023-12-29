@@ -1,10 +1,7 @@
 package com.example.planties.data.auth.remote.dto;
-
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AuthResponse {
-
+public class RegisterResponse {
     @SerializedName("status")
     public String status;
 
@@ -13,5 +10,5 @@ public class AuthResponse {
 
     @SerializedName("message")
     public String message;
+};
 
-}

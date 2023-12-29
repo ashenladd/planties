@@ -83,10 +83,7 @@ public class ScanViewModel extends ViewModel {
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
                         String msg = "Photo capture succeeded: " + output.getSavedUri();
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, msg);
-
                         capturedImagePath.setValue(output.getSavedUri());
-                        Log.d(TAG, "onImageSaved: " + capturedImagePath.getValue());
                     }
                 }
         );

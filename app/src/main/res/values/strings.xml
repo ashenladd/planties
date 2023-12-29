@@ -2,6 +2,7 @@
     <string name="app_name">planties</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_log_in">Log In</string>
+    <string name="label_log_out">Log Out</string>
     <string name="label_wellcome_back">Wellcome back 👋</string>
     <string name="label_email_address">Email address</string>
     <string name="label_password">Password</string>
