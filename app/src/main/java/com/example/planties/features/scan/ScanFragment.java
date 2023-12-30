@@ -1,7 +1,6 @@
 package com.example.planties.features.scan;
 
 import android.Manifest;
-import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +31,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -79,7 +77,7 @@ public class ScanFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         scanViewModel = new ViewModelProvider(this).get(ScanViewModel.class);
-        
+
         setupBackPressed();
         setupToolbaar();
         setupPermissions();
@@ -104,7 +102,7 @@ public class ScanFragment extends Fragment {
         });
     }
 
-    private void navigateBack(){
+    private void navigateBack() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigateUp();
     }
@@ -118,8 +116,7 @@ public class ScanFragment extends Fragment {
             binding.tvAction.setText(R.string.label_mendiagnosis_tanamanmu);
             binding.clDiagnosis.setVisibility(View.GONE);
 
-            //Delete Image
-            ImageUtils.deleteImage(requireContext(), ContentUris.parseId(Objects.requireNonNull(scanViewModel.getCapturedImagePath().getValue())));
+            scanViewModel.processEvent(new ScanViewEvent.OnDiagnose(scanViewModel.getCapturedImagePath().getValue(), requireContext()));
         });
     }
 
@@ -131,7 +128,28 @@ public class ScanFragment extends Fragment {
                 binding.cvPreview.setVisibility(View.VISIBLE);
                 binding.tvAction.setVisibility(View.VISIBLE);
                 binding.clDiagnosis.setVisibility(View.VISIBLE);
+                binding.tvAiConfident.setVisibility(View.VISIBLE);
                 ImageUtils.displayImage(requireContext(), path, binding.imgPreview);
+            }
+        });
+        scanViewModel.getScanResult().observe(getViewLifecycleOwner(), result -> {
+            if (result != null) {
+                binding.pbIdentifying.setVisibility(View.GONE);
+                binding.tvAction.setText(getString(R.string.label_selesai_diagnosis));
+                String pred = result.prediction;
+                if (pred.contains("healthy") || pred.contains("Healthy")) {
+                    binding.tvAiConfident.setVisibility(View.VISIBLE);
+                    binding.tvIdentifying.setText(pred);
+                    binding.ivMood.setImageResource(R.drawable.ic_smile);
+                    binding.ivMood.setVisibility(View.VISIBLE);
+                    binding.tvAiConfident.setText(getString(R.string.format_ai_confident, result.confidence));
+                } else {
+                    binding.tvAiConfident.setVisibility(View.VISIBLE);
+                    binding.tvIdentifying.setText(pred);
+                    binding.ivMood.setImageResource(R.drawable.ic_sad);
+                    binding.ivMood.setVisibility(View.VISIBLE);
+                    binding.tvAiConfident.setText(getString(R.string.format_ai_confident, result.confidence));
+                }
             }
         });
     }
@@ -143,6 +161,7 @@ public class ScanFragment extends Fragment {
             requestPermissions();
         }
     }
+
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(requireContext());
