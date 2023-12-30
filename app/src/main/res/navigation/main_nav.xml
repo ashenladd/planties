@@ -14,7 +14,9 @@
             app:destination="@id/registerFragment2" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
+            app:destination="@id/homeFragment2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment2"
@@ -39,6 +41,11 @@
         <action
             android:id="@+id/action_homeFragment2_to_leaderboardsFragment"
             app:destination="@id/leaderboardsFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_scanFragment"
+            app:destination="@id/scanFragment"
+            app:popUpTo="@id/homeFragment2"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
@@ -48,6 +55,11 @@
         <action
             android:id="@+id/action_registerFragment2_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment2_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/registerFragment2" />
     </fragment>
     <fragment
         android:id="@+id/plantDetailFragment"
@@ -84,7 +96,13 @@
         android:id="@+id/scanFragment"
         android:name="com.example.planties.features.scan.ScanFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scanFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpTo="@id/scanFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/gardenFragment"
         android:name="com.example.planties.features.plant_care.GardenFragment"
@@ -114,7 +132,9 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
         tools:layout="@layout/fragment_profile" />
     <fragment

@@ -18,6 +18,8 @@ import com.example.planties.R;
 import com.example.planties.databinding.FragmentLeaderboardsBinding;
 import com.example.planties.features.oxygen_leaderboard.adapter.LeaderboardsAdapter;
 
+import java.util.Locale;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -48,6 +50,7 @@ public class LeaderboardsFragment extends Fragment {
         leaderboardsViewModel = new ViewModelProvider(this).get(LeaderboardsViewModel.class);
         setupRecyclerView();
         observeState();
+        setupBackPressed();
         swipeRefreshLayout();
         setupToolbar();
     }
@@ -87,8 +90,9 @@ public class LeaderboardsFragment extends Fragment {
         leaderboardsViewModel.getUserLeaderboard().observe(getViewLifecycleOwner(), userLeaderboard -> {
             Log.d("LeaderboardsFragment", "observeState: " + userLeaderboard);
             if (userLeaderboard != null) {
+                String formattedOxygen = String.format(Locale.getDefault(), "%.2f", userLeaderboard.getOxygen());
                 binding.tvFormatPeringkat.setText(getString(R.string.format_peringkat, userLeaderboard.getRank()));
-                binding.tvDescDetailOxygen.setText(getString(R.string.format_menghasilkan_oksigen, userLeaderboard.getOxygen()));
+                binding.tvDescDetailOxygen.setText(getString(R.string.format_menghasilkan_oksigen, formattedOxygen));
             }
         });
     }

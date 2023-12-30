@@ -2,6 +2,7 @@ package com.example.planties.features.auth.login;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -45,6 +46,16 @@ public class LoginFragment extends Fragment {
 
         setupObserver();
         setupClickListener();
+        setupBackPressed();
+    }
+
+    private void setupBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        });
     }
 
     private void setupClickListener() {

@@ -6,10 +6,10 @@ public abstract class RegisterViewEvent {
     public static class RegisterButtonClicked extends RegisterViewEvent {
         private final String username, password, name;
 
-        public RegisterButtonClicked(String username, String password, String name) {
+        public RegisterButtonClicked(String name, String username, String password) {
+            this.name = name;
             this.username = username;
             this.password = password;
-            this.name = name;
         }
 
         public String getUsername() {

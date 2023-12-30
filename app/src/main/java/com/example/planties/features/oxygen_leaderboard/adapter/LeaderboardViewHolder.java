@@ -2,6 +2,7 @@ package com.example.planties.features.oxygen_leaderboard.adapter;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.R;
@@ -27,9 +28,12 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder{
             binding.clLeaderboard.setBackgroundResource(R.drawable.bg_container_leaderboard3);
         } else {
             binding.clLeaderboard.setBackgroundResource(R.drawable.bg_container_backgroundgrey_active);
+            binding.tvUser.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral5));
+            binding.tvOxygen.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral4));
+            binding.tvRank.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral3));
         }
         binding.tvUser.setText(item.getUsername());
         binding.tvOxygen.setText(String.format(Locale.getDefault(),"%.2f", item.getOxygen()));
-        binding.tvRank.setText(String.valueOf(item.getRank()));
+        binding.tvRank.setText(String.valueOf("#"+item.getRank()));
     }
 }
