@@ -90,4 +90,9 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
         });
     }
+
+    @Override
+    public void logout() {
+        tokenHandler.clearAccessToken();
+    }
 }
