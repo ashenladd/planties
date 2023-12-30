@@ -14,8 +14,10 @@ import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
 import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.data.reminder.remote.dto.ReminderResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
+import com.example.planties.domain.reminder.usecase.ReminderUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class PlantDetailViewModel extends ViewModel {
     private PlantUseCase plantUseCase;
     private GardenUseCase gardenUseCase;
+    private ReminderUseCase reminderUseCase;
 
     @Inject
-    public PlantDetailViewModel(PlantUseCase plantUseCase, GardenUseCase gardenUseCase) {
+    public PlantDetailViewModel(PlantUseCase plantUseCase, GardenUseCase gardenUseCase, ReminderUseCase reminderUseCase) {
         this.plantUseCase = plantUseCase;
         this.gardenUseCase = gardenUseCase;
+        this.reminderUseCase = reminderUseCase;
     }
 
     private MutableLiveData<PlantResModel> plantDetail = new MutableLiveData<>();
@@ -58,6 +62,12 @@ public class PlantDetailViewModel extends ViewModel {
 
     public LiveData<List<String>> getImageList() {
         return imageList;
+    }
+
+    private MutableLiveData<ReminderResModel> reminderDetail = new MutableLiveData<>();
+
+    public LiveData<ReminderResModel> getReminderDetail() {
+        return reminderDetail;
     }
 
     public void processEvent(PlantDetailViewEvent event) {
@@ -151,4 +161,18 @@ public class PlantDetailViewModel extends ViewModel {
             }
         });
     }
+
+//    private void getDetailReminder(String reminderId) {
+//        reminderUseCase.getDetailReminder(reminderId, new ResponseCallback<ReminderResModel>() {
+//            @Override
+//            public void onSuccess(BaseResultResponse<ReminderResModel> response) {
+//                reminderDetail.postValue(response.getData());
+//            }
+//
+//            @Override
+//            public void onFailure(BaseResultResponse<ReminderResModel> response) {
+//
+//            }
+//        });
+//    }
 }

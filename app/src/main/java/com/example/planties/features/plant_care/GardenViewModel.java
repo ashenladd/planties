@@ -7,14 +7,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.planties.core.GardenType;
-import com.example.planties.core.SortType;
+import com.example.planties.core.enum_type.GardenType;
+import com.example.planties.core.enum_type.SortType;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.domain.garden.model.GardenModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.features.utils.GardenFilter;
-import com.example.planties.features.utils.adapter.filter.FilterModel;
 
 import java.util.List;
 import java.util.Objects;

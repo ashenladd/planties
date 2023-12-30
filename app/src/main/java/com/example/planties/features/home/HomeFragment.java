@@ -130,6 +130,11 @@ public class HomeFragment extends Fragment {
         homeViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
             List<PlantResModel> plant = new ArrayList<>(plantModels.getPlants());
             getPlantAdapter().submitList(plant);
+            if(plant.size() == 0){
+                binding.cvEmptyStatePlant.setVisibility(View.VISIBLE);
+            }else {
+                binding.cvEmptyStatePlant.setVisibility(View.GONE);
+            }
         });
         homeViewModel.getPlantFilterList().observe(getViewLifecycleOwner(), filterModels -> {
             getFilterAdapter().submitList(filterModels);

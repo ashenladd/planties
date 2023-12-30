@@ -9,7 +9,10 @@ public class Constant {
     public static final String GARDEN_PLANT = "/gardens/{gardenId}/plants";
     public static final String DETAIL_PLANT = "/gardens/{gardenId}/plants/{plantId}";
     public static final String PROFILE = "/profile";
-    public static final String OXYGEN = "/oxygen";
+    public static final String LEADERBOARDS = "/leaderboards";
+    public static final String DETAIL_LEADERBOARD = "/leaderboards/{userId}";
     public static final String USER = "/users";
+    public static final String REMINDER = "gardens/{gardenId}/reminders";
+    public static final String DETAIL_REMINDER = "gardens/{gardenId}/reminders/{reminderId}";
 }
 

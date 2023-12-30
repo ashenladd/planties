@@ -36,5 +36,6 @@
     
     <color name="TextSubtitle">#FF9797AC</color>
     <color name="BackgroundGrey">#FFF8FAFC</color>
+    <color name="BackgroundEmptyState">#FFFDFDFD</color>
 
 </resources>

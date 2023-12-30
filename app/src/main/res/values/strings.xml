@@ -53,4 +53,5 @@
     <string name="label_masukkan_nama">Masukkan nama</string>
     <string name="label_terbaru">Terbaru</string>
     <string name="label_kebun">Kebun</string>
+    <string name="label_kamu_belum_memiliki_tanaman">Kamu belum memiliki tanaman! Ayo Tanam!</string>
 </resources>

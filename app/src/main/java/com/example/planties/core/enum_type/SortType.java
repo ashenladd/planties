@@ -1,4 +1,4 @@
-package com.example.planties.core;
+package com.example.planties.core.enum_type;
 
 public enum SortType {
     ASC("ASC"),

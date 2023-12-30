@@ -1,9 +1,8 @@
 package com.example.planties.features.plant_care.plant_detail.adapter;
 
-import android.util.Log;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.R;
@@ -30,16 +29,17 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
                 launchPhotoPicker();
             });
         } else if (!Objects.equals(item.getImage(), "")) {
-            if (item.getImage().contains("http")){
+            if (item.getImage().contains("http")) {
                 ImageExtensions.loadPlantImage(binding.sivPlant, binding.getRoot().getContext(), item.getImage());
-            }else{
+            } else {
                 binding.sivPlant.setImageBitmap(ImageUtils.convertBase64ToImage(item.getImage()));
             }
         }
     }
 
     private void launchPhotoPicker() {
-        PickVisualMediaRequest pickVisualMediaRequest = new PickVisualMediaRequest.Builder().build();
+        PickVisualMediaRequest pickVisualMediaRequest = new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build();
         pickMedia.launch(pickVisualMediaRequest);
     }
 }

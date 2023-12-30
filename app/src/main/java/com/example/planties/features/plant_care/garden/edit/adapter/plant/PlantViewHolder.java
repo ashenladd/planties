@@ -34,6 +34,7 @@ public class PlantViewHolder extends RecyclerView.ViewHolder {
                 binding.sivPlant.getLayoutParams().width = ((int) px);
                 binding.sivPlant.requestLayout();
                 binding.tvGarden.setText(item.getName());
+                binding.sivPlant.setImageResource(R.drawable.img_plants);
             } else {
                 binding.sivPlant.getLayoutParams().width = ((int) px);
                 binding.sivPlant.requestLayout();

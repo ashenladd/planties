@@ -22,7 +22,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.planties.core.TanamanType;
+import com.example.planties.core.enum_type.TanamanType;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.core.utils.ImageUtils;
 import com.example.planties.core.utils.TimeUtils;

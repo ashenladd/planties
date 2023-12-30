@@ -1,7 +1,5 @@
 package com.example.planties.features.plant_care.garden.edit;
 
-import static com.example.planties.core.utils.ScreenUtils.getScreenWidth;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,10 +24,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.planties.R;
-import com.example.planties.core.GardenType;
+import com.example.planties.core.enum_type.GardenType;
 import com.example.planties.core.utils.ImageUtils;
+import com.example.planties.core.utils.TimeUtils;
 import com.example.planties.data.garden.remote.dto.GardenReq;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.data.reminder.remote.dto.ReminderReq;
 import com.example.planties.databinding.FragmentGardentEditBinding;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenAdapter;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenGalleryModel;
@@ -92,6 +92,7 @@ public class GardentEditFragment extends Fragment {
                                             null,
                                             null,
                                             listImage)));
+                            loadGarden();
                         }
                     } else {
                         Log.d("PhotoPicker", "No media selected");
@@ -135,7 +136,8 @@ public class GardentEditFragment extends Fragment {
             String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
             List<String> imageUrl = new ArrayList<>();
             GardenReq gardenReq = new GardenReq(gardenName, gardenType, imageUrl);
-            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
+            ReminderReq reminderReq = new ReminderReq("Reminder " + gardenName, "watering", TimeUtils.TimeRandom60to180());
+            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq, reminderReq));
             navigateBack();
         });
         if (gardenId == null) {
