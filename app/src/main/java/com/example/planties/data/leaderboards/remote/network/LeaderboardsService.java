@@ -16,5 +16,5 @@ public interface LeaderboardsService {
     Call<LeaderboardsListRes> getLeaderboardsList(@HeaderMap Map<String, String> token);
 
     @GET(Constant.DETAIL_LEADERBOARD)
-    Call<LeaderboardsDetailRes> getDetailLeaderboards(@Path("userId") String userId, @HeaderMap Map<String, String> token);
+    Call<LeaderboardsDetailRes> getDetailLeaderboards(@HeaderMap Map<String, String> token);
 }

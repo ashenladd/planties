@@ -7,6 +7,6 @@ import retrofit2.Call;
 
 public interface LeaderboardsRemoteDataSource {
     Call<LeaderboardsListRes> getLeaderboardsList();
-    Call<LeaderboardsDetailRes> getDetailLeaderboards(String userId);
+    Call<LeaderboardsDetailRes> getDetailLeaderboards();
 
 }

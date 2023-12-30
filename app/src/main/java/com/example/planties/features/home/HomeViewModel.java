@@ -8,11 +8,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
+import com.example.planties.data.leaderboards.remote.dto.LeaderboardsDetailRes;
+import com.example.planties.data.leaderboards.remote.dto.LeaderboardsResModel;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
 import com.example.planties.data.plant.remote.dto.PlantResListDataModel;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.domain.garden.model.GardenModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
+import com.example.planties.domain.oxygen_leaderboard.usecase.LeaderboardsUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 import com.example.planties.domain.user.usecase.UserUseCase;
 import com.example.planties.features.utils.adapter.filter.FilterModel;
@@ -29,11 +32,13 @@ public class HomeViewModel extends ViewModel {
     private final GardenUseCase gardenUseCase;
     private final PlantUseCase plantUseCase;
     private final UserUseCase userUseCase;
+    private final LeaderboardsUseCase leaderboardsUseCase;
     private final MutableLiveData<UserDetailRes> user = new MutableLiveData<>();
     private final MutableLiveData<PlantResListDataModel> plantList = new MutableLiveData<>();
     private final MutableLiveData<List<GardenModel>> gardenList = new MutableLiveData<>();
     private final MutableLiveData<List<FilterModel>> plantFilterList = new MutableLiveData<>();
     private final MutableLiveData<String> selectedFilter = new MutableLiveData<>("Semua");
+    private final MutableLiveData<LeaderboardsResModel> leaderboards = new MutableLiveData<>();
 
     public LiveData<List<FilterModel>> getPlantFilterList() {
         return plantFilterList;
@@ -53,14 +58,19 @@ public class HomeViewModel extends ViewModel {
         return gardenList;
     }
 
+    public LiveData<LeaderboardsResModel> getLeaderboards() {
+        return leaderboards;
+    }
     @Inject
-    public HomeViewModel(GardenUseCase gardenUseCase, PlantUseCase plantUseCase, UserUseCase userUseCase) {
+    public HomeViewModel(GardenUseCase gardenUseCase, PlantUseCase plantUseCase, UserUseCase userUseCase, LeaderboardsUseCase leaderboardsUseCase) {
         this.gardenUseCase = gardenUseCase;
         this.plantUseCase = plantUseCase;
         this.userUseCase = userUseCase;
+        this.leaderboardsUseCase = leaderboardsUseCase;
 
         getGardens();
         getProfile();
+        getRankUser();
         getPlants(Objects.requireNonNull(selectedFilter.getValue()));
     }
 
@@ -68,6 +78,7 @@ public class HomeViewModel extends ViewModel {
         if (event instanceof HomeViewEvent.OnRefresh) {
             getGardens();
             getProfile();
+            getRankUser();
             getPlants(Objects.requireNonNull(selectedFilter.getValue()));
         } else if (event instanceof HomeViewEvent.OnChangedFilter) {
             selectedFilter.setValue(((HomeViewEvent.OnChangedFilter) event).getFilter().getId());
@@ -143,6 +154,23 @@ public class HomeViewModel extends ViewModel {
 
             @Override
             public void onFailure(BaseResultResponse<UserDetailRes> response) {
+
+            }
+        });
+    }
+
+    private void getRankUser(){
+        leaderboardsUseCase.getDetailLeaderboards(new ResponseCallback<LeaderboardsDetailRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<LeaderboardsDetailRes> response) {
+                if (response.getData() != null) {
+                    Log.d("Leaderboards:", "Leaderboards Size =");
+                    leaderboards.setValue(response.getData().data.getLeaderboards());
+                }
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<LeaderboardsDetailRes> response) {
 
             }
         });

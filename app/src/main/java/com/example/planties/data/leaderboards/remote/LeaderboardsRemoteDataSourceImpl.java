@@ -1,5 +1,7 @@
 package com.example.planties.data.leaderboards.remote;
 
+import android.util.Log;
+
 import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.utils.NetworkUtil;
 import com.example.planties.data.leaderboards.remote.dto.LeaderboardsDetailRes;
@@ -22,7 +24,8 @@ public class LeaderboardsRemoteDataSourceImpl implements LeaderboardsRemoteDataS
     }
 
     @Override
-    public Call<LeaderboardsDetailRes> getDetailLeaderboards(String userId) {
-        return leaderboardsService.getDetailLeaderboards(userId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
+    public Call<LeaderboardsDetailRes> getDetailLeaderboards() {
+        Log.d("LeaderboardsRemoteDataSourceImpl", "getDetailLeaderboards: " + NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
+        return leaderboardsService.getDetailLeaderboards(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 }

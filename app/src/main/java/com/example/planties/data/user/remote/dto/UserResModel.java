@@ -3,6 +3,9 @@ package com.example.planties.data.user.remote.dto;
 import com.google.gson.annotations.SerializedName;
 
 public class UserResModel {
+    @SerializedName("id")
+    public String userId;
+
     @SerializedName("full_name")
     public String fullName;
 

@@ -25,7 +25,7 @@
     <string name="format_water_time">%d hour</string>
     <string name="label_tambah_taman">Tambah taman</string>
     <string name="label_oksigen">Oksigen</string>
-    <string name="format_peringkat">#%s</string>
+    <string name="format_peringkat">#%d</string>
     <string name="label_peringkat_kamu">Peringkat Kamu</string>
     <string name="format_menghasilkan_oksigen">Kamu telah menghasilkan <annotation font="lexend_semibold">%s mg</annotation> oksigen</string>
     <string name="label_untukbumi">#untukbumi</string>
@@ -57,4 +57,8 @@
     <string name="label_kamu_belum_memiliki_tanaman">Kamu belum memiliki tanaman! Ayo Tanam!</string>
     <string name="label_selesai_diagnosis">Selesai Diagnosis</string>
     <string name="format_ai_confident">Ai %s Confident</string>
+    <string name="label_kontribusi_oksigen">kontribusi oksigen</string>
+    <string name="label_mg_o2">mg O2</string>
+    <string name="label_leaderboard">Leaderboard</string>
+    <string name="label_profile">Profile</string>
 </resources>

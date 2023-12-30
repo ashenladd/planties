@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/tb_scan"
+        android:id="@+id/tb_profile"
         layout="@layout/layout_toolbar_text"
         android:elevation="@dimen/elevation_4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Planties.Oval"
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars"
-        app:layout_constraintTop_toBottomOf="@+id/tb_scan"/>
+        app:layout_constraintTop_toBottomOf="@+id/tb_profile"/>
 
     <LinearLayout
         android:id="@+id/box_plant"
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_user_info"
-            android:paddingHorizontal="24dp"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="26dp"
             android:layout_marginEnd="6dp"
             android:orientation="vertical"

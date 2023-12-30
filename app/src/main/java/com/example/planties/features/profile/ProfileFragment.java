@@ -3,6 +3,7 @@ package com.example.planties.features.profile;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -10,12 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.planties.R;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.databinding.FragmentProfileBinding;
 import com.example.planties.features.auth.login.LoginFragmentDirections;
@@ -52,6 +55,27 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(requireContext(), "Error: Context is null", Toast.LENGTH_SHORT).show();
         }
         observeState();
+        setupBackPressed();
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        binding.tbProfile.tvTitle.setText(getString(R.string.label_profile));
+        binding.tbProfile.toolbar.setNavigationOnClickListener(v -> navigateBack());
+    }
+
+    private void setupBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                navigateBack();
+            }
+        });
+    }
+
+    private void navigateBack() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigateUp();
     }
 
     private void observeState() {
