@@ -4,6 +4,7 @@ import static androidx.activity.result.ActivityResultCallerKt.registerForActivit
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -21,6 +22,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.response.BaseResultResponse;
+import com.example.planties.core.response.ResponseCallback;
+import com.example.planties.data.scan.remote.dto.ScanRes;
+import com.example.planties.domain.garden.usecase.GardenUseCase;
+import com.example.planties.domain.scan.usecase.ScanUseCase;
+
+import java.io.File;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -29,17 +37,28 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+@HiltViewModel
 public class ScanViewModel extends ViewModel {
     private static final String TAG = "CameraXApp";
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
 
     private final MutableLiveData<Uri> capturedImagePath = new MutableLiveData<>();
-
-    public ScanViewModel() {
-
-    }
     public LiveData<Uri> getCapturedImagePath() {
         return capturedImagePath;
+    }
+
+    private final ScanUseCase scanUseCase;
+
+    @Inject
+    public ScanViewModel(ScanUseCase scanUseCase) {
+        this.scanUseCase = scanUseCase;
     }
 
     public void processEvent(ScanViewEvent event) {
@@ -84,8 +103,43 @@ public class ScanViewModel extends ViewModel {
                         String msg = "Photo capture succeeded: " + output.getSavedUri();
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                         capturedImagePath.setValue(output.getSavedUri());
+                        String filePath = getRealPathFromUri(context, output.getSavedUri());
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), new File(filePath));
+                        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", output.getSavedUri().getLastPathSegment(), requestFile);
+                        scanUseCase.scan(filePart, new ResponseCallback<ScanRes>() {
+                            @Override
+                            public void onSuccess(BaseResultResponse<ScanRes> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(BaseResultResponse<ScanRes> response) {
+
+                            }
+                        });
                     }
                 }
         );
+    }
+
+    // Utility method to get the real path of a file from its Uri
+    private static String getRealPathFromUri(Context context, Uri uri) {
+        String filePath = "";
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = null;
+
+        try {
+            cursor = context.getContentResolver().query(uri, filePathColumn, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                filePath = cursor.getString(columnIndex);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return filePath;
     }
 }

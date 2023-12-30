@@ -5,8 +5,10 @@ import com.example.planties.data.garden.remote.network.GardenService;
 import com.example.planties.data.leaderboards.remote.network.LeaderboardsService;
 import com.example.planties.data.plant.remote.network.PlantService;
 import com.example.planties.data.reminder.remote.network.ReminderService;
+import com.example.planties.data.scan.remote.network.ScanService;
 import com.example.planties.data.user.remote.network.UserService;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,30 +21,35 @@ import retrofit2.Retrofit;
 @InstallIn(SingletonComponent.class)
 public class NetworkModule {
     @Provides
-    public static AuthService provideAuthService(Retrofit retrofit) {
+    public static AuthService provideAuthService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(AuthService.class);
     }
 
     @Provides
-    public static GardenService provideGardenService(Retrofit retrofit) {
+    public static GardenService provideGardenService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(GardenService.class);
     }
     @Provides
-    public static PlantService providePlantService(Retrofit retrofit) {
+    public static PlantService providePlantService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(PlantService.class);
     }
     @Provides
-    public static UserService provideUserService(Retrofit retrofit) {
+    public static UserService provideUserService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(UserService.class);
     }
 
     @Provides
-    public static ReminderService provideReminderService(Retrofit retrofit) {
+    public static ReminderService provideReminderService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(ReminderService.class);
     }
 
     @Provides
-    public static LeaderboardsService provideLeaderboardsService(Retrofit retrofit) {
+    public static LeaderboardsService provideLeaderboardsService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(LeaderboardsService.class);
+    }
+
+    @Provides
+    public static ScanService provideScanService(@Named("aiRetrofit") Retrofit aiRetrofit) {
+        return aiRetrofit.create(ScanService.class);
     }
 }

@@ -13,6 +13,8 @@ import com.example.planties.data.plant.remote.PlantRemoteDataSource;
 import com.example.planties.data.plant.repository.PlantRepositoryImpl;
 import com.example.planties.data.reminder.remote.ReminderRemoteDataSource;
 import com.example.planties.data.reminder.repository.ReminderRepositoryImpl;
+import com.example.planties.data.scan.remote.ScanRemoteDataSource;
+import com.example.planties.data.scan.repository.ScanRepositoryImpl;
 import com.example.planties.data.user.remote.UserRemoteDataSource;
 import com.example.planties.data.user.repository.UserRepositoryImpl;
 import com.example.planties.domain.auth.usecase.AuthUseCase;
@@ -55,6 +57,11 @@ public class RepositoryModule {
     @Provides
     public LeaderboardsRepositoryImpl provideLeaderboardsRepository(LeaderboardsRemoteDataSource leaderboardsRemoteDataSource){
         return new LeaderboardsRepositoryImpl(leaderboardsRemoteDataSource);
+    }
+
+    @Provides
+    public ScanRepositoryImpl provideScanRepository(ScanRemoteDataSource scanRemoteDataSource) {
+        return new ScanRepositoryImpl(scanRemoteDataSource);
     }
 }
 

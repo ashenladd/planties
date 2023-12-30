@@ -36,6 +36,9 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ScanFragment extends Fragment {
     private ScanViewModel scanViewModel;
     private FragmentScanBinding binding;
