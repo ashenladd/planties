@@ -55,4 +55,6 @@
     <string name="label_terbaru">Terbaru</string>
     <string name="label_kebun">Kebun</string>
     <string name="label_kamu_belum_memiliki_tanaman">Kamu belum memiliki tanaman! Ayo Tanam!</string>
+    <string name="label_selesai_diagnosis">Selesai Diagnosis</string>
+    <string name="format_ai_confident">Ai %s Confident</string>
 </resources>

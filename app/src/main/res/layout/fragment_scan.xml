@@ -73,11 +73,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
+            <ImageView
+                android:id="@+id/iv_mood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_smile"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
             <TextView
                 android:id="@+id/tv_identifying"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
                 android:text="@string/label_identifying"
                 android:textAllCaps="false"
                 tools:textColor="@color/black"
@@ -86,6 +99,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pb_identifying" />
+
+            <TextView
+                android:id="@+id/tv_ai_confident"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4dp"
+                tools:text="Ai 98% Confident"
+                android:textAllCaps="false"
+                tools:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.Planties.SubtitleAppBar"
+                android:textColor="@color/Neutral1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_identifying" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

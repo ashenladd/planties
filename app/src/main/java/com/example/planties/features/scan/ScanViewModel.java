@@ -1,7 +1,5 @@
 package com.example.planties.features.scan;
 
-import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,8 +10,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -25,17 +21,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.scan.remote.dto.ScanRes;
-import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.scan.usecase.ScanUseCase;
 
 import java.io.File;
-import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -50,8 +40,15 @@ public class ScanViewModel extends ViewModel {
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
 
     private final MutableLiveData<Uri> capturedImagePath = new MutableLiveData<>();
+
     public LiveData<Uri> getCapturedImagePath() {
         return capturedImagePath;
+    }
+
+    private final MutableLiveData<ScanRes> scanResult = new MutableLiveData<>();
+
+    public LiveData<ScanRes> getScanResult() {
+        return scanResult;
     }
 
     private final ScanUseCase scanUseCase;
@@ -64,6 +61,8 @@ public class ScanViewModel extends ViewModel {
     public void processEvent(ScanViewEvent event) {
         if (event instanceof ScanViewEvent.OnTakePhoto) {
             takePhoto(((ScanViewEvent.OnTakePhoto) event).getImageCapture(), ((ScanViewEvent.OnTakePhoto) event).getContext());
+        }else if(event instanceof ScanViewEvent.OnDiagnose){
+            scan(((ScanViewEvent.OnDiagnose) event).getUri(), ((ScanViewEvent.OnDiagnose) event).getContext());
         }
     }
 
@@ -103,27 +102,13 @@ public class ScanViewModel extends ViewModel {
                         String msg = "Photo capture succeeded: " + output.getSavedUri();
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                         capturedImagePath.setValue(output.getSavedUri());
-                        String filePath = getRealPathFromUri(context, output.getSavedUri());
-                        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), new File(filePath));
-                        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", output.getSavedUri().getLastPathSegment(), requestFile);
-                        scanUseCase.scan(filePart, new ResponseCallback<ScanRes>() {
-                            @Override
-                            public void onSuccess(BaseResultResponse<ScanRes> response) {
-
-                            }
-
-                            @Override
-                            public void onFailure(BaseResultResponse<ScanRes> response) {
-
-                            }
-                        });
                     }
                 }
         );
     }
 
     // Utility method to get the real path of a file from its Uri
-    private static String getRealPathFromUri(Context context, Uri uri) {
+    public String getRealPathFromUri(Context context, Uri uri) {
         String filePath = "";
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = null;
@@ -141,5 +126,22 @@ public class ScanViewModel extends ViewModel {
         }
 
         return filePath;
+    }
+
+    private void scan (Uri uri, Context context) {
+        String filePath = getRealPathFromUri(context, uri);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), new File(filePath));
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", uri.getLastPathSegment(), requestFile);
+        scanUseCase.scan(filePart, new ResponseCallback<ScanRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<ScanRes> response) {
+                scanResult.setValue(response.getData());
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<ScanRes> response) {
+
+            }
+        });
     }
 }
