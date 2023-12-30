@@ -10,6 +10,9 @@ import com.example.planties.data.garden.remote.network.GardenService;
 import com.example.planties.data.plant.remote.PlantRemoteDataSource;
 import com.example.planties.data.plant.remote.PlantRemoteDataSourceImpl;
 import com.example.planties.data.plant.remote.network.PlantService;
+import com.example.planties.data.scan.remote.ScanRemoteDataSource;
+import com.example.planties.data.scan.remote.ScanRemoteDataSourceImpl;
+import com.example.planties.data.scan.remote.network.ScanService;
 import com.example.planties.data.user.remote.UserRemoteDataSource;
 import com.example.planties.data.user.remote.UserRemoteDataSourceImpl;
 import com.example.planties.data.user.remote.network.UserService;
@@ -37,5 +40,10 @@ public class DataSourceModule {
     @Provides
     public UserRemoteDataSource provideUserRemoteDataSource(UserService userService, TokenHandler tokenHandler) {
         return new UserRemoteDataSourceImpl(userService, tokenHandler);
+    }
+
+    @Provides
+    public ScanRemoteDataSource provideScanRemoteDataSource(ScanService scanService, TokenHandler tokenHandler) {
+        return new ScanRemoteDataSourceImpl(scanService);
     }
 }

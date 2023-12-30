@@ -39,6 +39,7 @@ public class AppModule {
 
     @Provides
     @Singleton
+    @Named("defaultRetrofit")
     public static Retrofit provideRetrofit() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -54,5 +55,21 @@ public class AppModule {
                 .build();
     }
 
+    @Provides
+    @Singleton
+    @Named("aiRetrofit")
+    public static Retrofit provideAIRetrofit() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+
+        return new Retrofit.Builder()
+                .baseUrl(Constant.API_AI)  // Use the AI_URL here
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 }
