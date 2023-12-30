@@ -60,4 +60,5 @@
     <string name="label_kontribusi_oksigen">kontribusi oksigen</string>
     <string name="label_mg_o2">mg O2</string>
     <string name="label_leaderboard">Leaderboard</string>
+    <string name="label_profile">Profile</string>
 </resources>
