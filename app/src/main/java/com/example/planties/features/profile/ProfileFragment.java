@@ -7,13 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.databinding.FragmentProfileBinding;
+import com.example.planties.features.auth.login.LoginFragmentDirections;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -46,11 +51,36 @@ public class ProfileFragment extends Fragment {
             // Handle the case when context is null, e.g., show an error message
             Toast.makeText(requireContext(), "Error: Context is null", Toast.LENGTH_SHORT).show();
         }
+        observeState();
     }
+
+    private void observeState() {
+        profileViewModel.getUser().observe(getViewLifecycleOwner(), text -> {
+            binding.descriptionTextView.setText("Loading..");
+            binding.descriptionGarden.setText("Loading..");
+            binding.rankDescription.setText("Loading..");
+            if(text != null) {
+                binding.descriptionTextView.setText(String.valueOf(text.total_plant));
+                ImageExtensions.loadProfileImage(binding.sivProfile, requireContext(), text.urlImage);
+                binding.descriptionGarden.setText(String.valueOf(text.total_garden));
+                binding.rankDescription.setText(String.valueOf(text.rank));
+            }
+        });
+    }
+
+    private void navigateToLogin() {
+        NavDirections directions = ProfileFragmentDirections.actionProfileFragmentToLoginFragment();
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
 
     private void setClickListener() {
         binding.btnLogout.setOnClickListener(view1 -> {
-
+            profileViewModel.logout();
+            navigateToLogin();
         });
     }
 }

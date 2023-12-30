@@ -18,6 +18,16 @@ public class UserResModel {
     @SerializedName("email")
     public String email;
 
+    @SerializedName("total_garden")
+    public int total_garden;
+
+
+    @SerializedName("rank")
+    public int rank;
+
+    @SerializedName("total_plant")
+    public int total_plant;
+
     @SerializedName("url_image")
     public String urlImage;
 }

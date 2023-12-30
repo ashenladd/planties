@@ -24,4 +24,8 @@ public class AuthUseCase {
     public void register(RegisterRequest request, ResponseCallback<RegisterResponse> responseCallback) {
         authRepository.register(request, responseCallback);
     }
+
+    public void logout() {
+        authRepository.logout();
+    }
 }

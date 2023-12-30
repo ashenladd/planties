@@ -64,7 +64,7 @@ public class GardenViewModel extends ViewModel {
 
             @Override
             public void onFailure(BaseResultResponse<List<GardenModel>> response) {
-                Log.d("Gardens:", "Error Gardens =" + response.getMessage());
+
             }
         });
     }
