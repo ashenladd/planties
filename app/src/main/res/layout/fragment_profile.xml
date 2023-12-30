@@ -35,6 +35,38 @@
         android:baselineAligned="false">
 
         <LinearLayout
+            android:id="@+id/rank"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_user_info"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="26dp"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tb_scan">
+
+            <TextView
+                android:id="@+id/rankTitle"
+                android:layout_width="133dp"
+                android:layout_height="wrap_content"
+                android:text="Rank"
+                android:textAppearance="@style/TextAppearance.Planties.Caption1"
+                android:textSize="@dimen/font_14sp"
+                android:textColor="@color/Neutral3"/>
+
+            <TextView
+                android:id="@+id/rankDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="23"
+                android:textAppearance="@style/TextAppearance.Planties.TittleNavigationBar"
+                android:textSize="@dimen/font_18sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_plant"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

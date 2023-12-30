@@ -9,4 +9,5 @@ import com.example.planties.data.auth.remote.dto.RegisterResponse;
 public interface AuthRepository {
     void login(AuthRequest authRequest, ResponseCallback<LoginResponse> responseCallback);
     void register(RegisterRequest registerRequest, ResponseCallback<RegisterResponse> responseCallback);
+    void logout();
 }
