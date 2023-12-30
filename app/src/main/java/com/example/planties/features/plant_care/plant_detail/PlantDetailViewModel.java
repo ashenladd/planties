@@ -14,6 +14,7 @@ import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
 import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
 import com.example.planties.data.reminder.remote.dto.ReminderResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
@@ -79,6 +80,7 @@ public class PlantDetailViewModel extends ViewModel {
             getDetailPlant(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId(),
                     ((PlantDetailViewEvent.OnLoadPlant) event).getPlantId());
             getDetailGarden(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
+            getReminder(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
         } else if (event instanceof PlantDetailViewEvent.OnClickEdit) {
             isEdit.setValue(Boolean.FALSE.equals(isEdit.getValue()));
         } else if (event instanceof PlantDetailViewEvent.OnAddImage) {
@@ -162,17 +164,17 @@ public class PlantDetailViewModel extends ViewModel {
         });
     }
 
-//    private void getDetailReminder(String reminderId) {
-//        reminderUseCase.getDetailReminder(reminderId, new ResponseCallback<ReminderResModel>() {
-//            @Override
-//            public void onSuccess(BaseResultResponse<ReminderResModel> response) {
-//                reminderDetail.postValue(response.getData());
-//            }
-//
-//            @Override
-//            public void onFailure(BaseResultResponse<ReminderResModel> response) {
-//
-//            }
-//        });
-//    }
+    private void getReminder(String gardenId){
+        reminderUseCase.getReminder(gardenId, new ResponseCallback<ReminderListRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<ReminderListRes> response) {
+                reminderDetail.postValue(response.getData().data.getReminder().get(0));
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<ReminderListRes> response) {
+
+            }
+        });
+    }
 }

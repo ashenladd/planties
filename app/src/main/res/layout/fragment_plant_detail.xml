@@ -126,6 +126,7 @@
                     android:id="@+id/cl_water"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:background="@drawable/bg_button_netral1_active"
                     android:paddingBottom="@dimen/margin_12dp"

@@ -7,6 +7,7 @@ import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
 import com.example.planties.data.reminder.remote.ReminderRemoteDataSource;
 import com.example.planties.data.reminder.remote.dto.ReminderDetailRes;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
 import com.example.planties.data.reminder.remote.dto.ReminderReq;
 import com.example.planties.domain.reminder.repository.ReminderRepository;
 
@@ -39,6 +40,26 @@ public class ReminderRepositoryImpl implements ReminderRepository {
 
             @Override
             public void onFailure(@NonNull Call<ReminderDetailRes> call, Throwable t) {
+                responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
+            }
+        });
+    }
+
+    @Override
+    public void getReminder(String gardenId, ResponseCallback<ReminderListRes> responseCallback) {
+        reminderRemoteDataSource.getReminder(gardenId).enqueue(new Callback<ReminderListRes>() {
+            @Override
+            public void onResponse(@NonNull Call<ReminderListRes> call, @NonNull Response<ReminderListRes> response) {
+                if (response.isSuccessful()) {
+                    ReminderListRes reminderListRes = response.body();
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, reminderListRes, "success", response.code()));
+                } else {
+                    responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReminderListRes> call, @NonNull Throwable t) {
                 responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
             }
         });

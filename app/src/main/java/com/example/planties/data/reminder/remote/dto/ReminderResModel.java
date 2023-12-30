@@ -13,8 +13,16 @@ public class ReminderResModel {
     public String type;
 
     @SerializedName("duration")
-    public int duration;
+    private int duration;
 
     @SerializedName("garden_id")
     public String gardenId;
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

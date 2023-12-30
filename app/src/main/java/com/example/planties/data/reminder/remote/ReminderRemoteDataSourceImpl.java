@@ -3,6 +3,7 @@ package com.example.planties.data.reminder.remote;
 import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.utils.NetworkUtil;
 import com.example.planties.data.reminder.remote.dto.ReminderDetailRes;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
 import com.example.planties.data.reminder.remote.dto.ReminderReq;
 import com.example.planties.data.reminder.remote.network.ReminderService;
 
@@ -22,6 +23,11 @@ public class ReminderRemoteDataSourceImpl implements ReminderRemoteDataSource{
     @Override
     public Call<ReminderDetailRes> postReminder(String gardenId, ReminderReq reminderReq) {
         return reminderService.postReminder(reminderReq, gardenId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
+    }
+
+    @Override
+    public Call<ReminderListRes> getReminder(String gardenId) {
+        return reminderService.getReminder(gardenId, NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 
     @Override

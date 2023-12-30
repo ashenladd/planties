@@ -2,6 +2,7 @@ package com.example.planties.features.plant_care.garden.edit;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,7 +14,9 @@ import com.example.planties.data.garden.remote.dto.GardenResModel;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
 import com.example.planties.data.plant.remote.dto.PlantResListDataModel;
 import com.example.planties.data.reminder.remote.dto.ReminderDetailRes;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
 import com.example.planties.data.reminder.remote.dto.ReminderReq;
+import com.example.planties.data.reminder.remote.dto.ReminderResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 import com.example.planties.domain.reminder.usecase.ReminderUseCase;
@@ -49,6 +52,11 @@ public class GardenEditViewModel extends ViewModel {
     public MutableLiveData<PlantResListDataModel> getPlantList() {
         return plantList;
     }
+    private MutableLiveData<ReminderResModel> reminderDetail = new MutableLiveData<>();
+
+    public LiveData<ReminderResModel> getReminder() {
+        return reminderDetail;
+    }
 
     public void processEvent(GardenEditViewEvent event) {
         if (event instanceof GardenEditViewEvent.OnLoadGarden) {
@@ -57,7 +65,6 @@ public class GardenEditViewModel extends ViewModel {
         } else if (event instanceof GardenEditViewEvent.OnSaveEdit) {
             if (((GardenEditViewEvent.OnSaveEdit) event).gardenId == null) {
                 postGarden(((GardenEditViewEvent.OnSaveEdit) event).gardenReq);
-                postReminder(Objects.requireNonNull(gardenDetail.getValue()).getId(),((GardenEditViewEvent.OnSaveEdit) event).reminderReq);
             } else {
                 putDetailGarden(((GardenEditViewEvent.OnSaveEdit) event).gardenId, ((GardenEditViewEvent.OnSaveEdit) event).gardenReq);
             }
@@ -67,6 +74,10 @@ public class GardenEditViewModel extends ViewModel {
             } else {
                 putDetailGarden(((GardenEditViewEvent.OnAddImage) event).gardenId, ((GardenEditViewEvent.OnAddImage) event).gardenReq);
             }
+        } else if (event instanceof GardenEditViewEvent.OnAddReminder){
+            postReminder(((GardenEditViewEvent.OnAddReminder) event).getGardenId(), ((GardenEditViewEvent.OnAddReminder) event).getReminderReq());
+        }else if (event instanceof GardenEditViewEvent.OnLoadReminder) {
+            getReminderDetail(((GardenEditViewEvent.OnLoadReminder) event).getGardenId());
         }
     }
 
@@ -128,11 +139,28 @@ public class GardenEditViewModel extends ViewModel {
         });
     }
 
+    private void getReminderDetail(String gardenId) {
+        reminderUseCase.getReminder(gardenId, new ResponseCallback<ReminderListRes>() {
+
+            @Override
+            public void onSuccess(BaseResultResponse<ReminderListRes> response) {
+                Log.d("Reminder", "Get Reminder Success");
+                reminderDetail.setValue(response.getData().data.getReminder().get(0));
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<ReminderListRes> response) {
+
+            }
+        });
+    }
+
     private void postReminder(String gardenId, ReminderReq reminderReq) {
         reminderUseCase.postReminder(gardenId, reminderReq, new ResponseCallback<ReminderDetailRes>() {
             @Override
             public void onSuccess(BaseResultResponse<ReminderDetailRes> response) {
                 Log.d("Reminder", "Reminder Success");
+                reminderDetail.setValue(response.getData().data.getReminder());
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.example.planties.features.plant_care.plant_detail;
 
 import com.example.planties.data.plant.remote.dto.PlantReq;
 import com.example.planties.data.plant.remote.dto.PlantReqPut;
+import com.example.planties.data.reminder.remote.dto.ReminderReq;
 
 public class PlantDetailViewEvent {
     public static class OnSaveEdit extends PlantDetailViewEvent {
@@ -138,4 +139,5 @@ public class PlantDetailViewEvent {
         }
 
     }
+
 }

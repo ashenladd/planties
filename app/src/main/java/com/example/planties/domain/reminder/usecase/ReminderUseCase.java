@@ -2,6 +2,7 @@ package com.example.planties.domain.reminder.usecase;
 
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.reminder.remote.dto.ReminderDetailRes;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
 import com.example.planties.data.reminder.remote.dto.ReminderReq;
 import com.example.planties.domain.reminder.repository.ReminderRepository;
 
@@ -14,6 +15,10 @@ public class ReminderUseCase {
 
     public void postReminder(String gardenId, ReminderReq reminderReq, ResponseCallback<ReminderDetailRes> responseCallback) {
         reminderRepository.postReminder(gardenId, reminderReq, responseCallback);
+    }
+
+    public void getReminder(String gardenId, ResponseCallback<ReminderListRes> responseCallback) {
+        reminderRepository.getReminder(gardenId, responseCallback);
     }
 
     public void getDetailReminder(String gardenId, String reminderId, ResponseCallback<ReminderDetailRes> responseCallback) {

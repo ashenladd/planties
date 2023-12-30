@@ -22,6 +22,7 @@
     <string name="label_tamanmu">Tamanmu</string>
     <string name="label_tanamanmu">Tanamanmu</string>
     <string name="format_kamu_memiliki_taman">Kamu memiliki %d Taman</string>
+    <string name="format_water_time">%d hour</string>
     <string name="label_tambah_taman">Tambah taman</string>
     <string name="label_oksigen">Oksigen</string>
     <string name="format_peringkat">#%s</string>

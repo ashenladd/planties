@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
@@ -22,6 +23,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.planties.R;
 import com.example.planties.core.enum_type.TanamanType;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.core.utils.ImageUtils;
@@ -76,7 +78,6 @@ public class PlantDetailFragment extends Fragment {
         setupBackPressed();
         loadPlant();
         setupSwipeRefresh();
-        setupProgressBar();
         setupClickListener();
     }
 
@@ -105,7 +106,7 @@ public class PlantDetailFragment extends Fragment {
                                             PlantName,
                                             listImage)));
                             plantDetailViewModel.getPlantDetail();
-                        }else{
+                        } else {
                             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnAddPostImage(base64Image));
                         }
                     } else {
@@ -129,16 +130,21 @@ public class PlantDetailFragment extends Fragment {
             });
             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
             binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
-                plantDetailViewModel.processEvent(
-                        new PlantDetailViewEvent.OnAddPlant(
-                                gardenId,
-                                new PlantReq(
-                                        Objects.requireNonNull(binding.tietInput.getText()).toString(),
-                                        binding.tietInput.getText().toString(),
-                                        TimeUtils.TimeNow(),
-                                        TanamanType.TANAMAN_BERBUNGA.getValue(),
-                                        plantDetailViewModel.getImageList().getValue())));
-                navigateBack();
+                String plantName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+                if (!plantName.isEmpty()) {
+                    plantDetailViewModel.processEvent(
+                            new PlantDetailViewEvent.OnAddPlant(
+                                    gardenId,
+                                    new PlantReq(
+                                            plantName,
+                                            "Banner " + plantName,
+                                            TimeUtils.TimeNow(),
+                                            TanamanType.TANAMAN_BERBUNGA.getValue(),
+                                            plantDetailViewModel.getImageList().getValue())));
+                    navigateBack();
+                }else{
+                    Toast.makeText(requireContext(), "Nama tanaman tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                }
             });
         } else {
             binding.toolbarSave.toolbar.setNavigationOnClickListener(v -> {
@@ -160,7 +166,9 @@ public class PlantDetailFragment extends Fragment {
         binding.toolbarEdit.ivEdit.setOnClickListener(v -> {
             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
         });
-        binding.toolbarEdit.toolbar.setNavigationOnClickListener(v -> navigateBack());
+        binding.toolbarEdit.toolbar.setNavigationOnClickListener(v -> {
+            navigateBack();
+        });
     }
 
 
@@ -184,6 +192,8 @@ public class PlantDetailFragment extends Fragment {
             plantModelList.add(new PlantModel("Add"));
             getPlantAdapter().submitList(plantModelList);
             Log.d("PlantDetailFragment", "ObserveStateImage: " + plantModelList.size());
+            binding.clWater.setVisibility(View.GONE);
+            binding.tvLabelStatus.setVisibility(View.GONE);
             plantDetailViewModel.getImageList().observe(getViewLifecycleOwner(), imageList -> {
 //                Log.d("PlantDetailFragment", "ObserveStateImageList: " + imageList.size());
                 List<PlantModel> plantImageList = new ArrayList<>();
@@ -228,6 +238,11 @@ public class PlantDetailFragment extends Fragment {
                 binding.tietInput.setText(binding.tvPlantName.getText());
             }
         });
+        plantDetailViewModel.getReminderDetail().observe(getViewLifecycleOwner(), reminderDetail -> {
+            int hour = TimeUtils.TimeConvertMinToHour(reminderDetail.getDuration());
+            binding.tvWaterTime.setText(getString(R.string.format_water_time, hour));
+            setupProgressBar(reminderDetail.getDuration());
+        });
     }
 
     private void setupRecyclerView() {
@@ -243,10 +258,12 @@ public class PlantDetailFragment extends Fragment {
         }
     }
 
-    private void setupProgressBar() {
-        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(binding.pbWater, "progress", 0, 100);
+    private void setupProgressBar(int minute) {
+        int durationInMillis = minute * 60 * 1000;
 
-        progressAnimator.setDuration(2000);
+        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(binding.pbWater, "progress", 100, 0);
+
+        progressAnimator.setDuration(durationInMillis);
 
         progressAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
