@@ -9,6 +9,8 @@ import com.example.planties.data.garden.remote.network.GardenService;
 import com.example.planties.data.garden.repository.GardenRepositoryImpl;
 import com.example.planties.data.plant.remote.PlantRemoteDataSource;
 import com.example.planties.data.plant.repository.PlantRepositoryImpl;
+import com.example.planties.data.scan.remote.ScanRemoteDataSource;
+import com.example.planties.data.scan.repository.ScanRepositoryImpl;
 import com.example.planties.data.user.remote.UserRemoteDataSource;
 import com.example.planties.data.user.repository.UserRepositoryImpl;
 import com.example.planties.domain.auth.usecase.AuthUseCase;
@@ -42,6 +44,11 @@ public class RepositoryModule {
     @Provides
     public UserRepositoryImpl provideUserRepository(UserRemoteDataSource userRemoteDataSource) {
         return new UserRepositoryImpl(userRemoteDataSource);
+    }
+
+    @Provides
+    public ScanRepositoryImpl provideScanRepository(ScanRemoteDataSource scanRemoteDataSource) {
+        return new ScanRepositoryImpl(scanRemoteDataSource);
     }
 }
 

@@ -13,7 +13,6 @@ import retrofit2.Call;
 
 public class ScanRemoteDataSourceImpl implements ScanRemoteDataSource {
     private final ScanService scanService;
-    private final String AI_URL = Constant.API_AI + Constant.SCAN;
     @Inject
     public ScanRemoteDataSourceImpl(ScanService scanService) {
         this.scanService = scanService;
@@ -21,6 +20,6 @@ public class ScanRemoteDataSourceImpl implements ScanRemoteDataSource {
 
     @Override
     public Call<ScanRes> scan(MultipartBody.Part file) {
-        return scanService.scan(AI_URL, file);
+        return scanService.scan(file);
     }
 }

@@ -49,6 +49,11 @@ public class ScanViewModel extends ViewModel {
     private static final String TAG = "CameraXApp";
     private static final String FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS";
 
+    private final MutableLiveData<Uri> capturedImagePath = new MutableLiveData<>();
+    public LiveData<Uri> getCapturedImagePath() {
+        return capturedImagePath;
+    }
+
     private final ScanUseCase scanUseCase;
 
     @Inject
@@ -97,6 +102,7 @@ public class ScanViewModel extends ViewModel {
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
                         String msg = "Photo capture succeeded: " + output.getSavedUri();
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                        capturedImagePath.setValue(output.getSavedUri());
                         String filePath = getRealPathFromUri(context, output.getSavedUri());
                         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), new File(filePath));
                         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", output.getSavedUri().getLastPathSegment(), requestFile);

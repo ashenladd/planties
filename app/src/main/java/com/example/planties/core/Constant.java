@@ -12,6 +12,6 @@ public class Constant {
     public static final String PROFILE = "/profile";
     public static final String OXYGEN = "/oxygen";
     public static final String USER = "/users";
-    public static final String SCAN = "/scan";
+    public static final String PREDICT = "/predict";
 }
 
