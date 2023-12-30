@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.auth.remote.dto.AuthRequest;
@@ -25,6 +26,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class RegisterViewModel extends ViewModel {
     private final AuthUseCase authUseCase;
     private final MutableLiveData<BaseResultResponse<RegisterResponse>> authResponseLiveData = new MutableLiveData<>();
+    public MutableLiveData<BaseResultResponse<RegisterResponse>> getAuthResponseLiveData() {
+        return authResponseLiveData;
+    }
 
     @Inject
     public RegisterViewModel(AuthUseCase authUseCase) {

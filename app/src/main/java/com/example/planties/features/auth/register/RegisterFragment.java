@@ -51,6 +51,22 @@ public class RegisterFragment extends Fragment {
             // Handle the case when context is null, e.g., show an error message
             Toast.makeText(requireContext(), "Error: Context is null", Toast.LENGTH_SHORT).show();
         }
+        observeState();
+    }
+
+    private void observeState() {
+        registerViewModel.getAuthResponseLiveData().observe(getViewLifecycleOwner(), authResponse -> {
+            if (authResponse != null) {
+                if (authResponse.isSuccess()) {
+                    // Show a toast indicating that registration was successful
+                    showToast("Registration successful");
+                    navigateToHome();
+                } else {
+                    // Show a toast indicating that registration failed
+                    showToast("Registration failed");
+                }
+            }
+        });
     }
 
     private void setClickListener() {
@@ -83,6 +99,12 @@ public class RegisterFragment extends Fragment {
 
         NavController navController = Navigation.findNavController(requireView());
 
+        navController.navigate(directions);
+    }
+
+    private void navigateToHome() {
+        NavDirections directions = RegisterFragmentDirections.actionRegisterFragment2ToHomeFragment2();
+        NavController navController = Navigation.findNavController(requireView());
         navController.navigate(directions);
     }
 

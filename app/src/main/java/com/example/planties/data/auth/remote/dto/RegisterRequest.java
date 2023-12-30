@@ -11,19 +11,18 @@ public class RegisterRequest {
     private String username;
 
     @Expose
-    @SerializedName("name")
-    private String name;
+    @SerializedName("fullname")
+    private String fullname;
 
     @SerializedName("password")
     private String password;
-
 
     @SerializedName("profile_image")
     @Nullable
     private String profile_image;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String fullname) {
+        this.fullname = fullname;
     }
 
     public void setUsername(String username) {
@@ -32,6 +31,18 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setProfile_image(String image) {

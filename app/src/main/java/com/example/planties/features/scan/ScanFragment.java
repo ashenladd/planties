@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.planties.R;
@@ -103,8 +105,9 @@ public class ScanFragment extends Fragment {
     }
 
     private void navigateBack() {
-        NavController navController = NavHostFragment.findNavController(this);
-        navController.navigateUp();
+        NavDirections navDirections = ScanFragmentDirections.actionScanFragmentToHomeFragment2();
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(navDirections);
     }
 
     private void setupClickListener() {

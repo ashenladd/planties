@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -54,7 +55,7 @@ public class GardenFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGardenBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -67,8 +68,18 @@ public class GardenFragment extends Fragment {
         gardenViewModel = new ViewModelProvider(this).get(GardenViewModel.class);
 
         setupRecyclerView();
+        setupBackPressed();
         observeState();
         setupSwipeListener();
+    }
+
+    private void setupBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        });
     }
 
 

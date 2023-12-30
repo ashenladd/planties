@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -85,6 +86,16 @@ public class HomeFragment extends Fragment {
         observeState();
         setupSwipeListener();
         setupClickListener();
+        setupBackPressed();
+    }
+
+    private void setupBackPressed() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        });
     }
 
     private void setupClickListener() {
@@ -96,6 +107,9 @@ public class HomeFragment extends Fragment {
         });
         binding.clOxygen.setOnClickListener(v -> {
             navigaetToLeaderboard();
+        });
+        binding.btnScanTanamanan.setOnClickListener(v -> {
+            navigateToScan();
         });
     }
 
@@ -183,6 +197,14 @@ public class HomeFragment extends Fragment {
 
     private void navigateToGardenEdit() {
         NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToGardentEditFragment(null);
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
+    private void navigateToScan() {
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToScanFragment();
 
         NavController navController = Navigation.findNavController(requireView());
 
