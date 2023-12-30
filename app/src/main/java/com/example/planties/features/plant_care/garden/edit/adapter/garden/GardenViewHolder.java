@@ -2,6 +2,7 @@ package com.example.planties.features.plant_care.garden.edit.adapter.garden;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planties.R;
@@ -30,7 +31,8 @@ public class GardenViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void launchPhotoPicker() {
-        PickVisualMediaRequest pickVisualMediaRequest = new PickVisualMediaRequest.Builder().build();
+        PickVisualMediaRequest pickVisualMediaRequest = new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build();
         pickMedia.launch(pickVisualMediaRequest);
     }
 }

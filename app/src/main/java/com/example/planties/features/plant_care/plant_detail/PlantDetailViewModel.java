@@ -14,8 +14,11 @@ import com.example.planties.data.plant.remote.dto.PlantDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantReq;
 import com.example.planties.data.plant.remote.dto.PlantReqPut;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.data.reminder.remote.dto.ReminderListRes;
+import com.example.planties.data.reminder.remote.dto.ReminderResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
+import com.example.planties.domain.reminder.usecase.ReminderUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +32,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class PlantDetailViewModel extends ViewModel {
     private PlantUseCase plantUseCase;
     private GardenUseCase gardenUseCase;
+    private ReminderUseCase reminderUseCase;
 
     @Inject
-    public PlantDetailViewModel(PlantUseCase plantUseCase, GardenUseCase gardenUseCase) {
+    public PlantDetailViewModel(PlantUseCase plantUseCase, GardenUseCase gardenUseCase, ReminderUseCase reminderUseCase) {
         this.plantUseCase = plantUseCase;
         this.gardenUseCase = gardenUseCase;
+        this.reminderUseCase = reminderUseCase;
     }
 
     private MutableLiveData<PlantResModel> plantDetail = new MutableLiveData<>();
@@ -60,6 +65,12 @@ public class PlantDetailViewModel extends ViewModel {
         return imageList;
     }
 
+    private MutableLiveData<ReminderResModel> reminderDetail = new MutableLiveData<>();
+
+    public LiveData<ReminderResModel> getReminderDetail() {
+        return reminderDetail;
+    }
+
     public void processEvent(PlantDetailViewEvent event) {
         if (event instanceof PlantDetailViewEvent.OnSaveEdit) {
             putDetailPlant(((PlantDetailViewEvent.OnSaveEdit) event).getGardenId(),
@@ -69,6 +80,7 @@ public class PlantDetailViewModel extends ViewModel {
             getDetailPlant(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId(),
                     ((PlantDetailViewEvent.OnLoadPlant) event).getPlantId());
             getDetailGarden(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
+            getReminder(((PlantDetailViewEvent.OnLoadPlant) event).getGardenId());
         } else if (event instanceof PlantDetailViewEvent.OnClickEdit) {
             isEdit.setValue(Boolean.FALSE.equals(isEdit.getValue()));
         } else if (event instanceof PlantDetailViewEvent.OnAddImage) {
@@ -147,6 +159,20 @@ public class PlantDetailViewModel extends ViewModel {
 
             @Override
             public void onFailure(BaseResultResponse<PlantDetailRes> response) {
+
+            }
+        });
+    }
+
+    private void getReminder(String gardenId){
+        reminderUseCase.getReminder(gardenId, new ResponseCallback<ReminderListRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<ReminderListRes> response) {
+                reminderDetail.postValue(response.getData().data.getReminder().get(0));
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<ReminderListRes> response) {
 
             }
         });

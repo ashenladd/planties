@@ -2,6 +2,7 @@ package com.example.planties.features.home.adapter.garden;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.planties.R;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.data.garden.remote.dto.GardenResModel;
 import com.example.planties.databinding.ItemGardenBinding;
@@ -22,6 +23,7 @@ public class GardenViewHolder extends RecyclerView.ViewHolder {
             binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getId()));
         }else{
             binding.tvGarden.setText(item.getName());
+            binding.sivGarden.setImageResource(R.drawable.img_garden);
             binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.getId()));
         }
     }

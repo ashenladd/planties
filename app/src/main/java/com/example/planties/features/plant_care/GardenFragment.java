@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,9 +17,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.planties.core.GardenType;
+import com.example.planties.core.enum_type.GardenType;
 import com.example.planties.databinding.FragmentGardenBinding;
-import com.example.planties.features.home.HomeViewModel;
 import com.example.planties.features.home.adapter.garden.GardenAdapter;
 import com.example.planties.features.utils.adapter.filter.FilterAdapter;
 import com.example.planties.features.utils.adapter.filter.FilterModel;

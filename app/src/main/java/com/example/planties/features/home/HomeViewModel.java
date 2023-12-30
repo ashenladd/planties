@@ -6,19 +6,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.planties.core.SortType;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
-import com.example.planties.data.garden.remote.dto.GardenDetailRes;
 import com.example.planties.data.plant.remote.dto.PlantListRes;
 import com.example.planties.data.plant.remote.dto.PlantResListDataModel;
-import com.example.planties.data.plant.remote.dto.PlantResModel;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.domain.garden.model.GardenModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 import com.example.planties.domain.user.usecase.UserUseCase;
-import com.example.planties.features.utils.PlantFilter;
 import com.example.planties.features.utils.adapter.filter.FilterModel;
 
 import java.util.List;

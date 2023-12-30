@@ -2,7 +2,9 @@ package com.example.planties.di;
 
 import com.example.planties.data.auth.remote.network.AuthService;
 import com.example.planties.data.garden.remote.network.GardenService;
+import com.example.planties.data.leaderboards.remote.network.LeaderboardsService;
 import com.example.planties.data.plant.remote.network.PlantService;
+import com.example.planties.data.reminder.remote.network.ReminderService;
 import com.example.planties.data.scan.remote.network.ScanService;
 import com.example.planties.data.user.remote.network.UserService;
 
@@ -34,6 +36,16 @@ public class NetworkModule {
     @Provides
     public static UserService provideUserService(@Named("defaultRetrofit") Retrofit retrofit) {
         return retrofit.create(UserService.class);
+    }
+
+    @Provides
+    public static ReminderService provideReminderService(@Named("defaultRetrofit") Retrofit retrofit) {
+        return retrofit.create(ReminderService.class);
+    }
+
+    @Provides
+    public static LeaderboardsService provideLeaderboardsService(@Named("defaultRetrofit") Retrofit retrofit) {
+        return retrofit.create(LeaderboardsService.class);
     }
 
     @Provides

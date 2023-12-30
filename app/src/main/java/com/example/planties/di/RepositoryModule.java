@@ -7,8 +7,12 @@ import com.example.planties.data.auth.repository.AuthRepositoryImpl;
 import com.example.planties.data.garden.remote.GardenRemoteDataSource;
 import com.example.planties.data.garden.remote.network.GardenService;
 import com.example.planties.data.garden.repository.GardenRepositoryImpl;
+import com.example.planties.data.leaderboards.remote.LeaderboardsRemoteDataSource;
+import com.example.planties.data.leaderboards.repository.LeaderboardsRepositoryImpl;
 import com.example.planties.data.plant.remote.PlantRemoteDataSource;
 import com.example.planties.data.plant.repository.PlantRepositoryImpl;
+import com.example.planties.data.reminder.remote.ReminderRemoteDataSource;
+import com.example.planties.data.reminder.repository.ReminderRepositoryImpl;
 import com.example.planties.data.scan.remote.ScanRemoteDataSource;
 import com.example.planties.data.scan.repository.ScanRepositoryImpl;
 import com.example.planties.data.user.remote.UserRemoteDataSource;
@@ -44,6 +48,15 @@ public class RepositoryModule {
     @Provides
     public UserRepositoryImpl provideUserRepository(UserRemoteDataSource userRemoteDataSource) {
         return new UserRepositoryImpl(userRemoteDataSource);
+    }
+    @Provides
+    public ReminderRepositoryImpl provideReminderRepository(ReminderRemoteDataSource reminderRemoteDataSource){
+        return new ReminderRepositoryImpl(reminderRemoteDataSource);
+    }
+
+    @Provides
+    public LeaderboardsRepositoryImpl provideLeaderboardsRepository(LeaderboardsRemoteDataSource leaderboardsRemoteDataSource){
+        return new LeaderboardsRepositoryImpl(leaderboardsRemoteDataSource);
     }
 
     @Provides

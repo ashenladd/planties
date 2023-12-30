@@ -1,13 +1,12 @@
 package com.example.planties.features.plant_care.garden.edit;
 
-import static com.example.planties.core.utils.ScreenUtils.getScreenWidth;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
@@ -26,10 +25,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.planties.R;
-import com.example.planties.core.GardenType;
+import com.example.planties.core.enum_type.GardenType;
 import com.example.planties.core.utils.ImageUtils;
+import com.example.planties.core.utils.TimeUtils;
 import com.example.planties.data.garden.remote.dto.GardenReq;
 import com.example.planties.data.plant.remote.dto.PlantResModel;
+import com.example.planties.data.reminder.remote.dto.ReminderReq;
 import com.example.planties.databinding.FragmentGardentEditBinding;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenAdapter;
 import com.example.planties.features.plant_care.garden.edit.adapter.garden.GardenGalleryModel;
@@ -86,12 +87,19 @@ public class GardentEditFragment extends Fragment {
                                             listImage)));
                             loadGarden();
                         } else {
-                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
-                                    null,
-                                    new GardenReq(
-                                            null,
-                                            null,
-                                            listImage)));
+                            String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+                            String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
+                            if (!gardenName.isEmpty()) {
+                                gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
+                                        null,
+                                        new GardenReq(
+                                                gardenName,
+                                                gardenType,
+                                                listImage)));
+                                loadGarden();
+                            } else {
+                                Toast.makeText(requireContext(), "Nama taman tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } else {
                         Log.d("PhotoPicker", "No media selected");
@@ -135,8 +143,12 @@ public class GardentEditFragment extends Fragment {
             String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
             List<String> imageUrl = new ArrayList<>();
             GardenReq gardenReq = new GardenReq(gardenName, gardenType, imageUrl);
-            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
-            navigateBack();
+            if (!gardenName.isEmpty()) {
+                gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
+                navigateBack();
+            } else {
+                Toast.makeText(requireContext(), "Nama Taman Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
+            }
         });
         if (gardenId == null) {
             List<String> gardenType = Arrays.asList(
@@ -210,6 +222,20 @@ public class GardentEditFragment extends Fragment {
                 }
                 gardenPhotosModel.add(new GardenGalleryModel("Add"));
                 getGardenAdapter().submitList(gardenPhotosModel);
+
+                // Check if a reminder is not set, then add a default reminder
+                if (gardenEditViewModel.getReminder().getValue() == null) {
+                    // Ensure the gardenDetail and its ID are not null
+                    if (gardenDetail.getId() != null) {
+                        ReminderReq reminderReq = new ReminderReq("Reminder " + gardenDetail.getName(), "watering", TimeUtils.TimeRandom60to180());
+                        gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddReminder(
+                                gardenDetail.getId(),
+                                reminderReq));
+                        Log.d("GardenEditFragment", "PostReminder Success: ");
+                    } else {
+                        Log.e("GardenEditFragment", "Garden ID is null");
+                    }
+                }
             }
         });
         if (gardenId != null) {
@@ -236,6 +262,7 @@ public class GardentEditFragment extends Fragment {
 
     private void loadGarden() {
         if (gardenId != null) {
+            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnLoadReminder(gardenId));
             gardenEditViewModel.processEvent(new GardenEditViewEvent.OnLoadGarden(gardenId));
         }
     }

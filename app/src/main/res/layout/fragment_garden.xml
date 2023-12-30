@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Neutral2"
+    android:paddingBottom="@dimen/margin_92dp"
     tools:context=".features.plant_care.GardenFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
