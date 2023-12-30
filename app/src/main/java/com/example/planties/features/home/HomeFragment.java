@@ -28,6 +28,7 @@ import com.example.planties.features.utils.adapter.filter.FilterModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
                 homeViewModel.processEvent(new HomeViewEvent.OnChangedFilter(item));
 
             });
-        }else {
+        } else {
             mFilterAdapter.notifyDataSetChanged();
         }
         return mFilterAdapter;
@@ -84,7 +85,6 @@ public class HomeFragment extends Fragment {
         observeState();
         setupSwipeListener();
         setupClickListener();
-        homeViewModel.processEvent(new HomeViewEvent.OnRefresh());
     }
 
     private void setupClickListener() {
@@ -94,11 +94,14 @@ public class HomeFragment extends Fragment {
         binding.sivProfile.setOnClickListener(v -> {
             navigateToProfile();
         });
+        binding.clOxygen.setOnClickListener(v -> {
+            navigaetToLeaderboard();
+        });
     }
 
     private void setupRecyclerView() {
         binding.rvTaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvTaman.addItemDecoration(new SpaceItemDecoration(48,false,false,false,false,0));
+        binding.rvTaman.addItemDecoration(new SpaceItemDecoration(48, false, false, false, false, 0));
         binding.rvTaman.setAdapter(getGardenAdapter());
 
         binding.rvTanaman.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -120,7 +123,6 @@ public class HomeFragment extends Fragment {
             UserResDetailDataModel profile = user.data;
             ImageExtensions.loadProfileImage(binding.sivProfile, requireContext(), profile.user.urlImage);
             binding.tvUsername.setText(profile.user.fullName);
-
         });
         homeViewModel.getGardenList().observe(getViewLifecycleOwner(), gardenModels -> {
             int size = gardenModels.size();
@@ -130,9 +132,9 @@ public class HomeFragment extends Fragment {
         homeViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
             List<PlantResModel> plant = new ArrayList<>(plantModels.getPlants());
             getPlantAdapter().submitList(plant);
-            if(plant.size() == 0){
+            if (plant.size() == 0) {
                 binding.cvEmptyStatePlant.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 binding.cvEmptyStatePlant.setVisibility(View.GONE);
             }
         });
@@ -152,6 +154,12 @@ public class HomeFragment extends Fragment {
             for (FilterModel filterModel : getFilterAdapter().getCurrentList()) {
                 Log.d("HomeFragment", "observeStateHomeCurrent: " + filterModel.getName() + " " + filterModel.isSelected());
             }
+        });
+        homeViewModel.getLeaderboards().observe(getViewLifecycleOwner(), leaderboards -> {
+            String formattedOxygen = String.format(Locale.getDefault(),"%.2f", leaderboards.getOxygen());
+            Log.d("HomeFragment", "observeStateLeader: " + leaderboards.getRank() + " " + leaderboards.getOxygen());
+            binding.tvFormatPeringkat.setText(getString(R.string.format_peringkat, leaderboards.getRank()));
+            binding.tvDescDetailOxygen.setText(getString(R.string.format_menghasilkan_oksigen, formattedOxygen));
         });
     }
 
@@ -181,8 +189,16 @@ public class HomeFragment extends Fragment {
         navController.navigate(directions);
     }
 
-    private void navigateToProfile(){
+    private void navigateToProfile() {
         NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToProfileFragment();
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
+    private void navigaetToLeaderboard() {
+        NavDirections directions = HomeFragmentDirections.actionHomeFragment2ToLeaderboardsFragment();
 
         NavController navController = Navigation.findNavController(requireView());
 

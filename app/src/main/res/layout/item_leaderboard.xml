@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_12dp"
+    android:background="@drawable/bg_container_leaderboard1"
+    app:cardCornerRadius="@dimen/corner_12dp"
+    app:cardElevation="@dimen/margin_4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_leaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_container_leaderboard1"
+        android:padding="@dimen/margin_12dp">
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_4dp"
+            android:textAppearance="@style/TextAppearance.Planties.Title5"
+            android:textColor="@color/Neutral1"
+            app:layout_constraintBottom_toTopOf="@id/tv_oxygen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Akif" />
+
+        <TextView
+            android:id="@+id/tv_oxygen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Planties.Subtitle1"
+            android:textColor="@color/Neutral1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="12312" />
+
+        <TextView
+            android:id="@+id/tv_label_co2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4dp"
+            android:text="@string/label_mg_o2"
+            android:textAppearance="@style/TextAppearance.Planties.Subtitle1"
+            android:textColor="@color/Neutral1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_oxygen" />
+
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Planties.Title1"
+            android:textColor="@color/Neutral1"
+            android:textSize="@dimen/font_32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="#1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

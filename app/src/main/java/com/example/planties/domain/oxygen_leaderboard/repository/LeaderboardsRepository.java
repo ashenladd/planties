@@ -7,5 +7,5 @@ import com.example.planties.data.leaderboards.remote.dto.LeaderboardsListRes;
 public interface LeaderboardsRepository {
     void getLeaderboards(ResponseCallback<LeaderboardsListRes> responseCallback);
 
-    void getDetailLeaderboards(String userId, ResponseCallback<LeaderboardsDetailRes> responseCallback);
+    void getDetailLeaderboards(ResponseCallback<LeaderboardsDetailRes> responseCallback);
 }

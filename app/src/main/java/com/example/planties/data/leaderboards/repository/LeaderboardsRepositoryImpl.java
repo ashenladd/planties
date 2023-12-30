@@ -1,5 +1,7 @@
 package com.example.planties.data.leaderboards.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.planties.core.response.BaseResultResponse;
@@ -41,11 +43,13 @@ public class LeaderboardsRepositoryImpl implements LeaderboardsRepository {
     }
 
     @Override
-    public void getDetailLeaderboards(String userId, ResponseCallback<LeaderboardsDetailRes> responseCallback) {
-        leaderboardsDataSource.getDetailLeaderboards(userId).enqueue(new Callback<LeaderboardsDetailRes>() {
+    public void getDetailLeaderboards(ResponseCallback<LeaderboardsDetailRes> responseCallback) {
+        leaderboardsDataSource.getDetailLeaderboards().enqueue(new Callback<LeaderboardsDetailRes>() {
             @Override
             public void onResponse(@NonNull Call<LeaderboardsDetailRes> call, @NonNull Response<LeaderboardsDetailRes> response) {
+                Log.d("response", "onResponse: " + response.body());
                 if (response.isSuccessful()) {
+                    Log.d("response", "onResponse: " + response.body());
                     LeaderboardsDetailRes leaderboardsDetailRes = response.body();
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, leaderboardsDetailRes, "success", response.code()));
                 } else {
@@ -55,6 +59,7 @@ public class LeaderboardsRepositoryImpl implements LeaderboardsRepository {
 
             @Override
             public void onFailure(@NonNull Call<LeaderboardsDetailRes> call, @NonNull Throwable t) {
+                Log.d("response", "onFailure: " + t.toString());
                 responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
             }
         });

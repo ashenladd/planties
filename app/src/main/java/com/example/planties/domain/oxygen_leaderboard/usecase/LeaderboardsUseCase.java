@@ -19,7 +19,7 @@ public class LeaderboardsUseCase {
         leaderboardsRepository.getLeaderboards(responseCallback);
     }
 
-    public void getDetailLeaderboards(String userId, ResponseCallback<LeaderboardsDetailRes> responseCallback) {
-        leaderboardsRepository.getDetailLeaderboards(userId, responseCallback);
+    public void getDetailLeaderboards(ResponseCallback<LeaderboardsDetailRes> responseCallback) {
+        leaderboardsRepository.getDetailLeaderboards(responseCallback);
     }
 }

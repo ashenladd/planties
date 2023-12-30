@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_leaderboardsFragment"
+            app:destination="@id/leaderboardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
@@ -109,4 +112,9 @@
         android:name="com.example.planties.features.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/leaderboardsFragment"
+        android:name="com.example.planties.features.oxygen_leaderboard.LeaderboardsFragment"
+        android:label="fragment_leaderboards"
+        tools:layout="@layout/fragment_leaderboards" />
 </navigation>
