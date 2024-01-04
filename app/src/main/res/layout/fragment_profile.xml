@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Planties.Oval"
         tools:ignore="ContentDescription"
+        android:src="@drawable/img_profile"
         tools:srcCompat="@tools:sample/avatars"
         app:layout_constraintTop_toBottomOf="@+id/tb_profile"/>
 

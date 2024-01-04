@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.planties.core.enum_type.TanamanType;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.garden.remote.dto.GardenDetailRes;
@@ -70,6 +71,11 @@ public class PlantDetailViewModel extends ViewModel {
     public LiveData<ReminderResModel> getReminderDetail() {
         return reminderDetail;
     }
+    private MutableLiveData<String> tanamanType = new MutableLiveData<>();
+
+    public LiveData<String> getTanamanType() {
+        return tanamanType;
+    }
 
     public void processEvent(PlantDetailViewEvent event) {
         if (event instanceof PlantDetailViewEvent.OnSaveEdit) {
@@ -105,6 +111,8 @@ public class PlantDetailViewModel extends ViewModel {
         } else if (event instanceof PlantDetailViewEvent.OnAddPlant) {
             postDetailPlant(((PlantDetailViewEvent.OnAddPlant) event).getGardenId(),
                     ((PlantDetailViewEvent.OnAddPlant) event).getPlantReq());
+        } else if (event instanceof PlantDetailViewEvent.OnClickDropdownValue){
+            tanamanType.postValue(((PlantDetailViewEvent.OnClickDropdownValue) event).getValue());
         }
     }
 
@@ -113,6 +121,7 @@ public class PlantDetailViewModel extends ViewModel {
             @Override
             public void onSuccess(BaseResultResponse<PlantDetailRes> response) {
                 plantDetail.postValue(response.getData().data.getPlant());
+                tanamanType.postValue(response.getData().data.getPlant().getType());
             }
 
             @Override

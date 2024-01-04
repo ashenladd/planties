@@ -52,7 +52,7 @@ public class LoginFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-
+                requireActivity().finish();
             }
         });
     }

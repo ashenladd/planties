@@ -30,6 +30,7 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder{
             binding.clLeaderboard.setBackgroundResource(R.drawable.bg_container_backgroundgrey_active);
             binding.tvUser.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral5));
             binding.tvOxygen.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral4));
+            binding.tvLabelCo2.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral4));
             binding.tvRank.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.Neutral3));
         }
         binding.tvUser.setText(item.getUsername());
