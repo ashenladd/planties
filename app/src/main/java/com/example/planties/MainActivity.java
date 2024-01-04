@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         if ("homeFragment2".equals(destination)) {
             // Set starting destination to homeFragment2
             navController.navigate(R.id.homeFragment2);
+        } else if ("adminFragment".equals(destination)) {
+            // Set starting destination to adminFragment
+            navController.navigate(R.id.adminFragment);
         } else {
             // Set starting destination to loginFragment
             navController.navigate(R.id.loginFragment);

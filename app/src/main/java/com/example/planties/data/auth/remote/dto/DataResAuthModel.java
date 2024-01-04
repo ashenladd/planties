@@ -7,7 +7,6 @@ public class DataResAuthModel {
     public String accessToken;
     @SerializedName("refresh_token")
     public String refreshToken;
-
     @SerializedName("role")
     public String role;
 }

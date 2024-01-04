@@ -61,4 +61,11 @@
     <string name="label_mg_o2">mg O2</string>
     <string name="label_leaderboard">Leaderboard</string>
     <string name="label_profile">Profile</string>
+    <string name="label_admin">Admin</string>
+    <string name="label_analytical_statistic">Analytical Statistic</string>
+    <string name="label_other_information">Other Information</string>
+    <string name="label_total_user">Total User</string>
+    <string name="format_total_user">Terdapat %d total user</string>
+    <string name="format_new_user">Terdapat %d total user baru</string>
+    <string name="label_total_new_user">Total New User</string>
 </resources>

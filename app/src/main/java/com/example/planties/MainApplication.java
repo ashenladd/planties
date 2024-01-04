@@ -24,9 +24,11 @@ public class MainApplication extends Application {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        if (tokenHandler.getAccessToken() != null && tokenHandler.getRefreshToken() != null) {
+        if (tokenHandler.getAccessToken() != null && tokenHandler.getRefreshToken() != null && tokenHandler.getRole().equals("client")) {
             // User is authenticated, add a flag or extra to indicate the destination
             intent.putExtra("destination", "homeFragment2");
+        } else if(tokenHandler.getAccessToken() != null && tokenHandler.getRole().equals("admin")){
+            intent.putExtra("destination", "adminFragment");
         } else {
             // User is not authenticated, add a flag or extra to indicate the destination
             intent.putExtra("destination", "loginFragment");

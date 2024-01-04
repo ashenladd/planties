@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Neutral2"
+    tools:context=".features.admin.AdminFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/apl_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_24dp"
+                android:layout_marginEnd="@dimen/margin_24dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/siv_profile"
+                    android:layout_width="@dimen/size_34dp"
+                    android:layout_height="@dimen/size_34dp"
+                    android:src="@drawable/img_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Planties.Round" />
+
+                <TextView
+                    android:id="@+id/tv_label_welcome_back"
+                    style="@style/TextAppearance.Planties.SubtitleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12dp"
+                    android:text="@string/label_welcome_back"
+                    android:textColor="@color/TextSubtitle"
+                    app:layout_constraintStart_toEndOf="@id/siv_profile"
+                    app:layout_constraintTop_toTopOf="@id/siv_profile" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    style="@style/TextAppearance.Planties.TittleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_admin"
+                    android:textColor="@color/Neutral5"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_welcome_back"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_welcome_back" />
+
+                <TextView
+                    android:id="@+id/tv_emot"
+                    style="@style/TextAppearance.Planties.TittleAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emoticon_hello"
+                    android:textColor="@color/Neutral5"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_username"
+                    app:layout_constraintStart_toEndOf="@+id/tv_username"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_welcome_back" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_logout"
+                    style="@style/Widget.Planties.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button_transparent_active"
+                    android:drawableStart="@drawable/ic_logout"
+                    android:text="@string/label_log_out"
+                    android:textAppearance="@style/TextAppearance.Planties.Button3"
+                    android:textColor="@color/Red500"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_app"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/apl_appbar">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_16dp">
+
+                <TextView
+                    android:id="@+id/tv_label_analytical_statistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_20dp"
+                    android:text="@string/label_analytical_statistic"
+                    android:textAppearance="@style/TextAppearance.Planties.Title2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pc_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_256dp"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:layout_marginTop="@dimen/margin_12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_analytical_statistic" />
+
+                <TextView
+                    android:id="@+id/tv_label_total_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Planties.Title3"
+                    android:layout_marginTop="@dimen/margin_20dp"
+                    app:layout_constraintStart_toStartOf="@+id/pc_chart"
+                    app:layout_constraintTop_toBottomOf="@id/pc_chart"
+                    android:text="@string/label_total_user" />
+
+                <TextView
+                    android:id="@+id/tv_format_total_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Planties.Body1"
+                    android:textColor="@color/Neutral3"
+                    app:layout_constraintStart_toStartOf="@+id/pc_chart"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_total_user"
+                    android:text="@string/format_total_user" />
+
+                <TextView
+                    android:id="@+id/tv_label_new_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Planties.Title3"
+                    android:layout_marginTop="@dimen/margin_12dp"
+                    app:layout_constraintStart_toStartOf="@+id/pc_chart"
+                    app:layout_constraintTop_toBottomOf="@id/tv_format_total_user"
+                    android:text="@string/label_total_new_user" />
+
+                <TextView
+                    android:id="@+id/tv_format_new_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Planties.Body1"
+                    android:textColor="@color/Neutral3"
+                    app:layout_constraintStart_toStartOf="@+id/pc_chart"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_new_user"
+                    android:text="@string/format_total_user" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

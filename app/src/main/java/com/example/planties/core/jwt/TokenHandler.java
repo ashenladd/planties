@@ -11,6 +11,7 @@ public class TokenHandler {
     private static final String PREF_NAME = "PlantiesPreferences";
     private static final String KEY_ACCESS_TOKEN = "accessToken";
     private static final String KEY_REFRESH_TOKEN = "refreshToken";
+    private static final String KEY_ROLE = "role";
     private final Context context;
     @Inject
     public TokenHandler(Context context) {
@@ -59,5 +60,24 @@ public class TokenHandler {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(KEY_REFRESH_TOKEN);
         editor.apply();
+    }
+
+    public void saveRole(String role) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ROLE, role);
+        editor.apply();
+    }
+
+    public void clearRole() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(KEY_ROLE);
+        editor.apply();
+    }
+
+    public String getRole() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_ROLE, null);
     }
 }
