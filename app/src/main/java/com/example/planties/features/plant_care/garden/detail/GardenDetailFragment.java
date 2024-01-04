@@ -72,6 +72,12 @@ public class GardenDetailFragment extends Fragment {
         setupSwipeRefresh();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadGarden();
+    }
+
     private void setupToolbar() {
         binding.tbGardenDetail.toolbar.setNavigationOnClickListener(v -> navigateBack());
         binding.tbGardenDetail.ivEdit.setOnClickListener(v -> navigateToEditGarden(gardenId));

@@ -87,19 +87,7 @@ public class GardentEditFragment extends Fragment {
                                             listImage)));
                             loadGarden();
                         } else {
-                            String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
-                            String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
-                            if (!gardenName.isEmpty()) {
-                                gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddImage(
-                                        null,
-                                        new GardenReq(
-                                                gardenName,
-                                                gardenType,
-                                                listImage)));
-                                loadGarden();
-                            } else {
-                                Toast.makeText(requireContext(), "Nama taman tidak boleh kosong", Toast.LENGTH_SHORT).show();
-                            }
+                            gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddPostImage(base64Image));
                         }
                     } else {
                         Log.d("PhotoPicker", "No media selected");
@@ -124,7 +112,7 @@ public class GardentEditFragment extends Fragment {
         setupRecyclerView();
         setupBackPressed();
         setupToolbar();
-        obeserveState();
+        observeState();
         loadGarden();
         setupSwipeRefresh();
         setupClickListener();
@@ -138,19 +126,7 @@ public class GardentEditFragment extends Fragment {
     }
 
     private void setupClickListener() {
-        binding.tbGardenEdit.btnTambahTaman.setOnClickListener(v -> {
-            String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
-            String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
-            List<String> imageUrl = new ArrayList<>();
-            GardenReq gardenReq = new GardenReq(gardenName, gardenType, imageUrl);
-            if (!gardenName.isEmpty()) {
-                gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
-                navigateBack();
-            } else {
-                Toast.makeText(requireContext(), "Nama Taman Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
-            }
-        });
-        if (gardenId == null) {
+        if (gardenId == null){
             List<String> gardenType = Arrays.asList(
                     GardenType.INDOOR.getValue(),
                     GardenType.OUTDOOR.getValue()
@@ -161,6 +137,33 @@ public class GardentEditFragment extends Fragment {
                     binding.btnTipeTaman.setText(gardenType.get(1));
                 } else {
                     binding.btnTipeTaman.setText(gardenType.get(0));
+                }
+            });
+
+            binding.tbGardenEdit.btnTambahTaman.setOnClickListener(v -> {
+                String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+                String gardenTypeInput = binding.btnTipeTaman.getText().toString().toUpperCase();
+                if (!gardenName.isEmpty()) {
+                    Log.d("GardenEditFragment", "setupClickListener: " + gardenEditViewModel.getImageList().getValue());
+                    GardenReq gardenReq = new GardenReq(gardenName, gardenTypeInput, gardenEditViewModel.getImageList().getValue());
+                    gardenEditViewModel.processEvent(new GardenEditViewEvent.OnAddGarden(gardenReq));
+                    loadGarden();
+                    Toast.makeText(requireContext(), "Taman Berhasil Ditambahkan", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Nama Taman Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            binding.tbGardenEdit.btnTambahTaman.setOnClickListener(v -> {
+                String gardenName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+                String gardenType = binding.btnTipeTaman.getText().toString().toUpperCase();
+                List<String> imageUrl = new ArrayList<>();
+                GardenReq gardenReq = new GardenReq(gardenName, gardenType, imageUrl);
+                if (!gardenName.isEmpty()) {
+                    gardenEditViewModel.processEvent(new GardenEditViewEvent.OnSaveEdit(gardenId, gardenReq));
+                    navigateBack();
+                } else {
+                    Toast.makeText(requireContext(), "Nama Taman Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -196,14 +199,25 @@ public class GardentEditFragment extends Fragment {
         navController.navigateUp();
     }
 
-    private void obeserveState() {
+    private void observeState() {
         if (gardenId == null) {
             List<GardenGalleryModel> gardenPhotosModel = new ArrayList<>();
             gardenPhotosModel.add(new GardenGalleryModel("Add"));
             getGardenAdapter().submitList(gardenPhotosModel);
 
+            gardenEditViewModel.getImageList().observe(getViewLifecycleOwner(), imageList -> {
+                if (imageList != null) {
+                    List<GardenGalleryModel> gardenImageList = new ArrayList<>();
+                    for (String urlImage : imageList) {
+                        gardenImageList.add(new GardenGalleryModel(urlImage));
+                    }
+                    gardenImageList.add(new GardenGalleryModel("Add"));
+                    getGardenAdapter().submitList(gardenImageList);
+                }
+            });
+
             List<PlantResModel> plantModels = new ArrayList<>();
-            plantModels.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
+            plantModels.add(new PlantResModel("Add", null, null, null, gardenId, null, null,null));
             getPlantAdapter().submitList(plantModels);
 
             binding.tvLabelTanaman.setVisibility(View.GONE);
@@ -242,7 +256,7 @@ public class GardentEditFragment extends Fragment {
             gardenEditViewModel.getPlantList().observe(getViewLifecycleOwner(), plantModels -> {
                 if (plantModels != null) {
                     List<PlantResModel> plantModelList = new ArrayList<>(plantModels.getPlants());
-                    plantModelList.add(new PlantResModel("Add", null, null, null, gardenId, null, null));
+                    plantModelList.add(new PlantResModel("Add", null, null, null, gardenId, null, null,null));
                     getPlantAdapter().submitList(plantModelList);
                 }
             });

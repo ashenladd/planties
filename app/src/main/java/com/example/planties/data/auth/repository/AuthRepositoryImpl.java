@@ -46,8 +46,10 @@ public class AuthRepositoryImpl implements AuthRepository {
                     }
                     String accessToken = loginResponse.data.accessToken;
                     String refreshToken = loginResponse.data.refreshToken;
+                    String role = loginResponse.data.role;
                     tokenHandler.saveAccessToken(accessToken);
                     tokenHandler.saveRefreshToken(refreshToken);
+                    tokenHandler.saveRole(role);
                     responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, loginResponse, "success", response.code()));
                 } else {
                     tokenHandler.clearAccessToken();
@@ -94,5 +96,6 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public void logout() {
         tokenHandler.clearAccessToken();
+        tokenHandler.clearRole();
     }
 }

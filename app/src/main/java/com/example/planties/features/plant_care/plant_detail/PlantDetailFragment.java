@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -35,6 +38,7 @@ import com.example.planties.features.plant_care.plant_detail.adapter.PlantAdapte
 import com.example.planties.features.plant_care.plant_detail.adapter.PlantModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +51,7 @@ public class PlantDetailFragment extends Fragment {
     private PlantAdapter plantAdapter;
     private String gardenId;
     private String plantId;
+
     private boolean isAddPlant;
 
     private PlantAdapter getPlantAdapter() {
@@ -79,6 +84,62 @@ public class PlantDetailFragment extends Fragment {
         loadPlant();
         setupSwipeRefresh();
         setupClickListener();
+        setupDropdown();
+    }
+
+    private void setupDropdown() {
+        String[] items = new String[]{"Tanaman Berbunga", "Tanaman Buah", "Tanaman Hias","Tanaman Air"};
+
+        ListPopupWindow listPopupWindow = new ListPopupWindow(requireContext());
+        listPopupWindow.setAnchorView(binding.btnTipeTanaman);
+
+        int maxWidth = calculateMaxWidth(items);
+        listPopupWindow.setWidth(maxWidth);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.list_popup_window, items);
+        listPopupWindow.setAdapter(adapter);
+
+        // Observe the LiveData for changes
+        plantDetailViewModel.getTanamanType().observe(getViewLifecycleOwner(), tanamanType -> {
+            if (tanamanType != null) {
+                // If TanamanType is not null, set the selected item in the dropdown
+                String tanamanTypeValue = tanamanType;
+                int position = Arrays.asList(items).indexOf(tanamanTypeValue);
+                if (position != -1) {
+                    // Set the selected item
+                    listPopupWindow.setSelection(position);
+                    binding.btnTipeTanaman.setText(tanamanTypeValue);
+                }else{
+                    listPopupWindow.setSelection(0); // Set to the first item as default
+                    binding.btnTipeTanaman.setText(items[0]);
+                }
+            }else{
+                listPopupWindow.setSelection(0); // Set to the first item as default
+                binding.btnTipeTanaman.setText(items[0]);
+            }
+        });
+        listPopupWindow.setSelection(0); // Set to the first item as default
+        binding.btnTipeTanaman.setText(items[0]);
+
+        listPopupWindow.setOnItemClickListener((parent, view, position, id) -> {
+            plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickDropdownValue(items[position]));
+            binding.btnTipeTanaman.setText(items[position]);
+            listPopupWindow.setSelection(position);
+            listPopupWindow.dismiss();
+        });
+
+        listPopupWindow.setOnDismissListener(() -> {
+            binding.btnTipeTanaman.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand, 0);
+        });
+
+        binding.btnTipeTanaman.setOnClickListener(v -> {
+            if (listPopupWindow.isShowing()) {
+                listPopupWindow.dismiss();
+            } else {
+                listPopupWindow.show();
+                binding.btnTipeTanaman.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_less, 0);
+            }
+        });
     }
 
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
@@ -131,6 +192,7 @@ public class PlantDetailFragment extends Fragment {
             plantDetailViewModel.processEvent(new PlantDetailViewEvent.OnClickEdit());
             binding.toolbarSave.btnTambahTaman.setOnClickListener(v -> {
                 String plantName = Objects.requireNonNull(binding.tietInput.getText()).toString();
+                String plantType = Objects.requireNonNull(binding.btnTipeTanaman.getText()).toString();
                 if (!plantName.isEmpty()) {
                     plantDetailViewModel.processEvent(
                             new PlantDetailViewEvent.OnAddPlant(
@@ -139,7 +201,7 @@ public class PlantDetailFragment extends Fragment {
                                             plantName,
                                             "Banner " + plantName,
                                             TimeUtils.TimeNow(),
-                                            TanamanType.TANAMAN_BERBUNGA.getValue(),
+                                            plantType,
                                             plantDetailViewModel.getImageList().getValue())));
                     navigateBack();
                 }else{
@@ -229,6 +291,8 @@ public class PlantDetailFragment extends Fragment {
                 binding.ivEditName.setVisibility(View.GONE);
                 binding.tvPlantName.setVisibility(View.VISIBLE);
                 binding.tietInput.setVisibility(View.GONE);
+                binding.btnTipeTanaman.setEnabled(false);
+                binding.btnTipeTanaman.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
             } else {
                 binding.toolbarSave.appbar.setVisibility(View.VISIBLE);
                 binding.toolbarEdit.appbar.setVisibility(View.GONE);
@@ -236,6 +300,8 @@ public class PlantDetailFragment extends Fragment {
                 binding.tvPlantName.setVisibility(View.GONE);
                 binding.tietInput.setVisibility(View.VISIBLE);
                 binding.tietInput.setText(binding.tvPlantName.getText());
+                binding.btnTipeTanaman.setEnabled(true);
+                binding.btnTipeTanaman.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand, 0);
             }
         });
         plantDetailViewModel.getReminderDetail().observe(getViewLifecycleOwner(), reminderDetail -> {
@@ -269,4 +335,14 @@ public class PlantDetailFragment extends Fragment {
 
         progressAnimator.start();
     }
+
+    private int calculateMaxWidth(String[] items) {
+        int maxWidth = 0;
+        for (String item : items) {
+            int textWidth = (int) binding.btnTipeTanaman.getPaint().measureText(item);
+            maxWidth = Math.max(maxWidth, textWidth);
+        }
+        return maxWidth + 120;
+    }
 }
+

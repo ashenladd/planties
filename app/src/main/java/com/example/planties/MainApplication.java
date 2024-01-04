@@ -2,10 +2,6 @@ package com.example.planties;
 
 import android.app.Application;
 import android.content.Intent;
-import android.util.Log;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.example.planties.core.jwt.TokenHandler;
 
@@ -24,9 +20,12 @@ public class MainApplication extends Application {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        if (tokenHandler.getAccessToken() != null && tokenHandler.getRefreshToken() != null) {
-            // User is authenticated, add a flag or extra to indicate the destination
-            intent.putExtra("destination", "homeFragment2");
+        if (tokenHandler.getAccessToken() != null && tokenHandler.getRefreshToken() != null && tokenHandler.getRole() != null) {
+            if (tokenHandler.getRole().equals("client")) {
+                intent.putExtra("destination", "homeFragment2");
+            } else if (tokenHandler.getRole().equals("admin")) {
+                intent.putExtra("destination", "adminFragment");
+            }
         } else {
             // User is not authenticated, add a flag or extra to indicate the destination
             intent.putExtra("destination", "loginFragment");

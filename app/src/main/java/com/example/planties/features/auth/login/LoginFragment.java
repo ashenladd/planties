@@ -1,6 +1,11 @@
 package com.example.planties.features.auth.login;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -11,14 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.planties.data.auth.remote.dto.AuthRequest;
 import com.example.planties.databinding.FragmentLoginBinding;
-
 
 import java.util.Objects;
 
@@ -30,6 +28,7 @@ public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
 
     private FragmentLoginBinding binding;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class LoginFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-
+                requireActivity().finish();
             }
         });
     }
@@ -86,12 +85,26 @@ public class LoginFragment extends Fragment {
         navController.navigate(directions);
     }
 
+    private void navigateToAdmin() {
+        NavDirections directions = LoginFragmentDirections.actionLoginFragmentToAdminFragment();
+
+        NavController navController = Navigation.findNavController(requireView());
+
+        navController.navigate(directions);
+    }
+
     private void setupObserver() {
         loginViewModel.getAuthResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (response.isSuccess()) {
                 // Handle successful authentication
                 showToast("Authentication successful");
-                navigateToHome();
+                if (response.getData().data.role.equals("admin")) {
+                    Log.d("LoginFragment", "setupObserver: " + response.getData().data.role);
+                    navigateToAdmin();
+                } else if (response.getData().data.role.equals("client")) {
+                    Log.d("LoginFragment", "setupObserver: " + response.getData().data.role);
+                    navigateToHome();
+                }
             } else {
                 // Handle authentication failure
                 showToast("Authentication failed. Error: " + response.getMessage());

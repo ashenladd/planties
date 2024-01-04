@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
+import com.example.planties.data.user.remote.dto.AdminRes;
+import com.example.planties.data.user.remote.dto.AdminResModel;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.domain.user.repository.UserRepository;
 
@@ -30,6 +32,20 @@ public class UserUseCase {
                 responseCallback.onFailure(response);
             }
 
+        });
+    }
+
+    public void getAdmin(ResponseCallback<AdminRes> responseCallback){
+        userRepository.getAdmin(new ResponseCallback<AdminRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<AdminRes> response) {
+                responseCallback.onSuccess(new BaseResultResponse<AdminRes>(StatusResult.SUCCESS,response.getData(),response.getData().message,response.getCode()));
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<AdminRes> response) {
+                responseCallback.onFailure(response);
+            }
         });
     }
 }

@@ -140,4 +140,16 @@ public class PlantDetailViewEvent {
 
     }
 
+    public static class OnClickDropdownValue extends PlantDetailViewEvent {
+        private final String value;
+
+        public OnClickDropdownValue(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
 }

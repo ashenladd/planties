@@ -67,7 +67,7 @@
                     android:layout_marginTop="@dimen/margin_84dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="@string/label_tipe_tanaman"
+                    android:text="@string/label_tipe_taman"
                     android:textAppearance="@style/TextAppearance.Planties.Body1"
                     android:textColor="@color/Neutral3"
                     app:layout_constraintStart_toStartOf="parent"

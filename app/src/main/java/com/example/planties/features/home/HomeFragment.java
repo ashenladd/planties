@@ -98,6 +98,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        homeViewModel.processEvent(new HomeViewEvent.OnRefresh());
+    }
+
     private void setupClickListener() {
         binding.btnTambahTaman.setOnClickListener(v -> {
             navigateToGardenEdit();
@@ -170,7 +176,7 @@ public class HomeFragment extends Fragment {
             }
         });
         homeViewModel.getLeaderboards().observe(getViewLifecycleOwner(), leaderboards -> {
-            String formattedOxygen = String.format(Locale.getDefault(),"%.2f", leaderboards.getOxygen());
+            String formattedOxygen = String.format(Locale.getDefault(), "%.2f", leaderboards.getOxygen());
             Log.d("HomeFragment", "observeStateLeader: " + leaderboards.getRank() + " " + leaderboards.getOxygen());
             binding.tvFormatPeringkat.setText(getString(R.string.format_peringkat, leaderboards.getRank()));
             binding.tvDescDetailOxygen.setText(getString(R.string.format_menghasilkan_oksigen, formattedOxygen));

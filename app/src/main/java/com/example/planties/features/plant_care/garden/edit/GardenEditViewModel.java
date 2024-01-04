@@ -20,8 +20,10 @@ import com.example.planties.data.reminder.remote.dto.ReminderResModel;
 import com.example.planties.domain.garden.usecase.GardenUseCase;
 import com.example.planties.domain.plant.usecase.PlantUseCase;
 import com.example.planties.domain.reminder.usecase.ReminderUseCase;
+import com.example.planties.features.plant_care.plant_detail.PlantDetailViewEvent;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -52,11 +54,19 @@ public class GardenEditViewModel extends ViewModel {
     public MutableLiveData<PlantResListDataModel> getPlantList() {
         return plantList;
     }
+
     private MutableLiveData<ReminderResModel> reminderDetail = new MutableLiveData<>();
 
     public LiveData<ReminderResModel> getReminder() {
         return reminderDetail;
     }
+
+    private MutableLiveData<List<String>> imageList = new MutableLiveData<>();
+
+    public LiveData<List<String>> getImageList() {
+        return imageList;
+    }
+
 
     public void processEvent(GardenEditViewEvent event) {
         if (event instanceof GardenEditViewEvent.OnLoadGarden) {
@@ -74,10 +84,25 @@ public class GardenEditViewModel extends ViewModel {
             } else {
                 putDetailGarden(((GardenEditViewEvent.OnAddImage) event).gardenId, ((GardenEditViewEvent.OnAddImage) event).gardenReq);
             }
-        } else if (event instanceof GardenEditViewEvent.OnAddReminder){
+        } else if (event instanceof GardenEditViewEvent.OnAddReminder) {
             postReminder(((GardenEditViewEvent.OnAddReminder) event).getGardenId(), ((GardenEditViewEvent.OnAddReminder) event).getReminderReq());
-        }else if (event instanceof GardenEditViewEvent.OnLoadReminder) {
+        } else if (event instanceof GardenEditViewEvent.OnLoadReminder) {
             getReminderDetail(((GardenEditViewEvent.OnLoadReminder) event).getGardenId());
+        } else if (event instanceof GardenEditViewEvent.OnAddPostImage) {
+            List<String> list = imageList.getValue();
+
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+
+            String newImage = ((GardenEditViewEvent.OnAddPostImage) event).getImage();
+            Log.d("GardenEditViewEvent", "processEvent: " + newImage);
+
+            list.add(newImage);
+
+            imageList.postValue(list);
+        } else if (event instanceof GardenEditViewEvent.OnAddGarden) {
+            postGarden(((GardenEditViewEvent.OnAddGarden) event).getGardenReq());
         }
     }
 

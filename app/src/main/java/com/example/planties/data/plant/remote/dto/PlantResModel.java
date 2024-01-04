@@ -20,7 +20,10 @@ public class PlantResModel {
     @SerializedName("user_id")
     private String mUserId;
 
-    public PlantResModel(String id, String name, String banner, List<String> urlImage, String gardenId, Double oxygen, String userId) {
+    @SerializedName("type")
+    private String mType;
+
+    public PlantResModel(String id, String name, String banner, List<String> urlImage, String gardenId, Double oxygen, String userId, String type) {
         mId = id;
         mName = name;
         mBanner = banner;
@@ -28,6 +31,7 @@ public class PlantResModel {
         mGardenId = gardenId;
         mOxygen = oxygen;
         mUserId = userId;
+        mType = type;
     }
 
     public String getId() {
@@ -69,6 +73,7 @@ public class PlantResModel {
     public void setGardenId(String gardenId) {
         mGardenId = gardenId;
     }
+
     public Double getOxygen() {
         return mOxygen;
     }
@@ -76,11 +81,20 @@ public class PlantResModel {
     public void setOxygen(Double oxygen) {
         mOxygen = oxygen;
     }
+
     public String getUserId() {
         return mUserId;
     }
 
     public void setUserId(String userId) {
         mUserId = userId;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String type) {
+        mType = type;
     }
 }

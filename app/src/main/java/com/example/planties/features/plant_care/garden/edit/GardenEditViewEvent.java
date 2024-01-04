@@ -23,6 +23,18 @@ public class GardenEditViewEvent {
         }
     }
 
+    public static class OnAddGarden extends GardenEditViewEvent {
+        public GardenReq gardenReq;
+
+        public OnAddGarden(GardenReq gardenReq) {
+            this.gardenReq = gardenReq;
+        }
+
+        public GardenReq getGardenReq() {
+            return gardenReq;
+        }
+    }
+
     public static class OnAddImage extends GardenEditViewEvent {
         public String gardenId;
         public GardenReq gardenReq;
@@ -30,6 +42,18 @@ public class GardenEditViewEvent {
         public OnAddImage(String gardenId,  GardenReq gardenReq) {
             this.gardenId = gardenId;
             this.gardenReq = gardenReq;
+        }
+    }
+
+    public static class OnAddPostImage extends GardenEditViewEvent{
+        private final String image;
+
+        public OnAddPostImage(String image) {
+            this.image = image;
+        }
+
+        public String getImage() {
+            return image;
         }
     }
 

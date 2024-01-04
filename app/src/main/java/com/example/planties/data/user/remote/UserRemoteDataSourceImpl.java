@@ -2,6 +2,7 @@ package com.example.planties.data.user.remote;
 
 import com.example.planties.core.jwt.TokenHandler;
 import com.example.planties.core.utils.NetworkUtil;
+import com.example.planties.data.user.remote.dto.AdminRes;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.data.user.remote.network.UserService;
 
@@ -22,5 +23,10 @@ public class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     @Override
     public Call<UserDetailRes> getProfile() {
         return userService.getProfile(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
+    }
+
+    @Override
+    public Call<AdminRes> getAdmin() {
+        return userService.getAdmin(NetworkUtil.getAuthHeader(tokenHandler.getAccessToken()));
     }
 }
