@@ -9,6 +9,7 @@ import com.example.planties.core.response.BaseResultResponse;
 import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.data.user.remote.dto.AdminRes;
 import com.example.planties.data.user.remote.dto.AdminResModel;
+import com.example.planties.data.user.remote.dto.UpdateRes;
 import com.example.planties.domain.auth.usecase.AuthUseCase;
 import com.example.planties.domain.user.usecase.UserUseCase;
 
@@ -33,12 +34,18 @@ public class AdminViewModel extends ViewModel {
     public LiveData<AdminResModel> getAdminLive() {
         return admin;
     }
+    private final MutableLiveData<UpdateRes> updateRes = new MutableLiveData<>();
+    public LiveData<UpdateRes> getUpdateResLive() {
+        return updateRes;
+    }
 
     public void processEvent (AdminViewEvent event){
         if (event instanceof AdminViewEvent.OnRefresh) {
             getAdmin();
         } else if (event instanceof AdminViewEvent.OnLogout) {
             authUseCase.logout();
+        } else if (event instanceof AdminViewEvent.OnUpdate) {
+            updateLeaderboard();
         }
     }
 
@@ -53,6 +60,22 @@ public class AdminViewModel extends ViewModel {
 
             @Override
             public void onFailure(BaseResultResponse<AdminRes> response) {
+
+            }
+        });
+    }
+
+    void updateLeaderboard(){
+        userUseCase.updateLeaderboard(new ResponseCallback<UpdateRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<UpdateRes> response) {
+                if (response.isSuccess()) {
+                    updateRes.setValue(response.getData());
+                }
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<UpdateRes> response) {
 
             }
         });

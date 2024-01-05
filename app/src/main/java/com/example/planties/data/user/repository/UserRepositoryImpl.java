@@ -9,6 +9,7 @@ import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
 import com.example.planties.data.user.remote.UserRemoteDataSource;
 import com.example.planties.data.user.remote.dto.AdminRes;
+import com.example.planties.data.user.remote.dto.UpdateRes;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.data.user.remote.dto.UserResDetailDataModel;
 import com.example.planties.domain.user.repository.UserRepository;
@@ -71,6 +72,30 @@ public class UserRepositoryImpl implements UserRepository {
 
             @Override
             public void onFailure(@NonNull Call<AdminRes> call, @NonNull Throwable t) {
+                responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
+            }
+        });
+    }
+
+    @Override
+    public void updateLeaderboard(ResponseCallback<UpdateRes> responseCallback) {
+        userRemoteDataSource.updateLeaderboard().enqueue(new Callback<UpdateRes>() {
+            @Override
+            public void onResponse(@NonNull Call<UpdateRes> call, @NonNull Response<UpdateRes> response) {
+                if (response.isSuccessful()) {
+                    UpdateRes updateRes = response.body();
+                    if (updateRes == null) {
+                        responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
+                        return;
+                    }
+                    responseCallback.onSuccess(new BaseResultResponse<>(StatusResult.SUCCESS, updateRes, "success", response.code()));
+                } else {
+                    responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Failed", response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UpdateRes> call, @NonNull Throwable t) {
                 responseCallback.onFailure(new BaseResultResponse<>(StatusResult.FAILURE, null, "Error: " + t.toString(), 0));
             }
         });

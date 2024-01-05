@@ -164,6 +164,19 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_label_new_user"
                     android:text="@string/format_total_user" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_update_leaderboard"
+                    style="@style/Widget.Planties.Button"
+                    android:background="@drawable/bg_button_black_active2"
+                    android:drawableStart="@drawable/ic_add_plant"
+                    android:text="@string/update_leaderboard"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:paddingHorizontal="@dimen/margin_10dp"
+                    android:paddingVertical="@dimen/margin_12dp"
+                    android:textAppearance="@style/TextAppearance.Planties.Button3"
+                    app:layout_constraintStart_toStartOf="@+id/tv_label_total_user"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_format_new_user" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

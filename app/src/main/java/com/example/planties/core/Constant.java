@@ -14,6 +14,7 @@ public class Constant {
     public static final String DETAIL_LEADERBOARD = "/leaderboards/user";
     public static final String USER = "/users";
     public static final String ADMIN = "/admin";
+    public static final String ADMIN_UPDATE_LEADERBOARD = "/admin/update/leaderboard";
     public static final String PREDICT = "/predict";
     public static final String REMINDER = "gardens/{gardenId}/reminders";
     public static final String DETAIL_REMINDER = "gardens/{gardenId}/reminders/{reminderId}";

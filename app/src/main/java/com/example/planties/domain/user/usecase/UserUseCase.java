@@ -7,6 +7,7 @@ import com.example.planties.core.response.ResponseCallback;
 import com.example.planties.core.response.StatusResult;
 import com.example.planties.data.user.remote.dto.AdminRes;
 import com.example.planties.data.user.remote.dto.AdminResModel;
+import com.example.planties.data.user.remote.dto.UpdateRes;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 import com.example.planties.domain.user.repository.UserRepository;
 
@@ -44,6 +45,20 @@ public class UserUseCase {
 
             @Override
             public void onFailure(BaseResultResponse<AdminRes> response) {
+                responseCallback.onFailure(response);
+            }
+        });
+    }
+
+    public void updateLeaderboard(ResponseCallback<UpdateRes> responseCallback){
+        userRepository.updateLeaderboard(new ResponseCallback<UpdateRes>() {
+            @Override
+            public void onSuccess(BaseResultResponse<UpdateRes> response) {
+                responseCallback.onSuccess(new BaseResultResponse<UpdateRes>(StatusResult.SUCCESS,response.getData(),response.getData().getMessage(),response.getCode()));
+            }
+
+            @Override
+            public void onFailure(BaseResultResponse<UpdateRes> response) {
                 responseCallback.onFailure(response);
             }
         });

@@ -2,6 +2,7 @@ package com.example.planties.data.user.remote.network;
 
 import com.example.planties.core.Constant;
 import com.example.planties.data.user.remote.dto.AdminRes;
+import com.example.planties.data.user.remote.dto.UpdateRes;
 import com.example.planties.data.user.remote.dto.UserDetailRes;
 
 import java.util.Map;
@@ -16,4 +17,7 @@ public interface UserService {
 
     @GET(Constant.ADMIN)
     Call<AdminRes> getAdmin(@HeaderMap Map<String, String> token);
+
+    @GET(Constant.ADMIN_UPDATE_LEADERBOARD)
+    Call<UpdateRes> updateLeaderboard(@HeaderMap Map<String, String> token);
 }
