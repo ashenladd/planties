@@ -69,4 +69,6 @@
     <string name="format_new_user">Terdapat %d total user baru</string>
     <string name="label_total_new_user">Total New User</string>
     <string name="label_tipe_taman">Tipe Taman</string>
+    <string name="update_leaderboard">Update Leaderboard</string>
+    <string name="label_need_water">Need Water!</string>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -73,6 +74,9 @@ public class AdminFragment extends Fragment {
             adminViewModel.processEvent(new AdminViewEvent.OnLogout());
             navigateToLogin();
         });
+        binding.btnUpdateLeaderboard.setOnClickListener(v -> {
+            adminViewModel.processEvent(new AdminViewEvent.OnUpdate());
+        });
     }
 
     private void navigateToLogin() {
@@ -90,6 +94,13 @@ public class AdminFragment extends Fragment {
                 setData();
                 binding.tvFormatTotalUser.setText(getString(R.string.format_total_user, admin.getTotalUser()));
                 binding.tvFormatNewUser.setText(getString(R.string.format_new_user, admin.getTotalNewUser()));
+            }
+        });
+        adminViewModel.getUpdateResLive().observe(getViewLifecycleOwner(), res -> {
+            if (res != null) {
+                if (res.getStatus().equals("success")) {
+                    Toast.makeText(requireContext(), "Leaderboard updated", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

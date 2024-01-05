@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -27,7 +27,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.planties.R;
-import com.example.planties.core.enum_type.TanamanType;
 import com.example.planties.core.utils.ImageExtensions;
 import com.example.planties.core.utils.ImageUtils;
 import com.example.planties.core.utils.TimeUtils;
@@ -88,7 +87,7 @@ public class PlantDetailFragment extends Fragment {
     }
 
     private void setupDropdown() {
-        String[] items = new String[]{"Tanaman Berbunga", "Tanaman Buah", "Tanaman Hias","Tanaman Air"};
+        String[] items = new String[]{"Tanaman Berbunga", "Tanaman Buah", "Tanaman Hias", "Tanaman Air"};
 
         ListPopupWindow listPopupWindow = new ListPopupWindow(requireContext());
         listPopupWindow.setAnchorView(binding.btnTipeTanaman);
@@ -109,11 +108,11 @@ public class PlantDetailFragment extends Fragment {
                     // Set the selected item
                     listPopupWindow.setSelection(position);
                     binding.btnTipeTanaman.setText(tanamanTypeValue);
-                }else{
+                } else {
                     listPopupWindow.setSelection(0); // Set to the first item as default
                     binding.btnTipeTanaman.setText(items[0]);
                 }
-            }else{
+            } else {
                 listPopupWindow.setSelection(0); // Set to the first item as default
                 binding.btnTipeTanaman.setText(items[0]);
             }
@@ -204,7 +203,7 @@ public class PlantDetailFragment extends Fragment {
                                             plantType,
                                             plantDetailViewModel.getImageList().getValue())));
                     navigateBack();
-                }else{
+                } else {
                     Toast.makeText(requireContext(), "Nama tanaman tidak boleh kosong", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -306,8 +305,15 @@ public class PlantDetailFragment extends Fragment {
         });
         plantDetailViewModel.getReminderDetail().observe(getViewLifecycleOwner(), reminderDetail -> {
             int hour = TimeUtils.TimeConvertMinToHour(reminderDetail.getDuration());
-            binding.tvWaterTime.setText(getString(R.string.format_water_time, hour));
-            setupProgressBar(reminderDetail.getDuration());
+            if (reminderDetail.getDuration() <= 0) {
+                binding.tvWaterTime.setText(getString(R.string.label_need_water));
+                binding.tvWaterTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.Red500));
+                setupProgressBar(0);
+            } else {
+                binding.tvWaterTime.setText(getString(R.string.format_water_time, hour));
+                binding.tvWaterTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.Neutral5));
+                setupProgressBar(reminderDetail.getDuration());
+            }
         });
     }
 
@@ -326,6 +332,8 @@ public class PlantDetailFragment extends Fragment {
 
     private void setupProgressBar(int minute) {
         int durationInMillis = minute * 60 * 1000;
+
+        Log.d("PlantDetailFragment", "setupProgressBar: " + durationInMillis);
 
         ObjectAnimator progressAnimator = ObjectAnimator.ofInt(binding.pbWater, "progress", 100, 0);
 
